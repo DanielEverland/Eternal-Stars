@@ -1,0 +1,71 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class DamageHandler : MonoBehaviour {
+
+    [SerializeField]
+    private DamageTypes OnEnemyCriticalType;
+    [SerializeField]
+    private DamageTypes OnEnemyNormalType;
+    [SerializeField]
+    private DamageTypes OnPlayerCriticalType;
+    [SerializeField]
+    private DamageTypes OnPlayerNormalType;
+
+    private static DamageHandler instance;
+
+    private void Awake()
+    {
+        instance = this;
+    }
+    public static void DealDamage(GameObject toObject, float amount)
+    {
+        DamageTaker damageTaker = toObject.GetComponent<DamageTaker>();
+        TargetType targetType = toObject.GetComponent<PlayerIdentifier>() == null ? TargetType.Enemy : TargetType.Player;
+
+        if (damageTaker == null)
+            Debug.LogError("Object " + toObject + " cannot take damage without a damage handler");
+
+        damageTaker.TakeDamage(amount);
+
+        float poll = UnityEngine.Random.Range(0f, 100f);
+        DamageTypes type = GetNormalType(targetType);
+
+        if (poll > 80)
+            type = GetCriticalType(targetType);
+
+        DamageTextManager.AddDamage(amount, type, toObject);
+    }
+    private static DamageTypes GetNormalType(TargetType type)
+    {
+        switch (type)
+        {
+            case TargetType.Player:
+                return instance.OnPlayerNormalType;
+            case TargetType.Enemy:
+                return instance.OnEnemyNormalType;
+            default:
+                throw new ArgumentException();
+        }
+    }
+    private static DamageTypes GetCriticalType(TargetType type)
+    {
+        switch (type)
+        {
+            case TargetType.Player:
+                return instance.OnPlayerCriticalType;
+            case TargetType.Enemy:
+                return instance.OnEnemyCriticalType;
+            default:
+                throw new ArgumentException();
+        }
+    }
+    private enum TargetType
+    {
+        Player,
+        Enemy,
+    }
+    
+}

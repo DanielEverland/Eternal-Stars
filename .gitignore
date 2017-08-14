@@ -1,0 +1,37 @@
+syntax: glob
+.DS_Store
+*.sln
+*.userprefs
+*.pidb
+*.unitypackage
+^Build/.*
+^Library/.*
+^Temp/.*
+Library
+Temp
+.vs/main-src/v14/.suo
+*.pdb
+*.cache
+*.suo
+Assets/ShaderForge/
+obj/Debug/Assembly-CSharp.dll
+Assets/GaussianBlur
+Assets/GaussianBlur.meta
+Assets/UI - BUILDER.meta
+Assets/UI - BUILDER
+obj/
+Assets/DOTween
+Assets/DOTween.meta
+Assets/Resources/DOTweenSettings.asset
+Assets/Resources/DOTweenSettings.asset.meta
+.vs/slnx.sqlite
+Eternal Stars/bin
+main.csproj
+main.Editor.csproj
+.vs
+GMTK Jam.csproj
+.csproj
+*.csproj
+Assets/ShaderForge.meta
+Assets/TextMesh Pro.meta
+Assets/TextMesh Pro/
