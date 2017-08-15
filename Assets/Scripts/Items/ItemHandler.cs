@@ -4,16 +4,27 @@ using UnityEngine;
 
 public class ItemHandler : MonoBehaviour {
 
+    public ItemBase Item { get { return item; } }
+
     [SerializeField]
     private List<EffectEntry> effectEntries;
     
     private ItemBase item;
+    private ItemHandlerLabel label;
 
 	public void Initialize(ItemBase item)
     {
         this.item = item;
         
         PollDisplayEffect();
+        CreateLabel();
+    }
+    private void CreateLabel()
+    {
+        label = PlayModeObjectPool.Pool.GetObject("ItemHandlerLabel").GetComponent<ItemHandlerLabel>();
+        label.Initialize(this);
+
+        label.transform.SetParent(Canvas2D.Instance.transform);
     }
     private void PollDisplayEffect()
     {
