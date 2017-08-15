@@ -1,3 +1,4 @@
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -24,6 +25,8 @@ public class ItemHandlerLabel : MonoBehaviour {
     private Vector2 sizePadding;
     [SerializeField]
     private Vector2 positionOffset;
+    [SerializeField]
+    private Graphic[] graphics;
     
     private ItemHandler itemHandler;
 
@@ -38,6 +41,15 @@ public class ItemHandlerLabel : MonoBehaviour {
         label.text = itemHandler.Item.Name;
 
         ItemHandlerLabelManager.AddLabel(this);
+
+        SetProperties(itemHandler.Item);
+    }
+    private void SetProperties(ItemBase item)
+    {
+        for (int i = 0; i < graphics.Length; i++)
+        {
+            graphics[i].color = item.Rarity.Color;
+        }
     }
     public void Return()
     {
