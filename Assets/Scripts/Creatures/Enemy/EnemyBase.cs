@@ -22,7 +22,7 @@ public class EnemyBase : AIBehaviour {
     {
         if (Data.DropChance > 0 && Data.AmountOfDropableItems > 0)
         {
-            float poll = Random.Range(0, 1);
+            float poll = Random.Range(0f, 1f);
 
             if (poll < Data.DropChance)
             {
