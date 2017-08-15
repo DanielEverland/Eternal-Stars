@@ -4,14 +4,18 @@ using UnityEngine;
 
 [ExecuteInEditMode]
 public class UICamera : MonoBehaviour {
-
-    [SerializeField]
-    private Canvas canvas;
+    
     [SerializeField]
     private new Camera camera;
 
 	private void Update()
     {
-        camera.orthographicSize = ((RectTransform)canvas.transform).rect.height / 2;
+        camera.orthographicSize = Screen.height / 2;
+        camera.transform.position = new Vector3()
+        {
+            x = Screen.width / 2,
+            y = Screen.height / 2,
+            z = -1,
+        };
     }
 }
