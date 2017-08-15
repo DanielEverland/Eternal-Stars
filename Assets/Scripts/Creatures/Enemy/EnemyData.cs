@@ -30,7 +30,6 @@ public class EnemyData : CreatureData {
     [SerializeField]
     private List<DropableItemEntry> _dropableItemEntries;
     
-
     public ItemBase GetDropableItem()
     {
         if (_dropableItems == null)
