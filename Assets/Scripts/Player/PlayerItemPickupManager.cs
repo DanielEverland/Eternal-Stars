@@ -14,8 +14,15 @@ public class PlayerItemPickupManager : MonoBehaviour {
     
     private void Update()
     {
+        CheckPlayerInput();
+
         if (target != null)
             AttemptToPickup();
+    }
+    private void CheckPlayerInput()
+    {
+        if (Input.anyKey)
+            target = null;
     }
     private void AttemptToPickup()
     {
