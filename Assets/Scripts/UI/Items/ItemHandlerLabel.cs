@@ -30,6 +30,8 @@ public class ItemHandlerLabel : MonoBehaviour {
     
     private ItemHandler itemHandler;
 
+    private static float LERP_SPEED = 10;
+
     private Vector2 oldPosition;
     private Vector2 oldSize;
     private Rect oldRect;
@@ -39,6 +41,7 @@ public class ItemHandlerLabel : MonoBehaviour {
         this.itemHandler = itemHandler;
 
         label.text = itemHandler.Item.Name;
+        rectTransform.sizeDelta = Vector2.zero;
 
         ItemHandlerLabelManager.AddLabel(this);
 
@@ -62,7 +65,11 @@ public class ItemHandlerLabel : MonoBehaviour {
         if (label == null)
             return;
 
-        rectTransform.sizeDelta = label.rectTransform.sizeDelta + sizePadding;
+        Vector2 targetSize = label.rectTransform.sizeDelta + sizePadding;
+        Vector2 lerpedSize = Vector2.Lerp(rectTransform.sizeDelta, targetSize, Time.unscaledDeltaTime * LERP_SPEED);
+        lerpedSize.x = targetSize.x;
+
+        rectTransform.sizeDelta = lerpedSize;
 
         if (itemHandler == null)
             return;
