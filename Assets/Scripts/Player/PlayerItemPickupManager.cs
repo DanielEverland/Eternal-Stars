@@ -33,10 +33,14 @@ public class PlayerItemPickupManager : MonoBehaviour {
     }
     private void MoveTowardsTarget()
     {
+        TimeManager.Tick();
+
         player.MoveToPosition(target.transform.position);
     }
     private void DoPickup()
     {
+        TimeManager.Tick();
+
         PlayModeObjectPool.Pool.ReturnObject(target.gameObject);
     }
     public static void PickUpItem(ItemHandler itemHandler)
