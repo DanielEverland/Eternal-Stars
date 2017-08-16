@@ -47,6 +47,10 @@ public class ItemHandlerLabel : MonoBehaviour {
 
         SetProperties(itemHandler.Item);
     }
+    public void OnClick()
+    {
+        PlayerItemPickupManager.PickUpItem(itemHandler);
+    }
     private void SetProperties(ItemBase item)
     {
         for (int i = 0; i < graphics.Length; i++)

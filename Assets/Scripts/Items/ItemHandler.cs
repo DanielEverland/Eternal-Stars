@@ -26,6 +26,10 @@ public class ItemHandler : MonoBehaviour {
 
         label.transform.SetParent(Canvas2D.Instance.transform);
     }
+    private void OnReturned()
+    {
+        label.Return();
+    }
     private void PollDisplayEffect()
     {
         for (int i = 0; i < effectEntries.Count; i++)

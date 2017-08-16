@@ -41,6 +41,7 @@ public class ObjectPoolBehaviour : MonoBehaviour
     {
         if (UsedObjects.ContainsKey(obj.GetInstanceID()))
         {
+            obj.SendMessage("OnReturned", SendMessageOptions.DontRequireReceiver);
             ReturnObjectToList(obj);
         }
         else
