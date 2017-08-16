@@ -15,7 +15,7 @@ public class PlayerWeaponHandler : MonoBehaviour {
     }
 	private void Update()
     {
-        if (Keybindings.GetKey("Shoot"))
+        if (Keybindings.GetKey("Shoot") && !EG_Input.IsSuppressed)
         {
             TimeManager.Tick();
 
