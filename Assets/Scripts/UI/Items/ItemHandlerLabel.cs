@@ -1,3 +1,4 @@
+using NUnit.Framework.Constraints;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
@@ -35,6 +36,10 @@ public class ItemHandlerLabel : MonoBehaviour {
     private Vector2 oldPosition;
     private Vector2 oldSize;
     private Rect oldRect;
+    private bool containsMouse;
+
+    private Color targetColor;
+    private Color currentColor;
 
     public void Initialize(ItemHandler itemHandler)
     {
@@ -51,12 +56,20 @@ public class ItemHandlerLabel : MonoBehaviour {
     {
         PlayerItemPickupManager.PickUpItem(itemHandler);
     }
+    public void OnMouseEnter()
+    {
+        targetColor = Color.Lerp(itemHandler.Item.Rarity.Color, Color.white, 0.3f);
+    }
+    public void OnMouseExit()
+    {
+        targetColor = itemHandler.Item.Rarity.Color;
+    }
     private void SetProperties(ItemBase item)
     {
-        for (int i = 0; i < graphics.Length; i++)
-        {
-            graphics[i].color = item.Rarity.Color;
-        }
+        targetColor = item.Rarity.Color;
+        currentColor = targetColor;
+
+        ApplyColor(currentColor);
     }
     public void Return()
     {
@@ -79,6 +92,21 @@ public class ItemHandlerLabel : MonoBehaviour {
             return;
 
         rectTransform.position = (Vector2)Camera.main.WorldToScreenPoint(itemHandler.transform.position) + positionOffset;
+        
+        LerpColor();
+    }
+    private void LerpColor()
+    {
+        currentColor = Color.Lerp(currentColor, targetColor, LERP_SPEED * Time.unscaledDeltaTime);
+
+        ApplyColor(currentColor);
+    }
+    private void ApplyColor(Color color)
+    {
+        for (int i = 0; i < graphics.Length; i++)
+        {
+            graphics[i].color = color;
+        }
     }
     private void RecalculateRect()
     {
