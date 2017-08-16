@@ -37,8 +37,6 @@ public class PlayerItemPickupManager : MonoBehaviour {
     }
     private void DoPickup()
     {
-        Debug.Log("Pickup " + target.Item);
-
         PlayModeObjectPool.Pool.ReturnObject(target.gameObject);
     }
     public static void PickUpItem(ItemHandler itemHandler)
