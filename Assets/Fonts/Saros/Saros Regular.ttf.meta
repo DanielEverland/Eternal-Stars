@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 30f62598706c78341b91bc56e5bfd5cc
+timeCreated: 1502932410
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Saros
+  fontNames:
+  - Saros
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
