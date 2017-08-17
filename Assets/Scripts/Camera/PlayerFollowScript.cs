@@ -5,8 +5,6 @@ using UnityEngine;
 public class PlayerFollowScript : MonoBehaviour {
 
     [SerializeField]
-    private GameObject target;
-    [SerializeField]
     private float distance;
     [SerializeField]
     private float angle;
@@ -25,15 +23,11 @@ public class PlayerFollowScript : MonoBehaviour {
         Vector3 direction = Vector3.back;
         direction = Quaternion.Euler(angle, 0, 0) * direction;
 
-        targetPosition = target.transform.position + direction * distance;
+        targetPosition = PlayModeManager.Player.transform.position + direction * distance;
         transform.eulerAngles = new Vector3(angle, 0, 0);
     }
     private void LerpValues()
     {
         transform.position = Vector3.Lerp(transform.position, targetPosition, lerpSpeed * Time.unscaledDeltaTime);
-    }
-    private void OnValidate()
-    {
-        PollTransform();
     }
 }

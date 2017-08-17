@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "CreatureData.asset", menuName = "Creature/Create Data", order = Utility.CREATE_ASSET_ORDER_ID)]
+[CreateAssetMenu(fileName = "CreatureData.asset", menuName = "Creature/Create Base Data", order = Utility.CREATE_ASSET_ORDER_ID)]
 public class CreatureData : ScriptableObject {
     
     public int Health { get { return _health; } }

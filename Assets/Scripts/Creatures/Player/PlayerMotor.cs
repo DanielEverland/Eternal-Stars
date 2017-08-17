@@ -2,8 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMotor : Creature {
-    
+public class PlayerMotor : MonoBehaviour {
+
+    [SerializeField]
+    private Creature creature;
+
     private Vector3 direction;
 
     private void Update()
@@ -34,7 +37,7 @@ public class PlayerMotor : Creature {
     }
     private void Move()
     {
-        MoveInDirection(direction.normalized);
+        creature.MoveInDirection(direction.normalized);
 
         if(direction != Vector3.zero)
         {

@@ -5,15 +5,21 @@ using UnityEngine;
 
 public class Loader : MonoBehaviour {
 
+    public static bool HasLoaded { get; private set; }
+
     private List<Action> OnGameStart = new List<Action>()
     {
         { Keybindings.Load },
+        { PlayModeManager.LoadGlobalManagers },
+        { PlayModeManager.LoadPlayer },
     };
 
 	private void Awake()
     {
         OnGameStart.ForEach(x => x.Invoke());
 
-        Destroy(gameObject);
+        HasLoaded = true;
+
+        Destroy(this);
     }
 }

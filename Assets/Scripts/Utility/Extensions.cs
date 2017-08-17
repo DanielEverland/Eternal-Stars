@@ -8,6 +8,10 @@ public static class Extensions {
 
     private const int MAX_OUTPUT_ARRAY_LENGTH = 100;
 
+    public static void AddToWorld(this GameObject obj)
+    {
+        World.AddToWorld(obj);
+    }
     public static bool Encompasses(this Rect rect, Rect other)
     {
         return

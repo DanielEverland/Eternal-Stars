@@ -9,8 +9,9 @@ public class DyingEffect : MonoBehaviour {
 
     [SerializeField]
     private PostProcessingProfile templateProfile;
-    [SerializeField]
-    private Creature player;
+    
+
+    private Creature Player { get { return PlayModeManager.Player; } }
 
     private const float EFFECT_THRESHOLD = 0.3f;
 
@@ -31,16 +32,16 @@ public class DyingEffect : MonoBehaviour {
     }
     private void Update()
     {
-        if(oldHealth != player.Health)
+        if(oldHealth != Player.Health)
         {
             UpdateProfile();
         }
 
-        oldHealth = player.Health;
+        oldHealth = Player.Health;
     }
     private void UpdateProfile()
     {
-        float percentage = Mathf.Clamp(player.Health / player.MaxHealth / EFFECT_THRESHOLD, 0, 1);
+        float percentage = Mathf.Clamp(Player.Health / Player.MaxHealth / EFFECT_THRESHOLD, 0, 1);
 
         AssignValue(percentage);
     }

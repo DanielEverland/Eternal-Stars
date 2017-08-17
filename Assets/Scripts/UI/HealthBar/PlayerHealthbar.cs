@@ -11,9 +11,9 @@ public class PlayerHealthbar : MonoBehaviour {
     private Image backSlider;
     [SerializeField]
     private RectTransform indicator;
-    [SerializeField]
-    private Creature target;
     
+    private Player Player { get { return PlayModeManager.Player; } }
+
     private float targetFill;
     private float backsliderTarget = 1;
     private float oldHealthValue;
@@ -27,11 +27,11 @@ public class PlayerHealthbar : MonoBehaviour {
         CheckBacksliderTime();
         UpdateInterface();
 
-        oldHealthValue = target.Health;
+        oldHealthValue = Player.Health;
     }
     private void CheckBacksliderTime()
     {
-        if (oldHealthValue != target.Health)
+        if (oldHealthValue != Player.Health)
         {
             backSliderCurrentWaitTime = BACK_SLIDER_WAIT_TIME;
         }
@@ -47,7 +47,7 @@ public class PlayerHealthbar : MonoBehaviour {
     }
     private void UpdateInterface()
     {
-        targetFill = target.Health / target.MaxHealth;
+        targetFill = Player.Health / Player.MaxHealth;
         
         slider.fillAmount = Mathf.Lerp(slider.fillAmount, targetFill, LERP_SPEED * Time.unscaledDeltaTime);
         backSlider.fillAmount = Mathf.Lerp(backSlider.fillAmount, backsliderTarget, LERP_SPEED * Time.unscaledDeltaTime);

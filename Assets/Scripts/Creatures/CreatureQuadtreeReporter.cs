@@ -5,9 +5,10 @@ using UnityEngine;
 [RequireComponent(typeof(Creature))]
 public class CreatureQuadtreeReporter : MonoBehaviour {
 
-    private const float MIN_DISTANCE = 5;
-
+    [SerializeField]
     private Creature creature;
+
+    private const float MIN_DISTANCE = 5;
     
 	private void Update()
     {
