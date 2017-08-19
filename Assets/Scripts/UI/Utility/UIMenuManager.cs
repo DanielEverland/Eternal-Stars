@@ -31,7 +31,7 @@ public class UIMenuManager : MonoBehaviour {
         else
         {
             GameObject obj = Instantiate(entry.prefab);
-            obj.transform.SetParent(Canvas2D.Instance.transform, false);
+            obj.transform.SetParent(Canvas2D.Static.transform, false);
             InstantiatedMenus.Add(entry.keybinding, obj);
         }
     }
