@@ -8,6 +8,8 @@ public abstract class ItemBase : ScriptableObject {
     public virtual string Name { get { return _name; } }
     public virtual IntVector2 InventorySize { get { return _inventorySize; } }
 
+    [Header("Base Properties")]
+
     [SerializeField]
     private Rarity _rarity;
     [SerializeField]

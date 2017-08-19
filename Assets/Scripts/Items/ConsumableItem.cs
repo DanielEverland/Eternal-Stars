@@ -6,6 +6,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ConsumableItem.asset", menuName = "Items/Consumable", order = Utility.CREATE_ASSET_ORDER_ID)]
 public class ConsumableItem : ItemBase {
 
+    [Header("Consumable Properties")]
+
     [SerializeField]
     private ItemAction OnConsume;
 
