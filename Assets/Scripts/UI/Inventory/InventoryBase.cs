@@ -9,13 +9,15 @@ public class InventoryBase : MonoBehaviour {
     [SerializeField]
     private Transform SlotParent;
 
+    private ContainerBase Container { get { return Player.Instance.Container; } }
+
     private void Awake()
     {
         CreateSlots();
     }
     private void CreateSlots()
     {
-        for (int i = 0; i < Player.Instance.Data.InventorySize; i++)
+        for (int i = 0; i < Container.Size; i++)
         {
             GameObject obj = Instantiate(SlotPrefab);
 
