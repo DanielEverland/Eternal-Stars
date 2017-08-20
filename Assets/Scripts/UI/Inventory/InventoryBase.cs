@@ -1,3 +1,4 @@
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,12 +9,20 @@ public class InventoryBase : MonoBehaviour {
     private GameObject SlotPrefab;
     [SerializeField]
     private Transform SlotParent;
+    [SerializeField]
+    private GridLayoutGroup gridLayout;
 
     private ContainerBase Container { get { return Player.Instance.Container; } }
 
     private void Awake()
     {
         CreateSlots();
+        AssignProperties();
+    }
+    private void AssignProperties()
+    {
+        gridLayout.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+        gridLayout.constraintCount = ContainerBase.INVENTORY_COLUMNS;
     }
     private void CreateSlots()
     {

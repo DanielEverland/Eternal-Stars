@@ -11,6 +11,7 @@ public class PlayerItemPickupManager : MonoBehaviour {
     private float minDistance = 40;
 
     private static ItemHandler target;
+    private static ContainerBase container { get { return Player.Instance.Container; } }
     
     private void Update()
     {
@@ -48,7 +49,13 @@ public class PlayerItemPickupManager : MonoBehaviour {
     {
         TimeManager.Tick();
 
+        if (container.Fits(target.Item))
+        {
+          container.Add(target.Item);
+        }
+
         PlayModeObjectPool.Pool.ReturnObject(target.gameObject);
+        target = null;
     }
     public static void PickUpItem(ItemHandler itemHandler)
     {
