@@ -51,15 +51,7 @@ public class ContainerBase {
                 }
                 else
                 {
-                    try
-                    {
-                        Items.Add(pos, stack);
-                    }
-                    catch (System.Exception)
-                    {
-                        Items.Output();
-                        throw;
-                    }
+                    Items.Add(pos, stack);
                     
                 }
             }
