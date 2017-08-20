@@ -63,7 +63,7 @@ public class ContainerBase {
         {
             Vector2 position = new Vector2()
             {
-                x = i % INVENTORY_COLUMNS,
+                x = i % INVENTORY_COLUMNS * item.InventorySize.x,
                 y = (Mathf.CeilToInt((i + 1f) / (float)INVENTORY_COLUMNS) - 1) * item.InventorySize.y,
             };
 
