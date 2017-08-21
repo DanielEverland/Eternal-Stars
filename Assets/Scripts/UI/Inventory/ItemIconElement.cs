@@ -10,6 +10,8 @@ public class ItemIconElement : MonoBehaviour {
     private Image Icon;
     [SerializeField]
     private TMP_Text AmountLabel;
+    [SerializeField]
+    private Graphic FrameGraphic;
 
     private RectTransform rectTransform { get { return (RectTransform)transform; } }
     
@@ -17,6 +19,7 @@ public class ItemIconElement : MonoBehaviour {
     {
         rectTransform.sizeDelta = new Vector2(InventoryBase.ELEMENT_SIZE * stack.Item.InventorySize.x, InventoryBase.ELEMENT_SIZE * stack.Item.InventorySize.y);
         Icon.sprite = stack.Item.Icon;
+        FrameGraphic.color = stack.Item.Rarity.Color;
 
         SetAmountLabel(stack);
     }
