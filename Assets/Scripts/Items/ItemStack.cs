@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct ItemStack {
+public class ItemStack {
 
 	public ItemStack(ItemBase item, ContainerBase owner, int amount = 1)
     {
