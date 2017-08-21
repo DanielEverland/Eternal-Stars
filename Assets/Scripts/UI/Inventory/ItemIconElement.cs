@@ -14,16 +14,37 @@ public class ItemIconElement : MonoBehaviour {
     private Graphic FrameGraphic;
 
     private RectTransform rectTransform { get { return (RectTransform)transform; } }
-    
-    public void Initialize(ItemStack stack)
-    {
-        rectTransform.sizeDelta = new Vector2(InventoryBase.ELEMENT_SIZE * stack.Item.InventorySize.x, InventoryBase.ELEMENT_SIZE * stack.Item.InventorySize.y);
-        Icon.sprite = stack.Item.Icon;
-        FrameGraphic.color = stack.Item.Rarity.Color;
 
-        SetAmountLabel(stack);
+    private ItemStack stack;
+    private InventoryBase inventoryBase;
+    
+    public void Initialize(ItemStack stack, InventoryBase inventory)
+    {
+        this.stack = stack;
+        this.inventoryBase = inventory;
+
+        SetSize();
+        SetIcon();
+        SetRarityColor();
+        SetAmountLabel();
     }
-    private void SetAmountLabel(ItemStack stack)
+    private void SetIcon()
+    {
+        Icon.sprite = stack.Item.Icon;
+    }
+    private void SetRarityColor()
+    {
+        FrameGraphic.color = stack.Item.Rarity.Color;
+    }
+    private void SetSize()
+    {
+        rectTransform.sizeDelta = new Vector2()
+        {
+            x = stack.Item.InventorySize.x * InventoryBase.ELEMENT_SIZE + ((stack.Item.InventorySize.x - 1) * InventoryBase.ELEMENT_SPACING),
+            y = stack.Item.InventorySize.y * InventoryBase.ELEMENT_SIZE + ((stack.Item.InventorySize.y - 1) * InventoryBase.ELEMENT_SPACING),
+        };
+    }
+    private void SetAmountLabel()
     {
         AmountLabel.text = (stack.ItemAmount > 1) ? stack.ItemAmount.ToString() : "";
     }

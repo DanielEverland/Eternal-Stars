@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class InventoryBase : MonoBehaviour {
-
+    
     [SerializeField]
     private GameObject SlotPrefab;
     [SerializeField]
@@ -19,6 +19,7 @@ public class InventoryBase : MonoBehaviour {
     private List<ItemIconElement> Icons = new List<ItemIconElement>();
 
     public const int ELEMENT_SIZE = 40;
+    public const int ELEMENT_SPACING = -1;
 
     private void Awake()
     {
@@ -47,7 +48,7 @@ public class InventoryBase : MonoBehaviour {
         ItemIconElement newElement = PlayModeObjectPool.Pool.GetObject("ItemIconElement").GetComponent<ItemIconElement>();
         Icons.Add(newElement);
 
-        newElement.Initialize(stack);
+        newElement.Initialize(stack, this);
 
         newElement.transform.SetParent(iconParent);
         Slots[position].AssignIcon(newElement);
@@ -66,6 +67,7 @@ public class InventoryBase : MonoBehaviour {
         gridLayout.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
         gridLayout.constraintCount = ContainerBase.INVENTORY_COLUMNS;
         gridLayout.cellSize = new Vector2(ELEMENT_SIZE, ELEMENT_SIZE);
+        gridLayout.spacing = new Vector2(ELEMENT_SPACING, ELEMENT_SPACING);
     }
     private void CreateSlots()
     {
