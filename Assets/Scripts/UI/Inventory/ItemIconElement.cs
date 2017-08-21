@@ -15,8 +15,6 @@ public class ItemIconElement : MonoBehaviour {
     
     public void Initialize(ItemStack stack)
     {
-        stack.Container.OnContainerChanged += Terminate;
-
         rectTransform.sizeDelta = new Vector2(InventoryBase.ELEMENT_SIZE * stack.Item.InventorySize.x, InventoryBase.ELEMENT_SIZE * stack.Item.InventorySize.y);
         Icon.sprite = stack.Item.Icon;
 
@@ -25,9 +23,5 @@ public class ItemIconElement : MonoBehaviour {
     private void SetAmountLabel(ItemStack stack)
     {
         AmountLabel.text = (stack.ItemAmount > 1) ? stack.ItemAmount.ToString() : "";
-    }
-    private void Terminate()
-    {
-        PlayModeObjectPool.Pool.ReturnObject(gameObject);
     }
 }
