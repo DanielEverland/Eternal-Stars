@@ -90,5 +90,7 @@ public class InventoryBase : MonoBehaviour {
     private void OnDestroy()
     {
         ClearItemIcons();
+
+        Container.OnContainerChanged -= UpdateItemIcons;
     }
 }
