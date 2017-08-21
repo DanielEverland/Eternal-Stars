@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,4 +20,58 @@ public abstract class ItemBase : ScriptableObject {
     private IntVector2 _inventorySize;
     [SerializeField]
     private Sprite _icon;
+
+    public override bool Equals(object other)
+    {
+        if (other == null)
+            return false;
+
+        if (other is ItemBase)
+        {
+            return other.GetHashCode() == GetHashCode();
+        }
+
+        return false;
+    }
+    public override int GetHashCode()
+    {
+        unchecked
+        {
+            int i = 13;
+
+            i *= 17 + Name.GetHashCode();
+            i *= 17 + Rarity.GetHashCode();
+            i *= 17 + InventorySize.GetHashCode();
+
+            return i;
+        }
+    }
+    public override string ToString()
+    {
+        return string.Format("{0} - {1}\nSize: {2}", Name, Rarity, InventorySize);
+    }
+    public bool Equals(ItemBase other)
+    {
+        if (other == null)
+            return false;
+
+        return other.GetHashCode() == GetHashCode();
+    }
+    public static bool operator ==(ItemBase a, ItemBase b)
+    {
+        if(((object)a == null && (object)b != null) || ((object)a != null && (object)b == null))
+        {
+            return false;
+        }
+        if((object)a == null && (object)b == null)
+        {
+            return true;
+        }
+
+        return a.GetHashCode() == b.GetHashCode();
+    }
+    public static bool operator !=(ItemBase a, ItemBase b)
+    {
+        return !(a == b);
+    }
 }
