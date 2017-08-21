@@ -7,6 +7,7 @@ public abstract class ItemBase : ScriptableObject {
     public virtual Rarity Rarity { get { return _rarity; } }
     public virtual string Name { get { return _name; } }
     public virtual IntVector2 InventorySize { get { return _inventorySize; } }
+    public virtual Sprite Icon { get { return _icon; } }
 
     [Header("Base Properties")]
 
@@ -16,4 +17,6 @@ public abstract class ItemBase : ScriptableObject {
     private string _name;
     [SerializeField]
     private IntVector2 _inventorySize;
+    [SerializeField]
+    private Sprite _icon;
 }

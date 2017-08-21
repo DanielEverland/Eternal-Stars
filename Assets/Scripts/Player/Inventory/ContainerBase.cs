@@ -1,3 +1,4 @@
+using System;
 using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,6 +8,8 @@ public class ContainerBase {
 
 	public ContainerBase(int size)
     {
+        Items = new Dictionary<Vector2, ItemStack>();
+
         _containerSize = size;
         _rows = Mathf.CeilToInt(size / Columns);
     }
@@ -14,15 +17,19 @@ public class ContainerBase {
 
     public const int INVENTORY_COLUMNS = 6;
 
+    public event Action<ItemBase> OnItemAdded;
+    public event Action<ItemBase> OnItemRemoved;
+    public event Action<ItemStack> OnStackUpdated;
+    public event Action OnContainerChanged;
+
+    public Dictionary<Vector2, ItemStack> Items { get; private set; }
     public int Columns { get { return INVENTORY_COLUMNS; } }
     public int Rows { get { return _rows; } }
     public int Size { get { return _containerSize; } }
 
     private readonly int _containerSize;
     private readonly int _rows;
-
-    private Dictionary<Vector2, ItemStack> Items = new Dictionary<Vector2, ItemStack>();
-    
+        
     /// <summary>
     /// Given a position, returns whether or not said position is occupied by a stack.
     /// </summary>
@@ -32,7 +39,7 @@ public class ContainerBase {
     }
     public void Add(ItemBase item)
     {
-        ItemStack stack = new ItemStack(item);
+        ItemStack stack = new ItemStack(item, this);
 
         for (int x = 0; x < Columns; x++)
         {
@@ -47,12 +54,17 @@ public class ContainerBase {
                     if(query.itemStack.Item == item)
                     {
                         Items[pos].AddAmount();
+
+                        StackUpdated(Items[pos]);
+                        return;
                     }
                 }
                 else
                 {
                     Items.Add(pos, stack);
-                    
+
+                    ItemAdded(item);
+                    return;
                 }
             }
         }
@@ -140,6 +152,32 @@ public class ContainerBase {
         }
 
         return query;
+    }
+    private void ContainerChanged()
+    {
+        if (OnContainerChanged != null)
+            OnContainerChanged.Invoke();
+    }
+    private void StackUpdated(ItemStack stack)
+    {
+        if (OnStackUpdated != null)
+            OnStackUpdated.Invoke(stack);
+
+        ContainerChanged();
+    }
+    private void ItemAdded(ItemBase item)
+    {
+        if (OnItemAdded != null)
+            OnItemAdded.Invoke(item);
+
+        ContainerChanged();
+    }
+    private void ItemRemoved(ItemBase item)
+    {
+        if (OnItemRemoved != null)
+            OnItemRemoved.Invoke(item);
+
+        ContainerChanged();
     }
 }
 public struct ContainerSearchQuery

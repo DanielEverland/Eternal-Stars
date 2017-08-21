@@ -51,9 +51,9 @@ public class PlayerItemPickupManager : MonoBehaviour {
 
         if (container.Fits(target.Item))
         {
-          container.Add(target.Item);
+            container.Add(target.Item);
         }
-
+        
         PlayModeObjectPool.Pool.ReturnObject(target.gameObject);
         target = null;
     }
