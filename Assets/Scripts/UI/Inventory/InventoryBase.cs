@@ -29,6 +29,8 @@ public class InventoryBase : MonoBehaviour {
     }
     private void Start()
     {
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)gridLayout.transform);
+
         UpdateItemIcons();
     }
     private void UpdateItemIcons()
