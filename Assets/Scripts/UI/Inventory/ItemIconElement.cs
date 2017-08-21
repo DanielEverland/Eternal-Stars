@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ public class ItemIconElement : MonoBehaviour {
     [SerializeField]
     private Image Icon;
     [SerializeField]
-    private Text AmountLabel;
+    private TMP_Text AmountLabel;
 
     private RectTransform rectTransform { get { return (RectTransform)transform; } }
     
@@ -18,6 +19,12 @@ public class ItemIconElement : MonoBehaviour {
 
         rectTransform.sizeDelta = new Vector2(InventoryBase.ELEMENT_SIZE * stack.Item.InventorySize.x, InventoryBase.ELEMENT_SIZE * stack.Item.InventorySize.y);
         Icon.sprite = stack.Item.Icon;
+
+        SetAmountLabel(stack);
+    }
+    private void SetAmountLabel(ItemStack stack)
+    {
+        AmountLabel.text = (stack.ItemAmount > 1) ? stack.ItemAmount.ToString() : "";
     }
     private void Terminate()
     {
