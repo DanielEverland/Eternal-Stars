@@ -4,72 +4,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using UnityEditorInternal;
 using System;
 
 public static class EG_EditorUtility {
 
-	public static List<T> DrawScriptableObjectList<T>(List<T> list, List<Type> availableTypes, ScriptableObjectManager objectOwner) where T : ScriptableObject
+    public static List<T> DrawScriptableObjectList<T>(string label, List<T> list, List<Type> availableTypes, ScriptableObjectManager objectOwner) where T : ScriptableObject
     {
-        if(availableTypes.Count <= 0)
-        {
-            Debug.LogWarning("No available types");
-            return list;
-        }
-
-        //Create button
-        if(GUILayout.Button("Add Object"))
-        {
-            objectOwner.CreateObject(availableTypes[0]);
-        }
-
-        List<T> objectsToRemove = new List<T>();
-
-        //Draw objects
-        for (int i = 0; i < list.Count; i++)
-        {
-            T action = list[i];
-
-            //Draw type selection and delete button
-            EditorGUILayout.BeginHorizontal();
-            int indexOfAction = availableTypes.IndexOf(action.GetType());
-
-            int selectedActionType = EditorGUILayout.Popup("Type", indexOfAction, availableTypes.Select(x => x.Name).ToArray());
-            
-            if(selectedActionType != indexOfAction)
-            {
-                objectOwner.ChangeObjectType(action, availableTypes[selectedActionType]);
-                continue;
-            }
-
-            if (GUILayout.Button("-"))
-            {
-                objectsToRemove.Add(action);
-            }
-
-            EditorGUILayout.EndHorizontal();
-
-            //Draw properties
-            SerializedObject obj = new SerializedObject(action);
-            obj.Update();
-
-            foreach (FieldInfo field in GetSerializableFields(action.GetType()))
-            {
-                SerializedProperty property = obj.FindProperty(field.Name);
-
-                EditorGUILayout.PropertyField(property);
-            }
-
-            obj.ApplyModifiedProperties();
-        }
-
-        for (int i = 0; i < objectsToRemove.Count; i++)
-        {
-            objectOwner.RemoveObject(objectsToRemove[i]);
-        }
-        
-        return list;
+        return ScriptableObjectManagerEditor.DrawScriptableObjectList<T>(label, list, availableTypes, objectOwner);
     }
-    private static List<FieldInfo> GetSerializableFields(Type type)
+    public static List<FieldInfo> GetSerializableFields(Type type)
     {
         List<FieldInfo> serializableInfo = new List<FieldInfo>();
 
