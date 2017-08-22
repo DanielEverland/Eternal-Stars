@@ -25,7 +25,7 @@ public class ItemSpawner : MonoBehaviour {
         Vector3 point = ray.origin + ray.direction * distance;
 
         ItemBase itemToDrop = Instantiate(toDrop);
-
+        
         GameObject obj = PlayModeObjectPool.Pool.GetObject("ItemHandler");
         obj.transform.position = point;
 
