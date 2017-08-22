@@ -7,7 +7,7 @@ using UnityEngine;
 
 public static class ItemActionManager {
 
-    private static List<Type> AvailableActions;
+    public static List<Type> AvailableActions { get; set; }
 
     [UnityEditor.Callbacks.DidReloadScripts]
     private static void OnScriptsReloaded()

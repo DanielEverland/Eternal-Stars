@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,12 +8,37 @@ using System;
 
 public static class EG_EditorUtility {
 
-	public static List<T> DrawScriptableObjectList<T>(List<T> list, ConsumableItem objectOwner) where T : ScriptableObject
+	public static List<T> DrawScriptableObjectList<T>(List<T> list, List<Type> availableTypes, ConsumableItem objectOwner) where T : ScriptableObject
     {
+        if(availableTypes.Count <= 0)
+        {
+            Debug.LogWarning("No available types");
+            return list;
+        }
+
+        //Create button
+        if(GUILayout.Button("Add Object"))
+        {
+            objectOwner.CreateItemAction(availableTypes[0]);
+        }
+
+        //Draw objects
         for (int i = 0; i < list.Count; i++)
         {
             T action = list[i];
-            
+
+            //Draw type selection
+            int indexOfAction = availableTypes.IndexOf(action.GetType());
+
+            int selectedActionType = EditorGUILayout.Popup("Type", indexOfAction, availableTypes.Select(x => x.Name).ToArray());
+
+            if(selectedActionType != indexOfAction)
+            {
+                objectOwner.ChangeObjectType(action, availableTypes[selectedActionType]);
+                continue;
+            }
+
+            //Draw properties
             SerializedObject obj = new SerializedObject(action);
             obj.Update();
 

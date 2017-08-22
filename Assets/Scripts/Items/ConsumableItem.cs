@@ -24,14 +24,26 @@ public class ConsumableItem : ItemBase {
 #if UNITY_EDITOR
     public void CreateItemAction(Type type)
     {
-        ItemAction newAction = CreateInstance(type) as ItemAction;
+        OnConsumeActions.Add(CreateObject<ItemAction>(type));
+    }
+    public void ChangeObjectType(ScriptableObject source, Type target)
+    {
+        int index = OnConsumeActions.IndexOf((ItemAction)source);
+
+        DestroyImmediate(source, true);
+        
+        OnConsumeActions[index] = CreateObject<ItemAction>(target);
+    }
+    private T CreateObject<T>(Type type) where T : ScriptableObject
+    {
+        T newAction = CreateInstance(type) as T;
         newAction.hideFlags = HideFlags.HideInHierarchy;
         AssetDatabase.AddObjectToAsset(newAction, this);
         AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(newAction));
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
 
-        OnConsumeActions.Add(newAction);
+        return newAction;
     }
 #endif
 }

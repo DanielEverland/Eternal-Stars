@@ -18,7 +18,7 @@ public class ConsumableItemEditor : Editor {
     }
     private void DrawConsumableItem()
     {
-        Target.OnConsumeActions = EG_EditorUtility.DrawScriptableObjectList(Target.OnConsumeActions, Target);
+        Target.OnConsumeActions = EG_EditorUtility.DrawScriptableObjectList(Target.OnConsumeActions, ItemActionManager.AvailableActions, Target);
 
         EditorUtility.SetDirty(Target);
     }
