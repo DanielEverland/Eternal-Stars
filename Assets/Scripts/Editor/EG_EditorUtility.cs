@@ -7,11 +7,11 @@ using System;
 
 public static class EG_EditorUtility {
 
-	public static List<ItemAction> DrawItemActionList(List<ItemAction> list, ConsumableItem objectOwner)
+	public static List<T> DrawScriptableObjectList<T>(List<T> list, ConsumableItem objectOwner) where T : ScriptableObject
     {
         for (int i = 0; i < list.Count; i++)
         {
-            ItemAction action = list[i];
+            T action = list[i];
             
             SerializedObject obj = new SerializedObject(action);
             obj.Update();
