@@ -8,7 +8,11 @@ using UnityEngine;
 
 public static class ScriptableObjectManagerEditor {
 
+    private static GUIContent iconToolbarPlus = EditorGUIUtility.IconContent("Toolbar Plus", "|Add to list");
+
     private static readonly GUIStyle headerBackground = "RL Header";
+    private static readonly GUIStyle footerBackground = "RL Footer";
+    private static readonly GUIStyle footerButton = "RL FooterButton";
     private static readonly GUIStyle elementBackground = new GUIStyle("RL Element");
 
     private static GUIStyle elementLabelStyle
@@ -32,6 +36,9 @@ public static class ScriptableObjectManagerEditor {
     private const float DELETE_BUTTON_WIDTH = 50;
     private const float DELETE_BUTTON_HEIGHT = 14;
 
+    private const float FOOTER_WIDTH = 40;
+    private const float FOOTER_HEIGHT = 50;
+
     public static List<T> DrawScriptableObjectList<T>(string label, List<T> list, List<Type> availableTypes, ScriptableObjectManager objectOwner) where T : ScriptableObject
     {
         if (availableTypes.Count <= 0)
@@ -41,11 +48,30 @@ public static class ScriptableObjectManagerEditor {
         }
 
         Rect headerRect = GUILayoutUtility.GetRect(0, HEADER_HEIGHT, new GUILayoutOption[] { GUILayout.ExpandWidth(true), });
+        
 
         DrawHeader(headerRect, label);
         DrawElements<T>(list, availableTypes, objectOwner);
 
+        Rect footerRect = GUILayoutUtility.GetRect(0, FOOTER_HEIGHT, new GUILayoutOption[] { GUILayout.ExpandWidth(true), });
+        footerRect.x = footerRect.width - 26;
+        footerRect.width = FOOTER_WIDTH;
+
+        DrawFooter(footerRect, list, availableTypes, objectOwner);
+
         return list;
+    }
+    private static void DrawFooter<T>(Rect rect, List<T> list, List<Type> availableTypes, ScriptableObjectManager objectOwner) where T : ScriptableObject
+    {
+        if(Event.current.type == EventType.Repaint)
+        {
+            footerBackground.Draw(rect, false, false, false, false);
+        }
+
+        if(GUI.Button(rect, iconToolbarPlus, footerButton))
+        {
+            objectOwner.CreateObject(availableTypes[0]);
+        }
     }
     private static void DrawElements<T>(List<T> list, List<Type> availableTypes, ScriptableObjectManager objectOwner) where T : ScriptableObject
     {
