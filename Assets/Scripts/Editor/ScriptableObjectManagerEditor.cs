@@ -92,7 +92,10 @@ public static class ScriptableObjectManagerEditor {
                 elementBackground.Draw(new Rect(elementHeaderRect.x, elementHeaderRect.y, elementHeaderRect.width, (propertyCount + 1) * (EditorGUIUtility.singleLineHeight + ELEMENT_PADDING) + OBJECT_FOOTER_PADDING), true, false, false, false);
             }
 
-            DrawElementHeader(element, elementHeaderRect, availableTypes, objectOwner);
+            bool deletedObject = DrawElementHeader(element, elementHeaderRect, availableTypes, objectOwner);
+
+            if (deletedObject)
+                continue;
 
             EditorGUI.indentLevel++;
 
@@ -117,8 +120,10 @@ public static class ScriptableObjectManagerEditor {
 
         serializedObject.ApplyModifiedProperties();
     }
-    private static void DrawElementHeader<T>(T obj, Rect rect, List<Type> availableTypes, ScriptableObjectManager objectOwner) where T : ScriptableObject
+    private static bool DrawElementHeader<T>(T obj, Rect rect, List<Type> availableTypes, ScriptableObjectManager objectOwner) where T : ScriptableObject
     {
+        bool deletedObject = false;
+
         Rect buttonRect = new Rect(rect.width - DELETE_BUTTON_WIDTH + 10, rect.y + 3, DELETE_BUTTON_WIDTH, EditorGUIUtility.singleLineHeight);
         Rect popupRect = new Rect(rect.x + 5, rect.y + 4, rect.width - DELETE_BUTTON_WIDTH - 10, rect.height);
         
@@ -135,8 +140,12 @@ public static class ScriptableObjectManagerEditor {
         //Delete button
         if(GUI.Button(buttonRect, "Delete"))
         {
+            deletedObject = true;
+
             objectOwner.RemoveObject(obj);
         }
+
+        return deletedObject;
     }
     private static float GetElementHeight<T>(T obj)
     {
