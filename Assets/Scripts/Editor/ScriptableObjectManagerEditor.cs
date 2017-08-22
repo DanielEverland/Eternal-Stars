@@ -32,6 +32,7 @@ public static class ScriptableObjectManagerEditor {
     private static GUIStyle _elementLabelStyle;
 
     private const float HEADER_HEIGHT = 18;
+    private const float OBJECT_FOOTER_PADDING = 10;
     private const float ELEMENT_PADDING = 5;
     private const float DELETE_BUTTON_WIDTH = 50;
     private const float DELETE_BUTTON_HEIGHT = 14;
@@ -88,11 +89,13 @@ public static class ScriptableObjectManagerEditor {
             {
                 int propertyCount = EG_EditorUtility.GetSerializableFields(element.GetType()).Count;
 
-                elementBackground.Draw(new Rect(elementHeaderRect.x, elementHeaderRect.y, elementHeaderRect.width, (propertyCount + 1) * (EditorGUIUtility.singleLineHeight + ELEMENT_PADDING)), false, false, true, false);
+                elementBackground.Draw(new Rect(elementHeaderRect.x, elementHeaderRect.y, elementHeaderRect.width, (propertyCount + 1) * (EditorGUIUtility.singleLineHeight + ELEMENT_PADDING) + OBJECT_FOOTER_PADDING), false, false, true, false);
             }
 
             DrawElementHeader(element, elementHeaderRect, availableTypes, objectOwner);
             DrawElementProperties(element, availableTypes, objectOwner);
+
+            GUILayoutUtility.GetRect(0, OBJECT_FOOTER_PADDING, new GUILayoutOption[] { GUILayout.ExpandWidth(true), });
         }
     }
     private static void DrawElementProperties<T>(T obj, List<Type> availableTypes, ScriptableObjectManager objectOwner) where T : ScriptableObject
