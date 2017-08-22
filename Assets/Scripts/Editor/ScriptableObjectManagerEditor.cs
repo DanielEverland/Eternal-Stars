@@ -54,6 +54,7 @@ public static class ScriptableObjectManagerEditor {
         DrawElements<T>(list, availableTypes, objectOwner);
 
         Rect footerRect = GUILayoutUtility.GetRect(0, FOOTER_HEIGHT, new GUILayoutOption[] { GUILayout.ExpandWidth(true), });
+        footerRect.y += 2;
         footerRect.x = footerRect.width - 26;
         footerRect.width = FOOTER_WIDTH;
 
@@ -67,6 +68,8 @@ public static class ScriptableObjectManagerEditor {
         {
             footerBackground.Draw(rect, false, false, false, false);
         }
+
+        rect.y -= 5;
 
         if(GUI.Button(rect, iconToolbarPlus, footerButton))
         {
