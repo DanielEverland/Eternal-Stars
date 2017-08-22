@@ -8,7 +8,7 @@ using System;
 
 public static class EG_EditorUtility {
 
-	public static List<T> DrawScriptableObjectList<T>(List<T> list, List<Type> availableTypes, ConsumableItem objectOwner) where T : ScriptableObject
+	public static List<T> DrawScriptableObjectList<T>(List<T> list, List<Type> availableTypes, ScriptableObjectManager objectOwner) where T : ScriptableObject
     {
         if(availableTypes.Count <= 0)
         {
@@ -19,7 +19,7 @@ public static class EG_EditorUtility {
         //Create button
         if(GUILayout.Button("Add Object"))
         {
-            objectOwner.CreateItemAction(availableTypes[0]);
+            objectOwner.CreateObject(availableTypes[0]);
         }
 
         //Draw objects

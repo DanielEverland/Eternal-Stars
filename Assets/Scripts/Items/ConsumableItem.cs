@@ -7,7 +7,7 @@ using UnityEditor;
 #endif
 
 [CreateAssetMenu(fileName = "ConsumableItem.asset", menuName = "Items/Consumable", order = Utility.CREATE_ASSET_ORDER_ID)]
-public class ConsumableItem : ItemBase {
+public class ConsumableItem : ItemBase, ScriptableObjectManager {
 
     [HideInInspector]
     public List<ItemAction> OnConsumeActions;
@@ -22,7 +22,7 @@ public class ConsumableItem : ItemBase {
         throw new NotImplementedException("Add a destroy item feature here");
     }
 #if UNITY_EDITOR
-    public void CreateItemAction(Type type)
+    public void CreateObject(Type type)
     {
         OnConsumeActions.Add(CreateObject<ItemAction>(type));
     }
