@@ -49,7 +49,6 @@ public static class ScriptableObjectManagerEditor {
 
         Rect headerRect = GUILayoutUtility.GetRect(0, HEADER_HEIGHT, new GUILayoutOption[] { GUILayout.ExpandWidth(true), });
         
-
         DrawHeader(headerRect, label);
         DrawElements<T>(list, availableTypes, objectOwner);
 
@@ -83,18 +82,35 @@ public static class ScriptableObjectManagerEditor {
             T element = list[i];
 
             float elementHeight = GetElementHeight(element);
-            Rect elementRect = GUILayoutUtility.GetRect(0, elementHeight, new GUILayoutOption[] { GUILayout.ExpandWidth(true), });
+            Rect elementHeaderRect = GUILayoutUtility.GetRect(0, EditorGUIUtility.singleLineHeight + ELEMENT_PADDING, new GUILayoutOption[] { GUILayout.ExpandWidth(true), });
 
-            DrawElementHeader(element, ref elementRect, availableTypes, objectOwner);
+            if (Event.current.type == EventType.Repaint)
+            {
+                int propertyCount = EG_EditorUtility.GetSerializableFields(element.GetType()).Count;
+
+                elementBackground.Draw(new Rect(elementHeaderRect.x, elementHeaderRect.y, elementHeaderRect.width, (propertyCount + 1) * (EditorGUIUtility.singleLineHeight + ELEMENT_PADDING)), false, false, true, false);
+            }
+
+            DrawElementHeader(element, elementHeaderRect, availableTypes, objectOwner);
+            DrawElementProperties(element, availableTypes, objectOwner);
         }
     }
-    private static void DrawElementHeader<T>(T obj, ref Rect rect, List<Type> availableTypes, ScriptableObjectManager objectOwner) where T : ScriptableObject
+    private static void DrawElementProperties<T>(T obj, List<Type> availableTypes, ScriptableObjectManager objectOwner) where T : ScriptableObject
     {
-        if (Event.current.type == EventType.Repaint)
+        SerializedObject serializedObject = new SerializedObject(obj);
+        serializedObject.Update();
+
+        foreach (FieldInfo field in EG_EditorUtility.GetSerializableFields(obj.GetType()))
         {
-            elementBackground.Draw(rect, false, false, true, false);
+            SerializedProperty property = serializedObject.FindProperty(field.Name);
+
+            EditorGUILayout.PropertyField(property);
         }
 
+        serializedObject.ApplyModifiedProperties();
+    }
+    private static void DrawElementHeader<T>(T obj, Rect rect, List<Type> availableTypes, ScriptableObjectManager objectOwner) where T : ScriptableObject
+    {
         Rect buttonRect = new Rect(rect.width - DELETE_BUTTON_WIDTH + 10, rect.y + 1, DELETE_BUTTON_WIDTH, EditorGUIUtility.singleLineHeight);
         Rect popupRect = new Rect(rect.x + 5, rect.y + 2, rect.width - DELETE_BUTTON_WIDTH - 10, rect.height);
         
