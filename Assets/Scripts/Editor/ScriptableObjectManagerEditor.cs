@@ -81,7 +81,7 @@ public static class ScriptableObjectManagerEditor {
         for (int i = 0; i < list.Count; i++)
         {
             T element = list[i];
-
+            
             float elementHeight = GetElementHeight(element);
             Rect elementHeaderRect = GUILayoutUtility.GetRect(0, EditorGUIUtility.singleLineHeight + ELEMENT_PADDING, new GUILayoutOption[] { GUILayout.ExpandWidth(true), });
 
@@ -93,9 +93,14 @@ public static class ScriptableObjectManagerEditor {
             }
 
             DrawElementHeader(element, elementHeaderRect, availableTypes, objectOwner);
+
+            EditorGUI.indentLevel++;
+
             DrawElementProperties(element, availableTypes, objectOwner);
 
             GUILayoutUtility.GetRect(0, OBJECT_FOOTER_PADDING, new GUILayoutOption[] { GUILayout.ExpandWidth(true), });
+
+            EditorGUI.indentLevel--;
         }
     }
     private static void DrawElementProperties<T>(T obj, List<Type> availableTypes, ScriptableObjectManager objectOwner) where T : ScriptableObject
