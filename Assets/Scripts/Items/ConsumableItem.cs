@@ -45,5 +45,13 @@ public class ConsumableItem : ItemBase, ScriptableObjectManager {
 
         return newAction;
     }
+    public void RemoveObject(ScriptableObject source)
+    {
+        int index = OnConsumeActions.IndexOf((ItemAction)source);
+
+        DestroyImmediate(source, true);
+
+        OnConsumeActions.RemoveAt(index);
+    }
 #endif
 }

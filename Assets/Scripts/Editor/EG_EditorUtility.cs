@@ -22,21 +22,31 @@ public static class EG_EditorUtility {
             objectOwner.CreateObject(availableTypes[0]);
         }
 
+        List<T> objectsToRemove = new List<T>();
+
         //Draw objects
         for (int i = 0; i < list.Count; i++)
         {
             T action = list[i];
 
-            //Draw type selection
+            //Draw type selection and delete button
+            EditorGUILayout.BeginHorizontal();
             int indexOfAction = availableTypes.IndexOf(action.GetType());
 
             int selectedActionType = EditorGUILayout.Popup("Type", indexOfAction, availableTypes.Select(x => x.Name).ToArray());
-
+            
             if(selectedActionType != indexOfAction)
             {
                 objectOwner.ChangeObjectType(action, availableTypes[selectedActionType]);
                 continue;
             }
+
+            if (GUILayout.Button("-"))
+            {
+                objectsToRemove.Add(action);
+            }
+
+            EditorGUILayout.EndHorizontal();
 
             //Draw properties
             SerializedObject obj = new SerializedObject(action);
@@ -50,6 +60,11 @@ public static class EG_EditorUtility {
             }
 
             obj.ApplyModifiedProperties();
+        }
+
+        for (int i = 0; i < objectsToRemove.Count; i++)
+        {
+            objectOwner.RemoveObject(objectsToRemove[i]);
         }
         
         return list;
