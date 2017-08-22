@@ -30,6 +30,67 @@ public class ContainerBase {
     private readonly int _containerSize;
     private readonly int _rows;
         
+    public void Add(Vector2 index, ItemStack stack)
+    {
+        for (int y = (int)index.y; y >= 0; y--)
+        {
+            for (int x = (int)index.x; x >= 0; x--)
+            {
+                Vector2 currentPosition = new Vector2(x, y);
+                
+                if (Items.ContainsKey(currentPosition))
+                {
+                    ItemStack existingStack = Items[currentPosition];
+
+                    Vector2 delta = new Vector2()
+                    {
+                        x = index.x - x,
+                        y = index.y - y,
+                    };
+                    
+                    if(delta.x < existingStack.Item.InventorySize.x && delta.y < existingStack.Item.InventorySize.y)
+                    {
+                        if(existingStack.Item == stack.Item)
+                        {
+                            existingStack.AddAmount(stack.ItemAmount);
+                        }
+                        else
+                        {
+                            throw new Exception("Space is occupied. Call Fits before you add");
+                        }
+
+                        return;
+                    }
+                }
+            }
+        }
+
+        Items.Add(index, stack);
+    }
+    public void Remove(ItemStack stack)
+    {
+        Vector2? index = null;
+
+        foreach (KeyValuePair<Vector2, ItemStack> pair in Items)
+        {
+            if(pair.Value == stack)
+            {
+                index = pair.Key;
+                break;
+            }
+        }
+
+        if(index.HasValue)
+        {
+            Items.Remove(index.Value);
+
+            ItemRemoved(stack.Item);
+        }
+        else
+        {
+            throw new ArgumentException();
+        }
+    }
     /// <summary>
     /// Given a position, returns whether or not said position is occupied by a stack.
     /// </summary>
@@ -93,25 +154,30 @@ public class ContainerBase {
 
         return false;
     }
-    public bool Fits(ItemBase item, Vector2 anchorPosition, ContainerSearchType searchType = ContainerSearchType.AllowSameType)
+    public bool Fits(ItemBase item, Vector2 index, ContainerSearchType searchType = ContainerSearchType.AllowSameType)
     {
-        for (int x = 0; x < item.InventorySize.x; x++)
+        for (int y = (int)index.y; y > 0; y--)
         {
-            for (int y = 0; y < item.InventorySize.y; y++)
+            for (int x = (int)index.x; x > 0; x--)
             {
-                Vector2 currentPosition = new Vector2()
-                {
-                    x = anchorPosition.x + x,
-                    y = anchorPosition.y + y,
-                };
+                Vector2 currentPosition = new Vector2(x, y);
 
                 if (Items.ContainsKey(currentPosition))
                 {
-                    ItemStack stack = Items[currentPosition];
+                    ItemStack existingStack = Items[currentPosition];
 
-                    if(stack.Item != item || searchType == ContainerSearchType.DisallowSameType)
+                    Vector2 delta = new Vector2()
                     {
-                        return false;
+                        x = index.x - x,
+                        y = index.y - y,
+                    };
+                    
+                    if (delta.x < existingStack.Item.InventorySize.x && delta.y < existingStack.Item.InventorySize.y)
+                    {
+                        if ((existingStack.Item != item) || (existingStack.Item == item && searchType == ContainerSearchType.DisallowSameType))
+                        {
+                            return false;
+                        }
                     }
                 }
             }

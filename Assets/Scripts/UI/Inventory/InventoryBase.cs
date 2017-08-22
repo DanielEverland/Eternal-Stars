@@ -32,6 +32,10 @@ public class InventoryBase : MonoBehaviour {
     {
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)gridLayout.transform);
 
+        Refresh();
+    }
+    public void Refresh()
+    {
         UpdateItemIcons();
     }
     private void UpdateItemIcons()
@@ -84,7 +88,7 @@ public class InventoryBase : MonoBehaviour {
             obj.transform.SetParent(SlotParent);
 
             SlotBase slot = obj.GetComponent<SlotBase>();
-            slot.Initialize(this);
+            slot.Initialize(this, position);
 
             Slots.Add(position, slot);
         }

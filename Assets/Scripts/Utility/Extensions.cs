@@ -8,6 +8,15 @@ public static class Extensions {
 
     private const int MAX_OUTPUT_ARRAY_LENGTH = 100;
 
+    public static Rect GetWorldRect(this RectTransform rectTransform)
+    {
+        Vector3[] corners = new Vector3[4];
+        rectTransform.GetWorldCorners(corners);
+
+        Vector3 topLeft = corners[0];
+
+        return new Rect(topLeft, rectTransform.rect.size);
+    }
     public static void AddToWorld(this GameObject obj)
     {
         World.AddToWorld(obj);
