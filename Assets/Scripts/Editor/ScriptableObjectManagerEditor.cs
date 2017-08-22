@@ -13,7 +13,7 @@ public static class ScriptableObjectManagerEditor {
     private static readonly GUIStyle headerBackground = "RL Header";
     private static readonly GUIStyle footerBackground = "RL Footer";
     private static readonly GUIStyle footerButton = "RL FooterButton";
-    private static readonly GUIStyle elementBackground = new GUIStyle("RL Element");
+    private static readonly GUIStyle elementBackground = "RL Background";
 
     private static GUIStyle elementLabelStyle
     {
@@ -32,7 +32,7 @@ public static class ScriptableObjectManagerEditor {
     private static GUIStyle _elementLabelStyle;
 
     private const float HEADER_HEIGHT = 18;
-    private const float OBJECT_FOOTER_PADDING = 10;
+    private const float OBJECT_FOOTER_PADDING = 8;
     private const float ELEMENT_PADDING = 5;
     private const float DELETE_BUTTON_WIDTH = 50;
     private const float DELETE_BUTTON_HEIGHT = 14;
@@ -89,7 +89,7 @@ public static class ScriptableObjectManagerEditor {
             {
                 int propertyCount = EG_EditorUtility.GetSerializableFields(element.GetType()).Count;
 
-                elementBackground.Draw(new Rect(elementHeaderRect.x, elementHeaderRect.y, elementHeaderRect.width, (propertyCount + 1) * (EditorGUIUtility.singleLineHeight + ELEMENT_PADDING) + OBJECT_FOOTER_PADDING), false, false, true, false);
+                elementBackground.Draw(new Rect(elementHeaderRect.x, elementHeaderRect.y, elementHeaderRect.width, (propertyCount + 1) * (EditorGUIUtility.singleLineHeight + ELEMENT_PADDING) + OBJECT_FOOTER_PADDING), true, false, false, false);
             }
 
             DrawElementHeader(element, elementHeaderRect, availableTypes, objectOwner);
@@ -119,8 +119,8 @@ public static class ScriptableObjectManagerEditor {
     }
     private static void DrawElementHeader<T>(T obj, Rect rect, List<Type> availableTypes, ScriptableObjectManager objectOwner) where T : ScriptableObject
     {
-        Rect buttonRect = new Rect(rect.width - DELETE_BUTTON_WIDTH + 10, rect.y + 1, DELETE_BUTTON_WIDTH, EditorGUIUtility.singleLineHeight);
-        Rect popupRect = new Rect(rect.x + 5, rect.y + 2, rect.width - DELETE_BUTTON_WIDTH - 10, rect.height);
+        Rect buttonRect = new Rect(rect.width - DELETE_BUTTON_WIDTH + 10, rect.y + 3, DELETE_BUTTON_WIDTH, EditorGUIUtility.singleLineHeight);
+        Rect popupRect = new Rect(rect.x + 5, rect.y + 4, rect.width - DELETE_BUTTON_WIDTH - 10, rect.height);
         
         //Popup
         int elementIndex = availableTypes.IndexOf(obj.GetType());
