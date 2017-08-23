@@ -33,7 +33,7 @@ public class SlotBase : MonoBehaviour {
     private void Update()
     {
         CheckWorldRect();
-
+        
         if (containsMouse && !worldRect.Contains(Input.mousePosition))
         {
             if (SelectedSlot == this)
