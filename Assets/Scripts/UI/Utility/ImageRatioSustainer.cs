@@ -18,6 +18,14 @@ public class ImageRatioSustainer : MonoBehaviour, ILayoutSelfController
     private float HeightRatio { get { return _image.sprite.rect.height / _image.sprite.rect.width;} }
     private float WidthRatio { get { return _image.sprite.rect.width / _image.sprite.rect.height; } }
     private RectTransform rectTransform { get { return (RectTransform)transform; } }
+
+    private bool hasReferences
+    {
+        get
+        {
+            return _image.sprite != null;
+        }
+    }
     
     private Vector2 AnchorSize
     {
@@ -32,6 +40,9 @@ public class ImageRatioSustainer : MonoBehaviour, ILayoutSelfController
 
     public void SetLayoutHorizontal()
     {
+        if (!hasReferences)
+            return;
+
         if (HeightIsSmallest)
         {
             rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.y * WidthRatio, AnchorSize.y);
@@ -39,6 +50,9 @@ public class ImageRatioSustainer : MonoBehaviour, ILayoutSelfController
     }
     public void SetLayoutVertical()
     {
+        if (!hasReferences)
+            return;
+
         if (WidthIsSmallest)
         {
             rectTransform.sizeDelta = new Vector2(AnchorSize.x, rectTransform.sizeDelta.x * HeightRatio);
