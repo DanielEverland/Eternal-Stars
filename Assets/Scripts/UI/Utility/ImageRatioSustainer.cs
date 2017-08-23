@@ -38,6 +38,19 @@ public class ImageRatioSustainer : MonoBehaviour, ILayoutSelfController
         }
     }
 
+    private void Start()
+    {
+        SetLayout();
+    }
+    private void OnEnable()
+    {
+        SetLayout();
+    }
+    private void SetLayout()
+    {
+        SetLayoutHorizontal();
+        SetLayoutVertical();
+    }
     public void SetLayoutHorizontal()
     {
         if (!hasReferences)
