@@ -8,6 +8,14 @@ public static class Extensions {
 
     private const int MAX_OUTPUT_ARRAY_LENGTH = 100;
 
+    public static string ToHex(this Color color)
+    {
+        return string.Format("#{0}{1}{2}{3}",
+            ((int)(color.r * 255)).ToString("X2"),
+            ((int)(color.g * 255)).ToString("X2"),
+            ((int)(color.b * 255)).ToString("X2"),
+            ((int)(color.a * 255)).ToString("X2"));
+    }
     public static Rect GetWorldRect(this RectTransform rectTransform)
     {
         Vector3[] corners = new Vector3[4];

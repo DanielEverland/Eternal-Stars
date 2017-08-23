@@ -46,7 +46,7 @@ public static class InventoryItemTooltipManager {
         if (tooltipInstance == null && Time.unscaledTime - timeSelected > DELAY)
         {
             tooltipInstance = PlayModeObjectPool.Pool.GetObject("ItemTooltip").GetComponent<InventoryItemTooltip>();
-            tooltipInstance.transform.SetParent(Canvas2D.Instance.transform);
+            tooltipInstance.transform.SetParent(Canvas2D.Static.transform);
             tooltipInstance.Initialize(currentlySelectItem);
         }
     }

@@ -21,6 +21,12 @@ public abstract class ItemBase : ScriptableObject {
     [SerializeField]
     private Sprite _icon;
 
+    public string GetTooltip()
+    {
+        return string.Format("<color={0}>{1}</color>\n", Rarity.Color.ToHex(), Name);
+    }
+
+    #region Object handling shit
     public override bool Equals(object other)
     {
         if (other == null)
@@ -74,4 +80,5 @@ public abstract class ItemBase : ScriptableObject {
     {
         return !(a == b);
     }
+#endregion
 }
