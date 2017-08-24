@@ -28,7 +28,7 @@ public class BaseInventoryItemTooltip : MonoBehaviour {
 
     private int lastFrameTicked;
 
-    private const float GLOW_ALPHA = 20f / 255f;
+    private const float GLOW_ALPHA = 200f / 255f;
     private const float BACKGROUND_ALPHA = 180f / 255f;
     private const float ADDITIONAL_HEIGHT = 10;
 
