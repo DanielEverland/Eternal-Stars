@@ -29,6 +29,7 @@ public class BaseInventoryItemTooltip : MonoBehaviour {
     private int lastFrameTicked;
 
     private const float GLOW_ALPHA = 20f / 255f;
+    private const float BACKGROUND_ALPHA = 180f / 255f;
     private const float ADDITIONAL_HEIGHT = 10;
 
     public void Initialize(ItemBase item)
@@ -45,14 +46,17 @@ public class BaseInventoryItemTooltip : MonoBehaviour {
         nameTextElement.text = item.Name;
         iconImage.sprite = item.Icon;
 
+        Color glowColor = new Color(item.Rarity.Color.r, item.Rarity.Color.g, item.Rarity.Color.b, GLOW_ALPHA);
         for (int i = 0; i < glowElements.Length; i++)
         {
-            glowElements[i].color = new Color(item.Rarity.Color.r, item.Rarity.Color.g, item.Rarity.Color.b, GLOW_ALPHA);
+            glowElements[i].color = glowColor;
         }
 
+        Color backgroundColor = Color.Lerp(item.Rarity.Color, Color.black, 0.4f);
+        backgroundColor.a = BACKGROUND_ALPHA;
         for (int i = 0; i < backgroundElements.Length; i++)
         {
-            backgroundElements[i].color = item.Rarity.Color;
+            backgroundElements[i].color = backgroundColor;
         }
 
         for (int i = 0; i < vanityElements.Length; i++)
