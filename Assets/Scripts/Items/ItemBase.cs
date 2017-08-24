@@ -12,7 +12,7 @@ public abstract class ItemBase : ScriptableObject {
 
     public virtual string TooltipName { get { return "BasicItemTooltip"; } }
 
-    protected abstract string ItemType { get; }
+    public abstract string ItemType { get; }
 
     [Header("Base Properties")]
 

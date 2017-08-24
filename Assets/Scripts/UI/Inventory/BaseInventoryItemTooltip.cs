@@ -12,6 +12,8 @@ public class BaseInventoryItemTooltip : MonoBehaviour {
     [SerializeField]
     protected RectTransform header;
     [SerializeField]
+    protected TMP_Text typeTextElement;
+    [SerializeField]
     protected TMP_Text nameTextElement;
     [SerializeField]
     protected Image iconImage;
@@ -45,6 +47,7 @@ public class BaseInventoryItemTooltip : MonoBehaviour {
     {
         nameTextElement.text = item.Name;
         iconImage.sprite = item.Icon;
+        typeTextElement.text = string.Format("{0} {1}", item.Rarity.Name, item.ItemType);
 
         Color glowColor = new Color(item.Rarity.Color.r, item.Rarity.Color.g, item.Rarity.Color.b, GLOW_ALPHA);
         for (int i = 0; i < glowElements.Length; i++)

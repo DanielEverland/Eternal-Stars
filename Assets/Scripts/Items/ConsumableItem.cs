@@ -12,7 +12,7 @@ public class ConsumableItem : ItemBase, ScriptableObjectManager {
     [HideInInspector]
     public List<ItemAction> OnConsumeActions;
 
-    protected override string ItemType { get { return "Consumable"; } }
+    public override string ItemType { get { return "Consumable"; } }
 
     public void Consume()
     {
