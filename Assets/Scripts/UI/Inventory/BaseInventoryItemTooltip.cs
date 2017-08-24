@@ -29,6 +29,7 @@ public class BaseInventoryItemTooltip : MonoBehaviour {
     private int lastFrameTicked;
 
     private const float GLOW_ALPHA = 20f / 255f;
+    private const float ADDITIONAL_HEIGHT = 10;
 
     public void Initialize(ItemBase item)
     {
@@ -66,7 +67,7 @@ public class BaseInventoryItemTooltip : MonoBehaviour {
         rectTransform.sizeDelta = new Vector2()
         {
             x = header.sizeDelta.x,
-            y = header.sizeDelta.y + contentParent.rect.height,
+            y = header.sizeDelta.y + contentParent.rect.height + ADDITIONAL_HEIGHT,
         };
     }
     public void Tick()
