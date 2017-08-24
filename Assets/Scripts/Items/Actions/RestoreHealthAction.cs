@@ -9,6 +9,8 @@ public class RestoreHealthAction : ItemAction {
     [SerializeField]
     private float HealthPointsToRestore;
 
+    public override string Description { get { return string.Format("Restores " + HealthPointsToRestore + " to player"); } }
+
     public override void Action()
     {
         throw new NotImplementedException("Restore health to player here");
