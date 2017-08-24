@@ -9,7 +9,7 @@ public class RestoreHealthAction : ItemAction {
     [SerializeField]
     private float HealthPointsToRestore;
 
-    public override string Description { get { return string.Format("Restores " + HealthPointsToRestore + " to player"); } }
+    public override string Description { get { return string.Format("Restores " + HealthPointsToRestore + " health to player"); } }
 
     public override void Action()
     {
