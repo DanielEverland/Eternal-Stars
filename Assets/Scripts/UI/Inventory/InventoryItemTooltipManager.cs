@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class InventoryItemTooltipManager {
     
-    private static InventoryItemTooltip tooltipInstance;
+    private static BaseInventoryItemTooltip tooltipInstance;
     private static ItemBase currentlySelectItem;
     private static float timeSelected;
 
@@ -32,11 +32,20 @@ public static class InventoryItemTooltipManager {
     {
         if (item != currentlySelectItem)
         {
+            string oldTooltipName = (currentlySelectItem != null) ? currentlySelectItem.TooltipName : "";
+
             currentlySelectItem = item;
             timeSelected = Time.unscaledTime;
 
             if (tooltipInstance != null)
             {
+                if(oldTooltipName != currentlySelectItem.TooltipName)
+                {
+                    PlayModeObjectPool.Pool.ReturnObject(tooltipInstance.gameObject);
+
+                    CreateNewTooltip();
+                }
+
                 tooltipInstance.Initialize(item);
             }
         }
@@ -45,9 +54,13 @@ public static class InventoryItemTooltipManager {
     {
         if (tooltipInstance == null && Time.unscaledTime - timeSelected > DELAY)
         {
-            tooltipInstance = PlayModeObjectPool.Pool.GetObject("ItemTooltip").GetComponent<InventoryItemTooltip>();
-            tooltipInstance.transform.SetParent(Canvas2D.Static.transform);
+            CreateNewTooltip();
             tooltipInstance.Initialize(currentlySelectItem);
         }
+    }
+    private static void CreateNewTooltip()
+    {
+        tooltipInstance = PlayModeObjectPool.Pool.GetObject(currentlySelectItem.TooltipName).GetComponent<BaseInventoryItemTooltip>();
+        tooltipInstance.transform.SetParent(Canvas2D.Static.transform);
     }
 }

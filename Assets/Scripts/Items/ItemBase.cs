@@ -10,6 +10,10 @@ public abstract class ItemBase : ScriptableObject {
     public virtual IntVector2 InventorySize { get { return _inventorySize; } }
     public virtual Sprite Icon { get { return _icon; } }
 
+    public virtual string TooltipName { get { return "BasicItemTooltip"; } }
+
+    protected abstract string ItemType { get; }
+
     [Header("Base Properties")]
 
     [SerializeField]
@@ -20,12 +24,7 @@ public abstract class ItemBase : ScriptableObject {
     private IntVector2 _inventorySize;
     [SerializeField]
     private Sprite _icon;
-
-    public string GetTooltip()
-    {
-        return string.Format("<color={0}>{1}</color>\n", Rarity.Color.ToHex(), Name);
-    }
-
+    
     #region Object handling shit
     public override bool Equals(object other)
     {
