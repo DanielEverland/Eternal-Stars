@@ -32,7 +32,7 @@ public class BaseInventoryItemTooltip : MonoBehaviour {
 
     private const float GLOW_ALPHA = 200f / 255f;
     private const float BACKGROUND_ALPHA = 180f / 255f;
-    private const float ADDITIONAL_HEIGHT = 10;
+    private const float ADDITIONAL_HEIGHT = 20;
 
     public void Initialize(ItemBase item)
     {
@@ -43,7 +43,7 @@ public class BaseInventoryItemTooltip : MonoBehaviour {
 
         DoLayout();
     }
-    private void AssignValuesToUI(ItemBase item)
+    protected virtual void AssignValuesToUI(ItemBase item)
     {
         nameTextElement.text = item.Name;
         iconImage.sprite = item.Icon;
