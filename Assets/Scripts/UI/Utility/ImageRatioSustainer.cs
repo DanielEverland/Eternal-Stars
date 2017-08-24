@@ -6,73 +6,27 @@ using UnityEngine.EventSystems;
 using System;
 
 [RequireComponent(typeof(Image))]
-public class ImageRatioSustainer : MonoBehaviour, ILayoutSelfController
+[RequireComponent(typeof(AspectRatioFitter))]
+public class ImageRatioSustainer : MonoBehaviour
 {
     [SerializeField]
     private Image _image;
     [SerializeField]
-    private bool _alignToParent = true;
+    private AspectRatioFitter _ratioFitter;
 
-    private bool WidthIsSmallest { get { return _image.sprite.rect.width < _image.sprite.rect.height; } }
-    private bool HeightIsSmallest { get { return _image.sprite.rect.width > _image.sprite.rect.height; } }
-    private float HeightRatio { get { return _image.sprite.rect.height / _image.sprite.rect.width;} }
-    private float WidthRatio { get { return _image.sprite.rect.width / _image.sprite.rect.height; } }
-    private RectTransform rectTransform { get { return (RectTransform)transform; } }
-
-    private bool hasReferences
+    private bool FieldsAreValid
     {
         get
         {
-            return _image.sprite != null;
+            if (_image == null)
+                return false;
+
+            return _image.sprite != null && _ratioFitter != null;
         }
     }
-    
-    private Vector2 AnchorSize
+    private void Update()
     {
-        get
-        {
-            if (_alignToParent)
-                return ((RectTransform)transform.parent).rect.size;
-
-            return rectTransform.rect.size;
-        }
-    }
-
-    private void Start()
-    {
-        SetLayout();
-    }
-    private void OnEnable()
-    {
-        SetLayout();
-    }
-    private void SetLayout()
-    {
-        SetLayoutHorizontal();
-        SetLayoutVertical();
-    }
-    public void SetLayoutHorizontal()
-    {
-        if (!hasReferences)
-            return;
-
-        if (HeightIsSmallest)
-        {
-            rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.y * WidthRatio, AnchorSize.y);
-        }
-    }
-    public void SetLayoutVertical()
-    {
-        if (!hasReferences)
-            return;
-
-        if (WidthIsSmallest)
-        {
-            rectTransform.sizeDelta = new Vector2(AnchorSize.x, rectTransform.sizeDelta.x * HeightRatio);
-        }
-    }
-    private void OnValidate()
-    {
-        _image = GetComponent<Image>();
+        if(FieldsAreValid)
+            _ratioFitter.aspectRatio = _image.sprite.rect.width / _image.sprite.rect.height;
     }
 }
