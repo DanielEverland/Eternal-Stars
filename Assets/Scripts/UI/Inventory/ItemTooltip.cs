@@ -27,6 +27,7 @@ public class ItemTooltip : MonoBehaviour {
 
     private const float GLOW_ALPHA = 200f / 255f;
     private const float BACKGROUND_ALPHA = 230f / 255f;
+    private const float HEADER_OFFSET = 5;
 
     public void Initialize(ItemBase item)
     {
@@ -71,11 +72,12 @@ public class ItemTooltip : MonoBehaviour {
     private void DoLayout()
     {
         header.sizeDelta = new Vector2(Mathf.Max(contentParent.rect.width, header.sizeDelta.x), header.sizeDelta.y);
+        header.anchoredPosition = new Vector2(header.anchoredPosition.x, -HEADER_OFFSET);
 
         rectTransform.sizeDelta = new Vector2()
         {
             x = header.sizeDelta.x,
-            y = header.sizeDelta.y + contentParent.rect.height,
+            y = header.sizeDelta.y + contentParent.rect.height + HEADER_OFFSET,
         };
     }
     public void Tick()
