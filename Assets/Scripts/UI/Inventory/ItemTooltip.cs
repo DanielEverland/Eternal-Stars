@@ -27,7 +27,6 @@ public class ItemTooltip : MonoBehaviour {
 
     private const float GLOW_ALPHA = 200f / 255f;
     private const float BACKGROUND_ALPHA = 230f / 255f;
-    private const float ADDITIONAL_HEIGHT = 20;
 
     public void Initialize(ItemBase item)
     {
@@ -39,6 +38,7 @@ public class ItemTooltip : MonoBehaviour {
         if (tooltipLoadout != null)
             tooltipLoadout.Initialize(this);
 
+        LayoutRebuilder.ForceRebuildLayoutImmediate(contentParent);
         LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
         contentSizeFitter.horizontalMinSize = nameTextElement.rectTransform.rect.width;
 
@@ -75,7 +75,7 @@ public class ItemTooltip : MonoBehaviour {
         rectTransform.sizeDelta = new Vector2()
         {
             x = header.sizeDelta.x,
-            y = header.sizeDelta.y + contentParent.rect.height + ADDITIONAL_HEIGHT,
+            y = header.sizeDelta.y + contentParent.rect.height,
         };
     }
     public void Tick()
