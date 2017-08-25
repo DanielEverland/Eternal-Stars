@@ -13,7 +13,9 @@ public class ConsumableItem : ItemBase, ScriptableObjectManager {
     public List<ItemAction> OnConsumeActions;
 
     public override string ItemType { get { return "Consumable"; } }
-    public override string TooltipName { get { return "ConsumableItemTooltip"; } }
+
+    public override CustomTooltipLoadout TooltipLoadout { get { return _customTooltip; } }
+    private static ConsumableItemTooltip _customTooltip = new ConsumableItemTooltip();
 
     public void Consume()
     {

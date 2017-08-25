@@ -10,7 +10,7 @@ public abstract class ItemBase : ScriptableObject {
     public virtual IntVector2 InventorySize { get { return _inventorySize; } }
     public virtual Sprite Icon { get { return _icon; } }
 
-    public virtual string TooltipName { get { return "BasicItemTooltip"; } }
+    public virtual CustomTooltipLoadout TooltipLoadout { get { return null; } }
 
     public abstract string ItemType { get; }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
@@ -5,30 +6,24 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class BaseInventoryItemTooltip : MonoBehaviour {
+public class ItemTooltip : MonoBehaviour {
 
-    [SerializeField]
-    protected ConstrainedContentSizeFitter contentSizeFitter;
-    [SerializeField]
-    protected RectTransform header;
-    [SerializeField]
-    protected TMP_Text typeTextElement;
-    [SerializeField]
-    protected TMP_Text nameTextElement;
-    [SerializeField]
-    protected Image iconImage;
-    [SerializeField]
-    protected Graphic[] glowElements;
-    [SerializeField]
-    protected Graphic[] backgroundElements;
-    [SerializeField]
-    protected Graphic[] vanityElements;
-    [SerializeField]
-    protected RectTransform contentParent;
+    public ItemBase Item { get; private set; }
+    
+    public ConstrainedContentSizeFitter contentSizeFitter;
+    public RectTransform header;
+    public TMP_Text typeTextElement;
+    public TMP_Text nameTextElement;
+    public Image iconImage;
+    public Graphic[] glowElements;
+    public Graphic[] backgroundElements;
+    public Graphic[] vanityElements;
+    public RectTransform contentParent;
     
     private RectTransform rectTransform { get { return (RectTransform)transform; } }
 
     private int lastFrameTicked;
+    private CustomTooltipLoadout tooltipLoadout;
 
     private const float GLOW_ALPHA = 200f / 255f;
     private const float BACKGROUND_ALPHA = 230f / 255f;
@@ -36,26 +31,32 @@ public class BaseInventoryItemTooltip : MonoBehaviour {
 
     public void Initialize(ItemBase item)
     {
-        AssignValuesToUI(item);
+        Item = item;
+        tooltipLoadout = item.TooltipLoadout;
+
+        AssignValuesToUI();
+
+        if (tooltipLoadout != null)
+            tooltipLoadout.Initialize(this);
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
         contentSizeFitter.horizontalMinSize = nameTextElement.rectTransform.rect.width;
 
         DoLayout();
     }
-    protected virtual void AssignValuesToUI(ItemBase item)
+    protected virtual void AssignValuesToUI()
     {
-        nameTextElement.text = item.Name;
-        iconImage.sprite = item.Icon;
-        typeTextElement.text = string.Format("{0} {1}", item.Rarity.Name, item.ItemType);
+        nameTextElement.text = Item.Name;
+        iconImage.sprite = Item.Icon;
+        typeTextElement.text = string.Format("{0} {1}", Item.Rarity.Name, Item.ItemType);
 
-        Color glowColor = new Color(item.Rarity.Color.r, item.Rarity.Color.g, item.Rarity.Color.b, GLOW_ALPHA);
+        Color glowColor = new Color(Item.Rarity.Color.r, Item.Rarity.Color.g, Item.Rarity.Color.b, GLOW_ALPHA);
         for (int i = 0; i < glowElements.Length; i++)
         {
             glowElements[i].color = glowColor;
         }
 
-        Color backgroundColor = Color.Lerp(item.Rarity.Color, Color.black, 0.4f);
+        Color backgroundColor = Color.Lerp(Item.Rarity.Color, Color.black, 0.4f);
         backgroundColor.a = BACKGROUND_ALPHA;
         for (int i = 0; i < backgroundElements.Length; i++)
         {
@@ -64,7 +65,7 @@ public class BaseInventoryItemTooltip : MonoBehaviour {
 
         for (int i = 0; i < vanityElements.Length; i++)
         {
-            vanityElements[i].color = item.Rarity.Color;
+            vanityElements[i].color = Item.Rarity.Color;
         }
     }
     private void DoLayout()
@@ -97,5 +98,15 @@ public class BaseInventoryItemTooltip : MonoBehaviour {
         {
             InventoryItemTooltipManager.DeleteItemTooltip();
         }
+    }
+    private void OnReturned()
+    {
+        for (int i = 0; i < contentParent.childCount; i++)
+        {
+            PlayModeObjectPool.Pool.ReturnObject(contentParent.GetChild(i).gameObject);
+        }
+
+        if (tooltipLoadout != null)
+            tooltipLoadout.OnReturned();
     }
 }

@@ -12,7 +12,7 @@ public class ObjectPoolBehaviour : MonoBehaviour
     private List<ObjectPool.PoolEntry> _entries;
     private Dictionary<string, List<GameObject>> Instances;
     private Dictionary<int, string> UsedObjects = new Dictionary<int, string>();
-    
+        
     protected virtual void Awake()
     {
         _entries = new List<ObjectPool.PoolEntry>(PoolEntries.Entries);
