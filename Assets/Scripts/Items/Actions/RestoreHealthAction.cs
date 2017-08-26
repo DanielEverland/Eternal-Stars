@@ -7,12 +7,21 @@ using UnityEngine;
 public class RestoreHealthAction : ItemAction {
 
     [SerializeField]
-    private float HealthPointsToRestore;
+    private float HealthPointsToRestore = 100;
+    [SerializeField]
+    private float TimeToRestore = 2;
 
-    public override string Description { get { return string.Format("Restores " + HealthPointsToRestore + " health to player"); } }
+    public override string Description
+    {
+        get
+        {
+            return string.Format("{0} {1} health over {2} seconds", (HealthPointsToRestore > 0) ? "Restores" : "Drains", HealthPointsToRestore, TimeToRestore);
+        }
+    }
 
     public override void Action()
     {
-        Player.Instance.Health += HealthPointsToRestore;
+        ActionOverTimeManager.AddFloatEntry(x => { Player.Instance.Health += x; }, HealthPointsToRestore, TimeToRestore);
+       // Player.Instance.Health += HealthPointsToRestore;
     }
 }
