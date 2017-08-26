@@ -19,7 +19,7 @@ public class Creature : MonoBehaviour {
         }
         set
         {
-            healthModifier = Data.Health - value;
+            healthModifier = Mathf.Clamp(Data.Health - value, 0, float.MaxValue);
 
             if(Health <= 0)
             {
