@@ -21,7 +21,7 @@ public class ConsumableItem : ItemBase, ScriptableObjectManager {
     {
         for (int i = 0; i < OnConsumeActions.Count; i++)
         {
-            OnConsumeActions[i].DoAction();
+            OnConsumeActions[i].DoAction(stack);
         }
 
         stack.RemoveAmount(1);
