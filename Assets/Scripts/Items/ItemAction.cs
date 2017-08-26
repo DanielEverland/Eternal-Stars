@@ -5,5 +5,5 @@ using UnityEngine;
 public abstract class ItemAction : ScriptableObject {
 
     public abstract string Description { get; }
-    public abstract void Action();
+    public abstract void DoAction(ItemStack caller);
 }
