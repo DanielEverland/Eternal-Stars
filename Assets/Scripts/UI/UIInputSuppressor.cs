@@ -4,21 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class UIInputSuppressor : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+[RequireComponent(typeof(RectTransform))]
+public class UIInputSuppressor : MonoBehaviour
 {
-    private bool containsMouse;
+    private RectTransform rectTransform { get { return (RectTransform)transform; } }
 
     private void Update()
     {
-        if (containsMouse)
+        if (rectTransform.GetWorldRect().Contains(Input.mousePosition))
             EG_Input.SuppressInput();
-    }
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        containsMouse = true;
-    }
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        containsMouse = false;
     }
 }
