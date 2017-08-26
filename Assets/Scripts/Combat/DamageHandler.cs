@@ -4,22 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DamageHandler : MonoBehaviour {
-
-    [SerializeField]
-    private DamageTypes OnEnemyCriticalType;
-    [SerializeField]
-    private DamageTypes OnEnemyNormalType;
-    [SerializeField]
-    private DamageTypes OnPlayerCriticalType;
-    [SerializeField]
-    private DamageTypes OnPlayerNormalType;
-
+    
     private static DamageHandler instance;
 
     private void Awake()
     {
         instance = this;
-    }
+    }    
     public static void DealDamage(GameObject toObject, float amount)
     {
         DamageTaker damageTaker = toObject.GetComponent<DamageTaker>();
@@ -43,9 +34,9 @@ public class DamageHandler : MonoBehaviour {
         switch (type)
         {
             case TargetType.Player:
-                return instance.OnPlayerNormalType;
+                return DamageTypeManager.PlayerNormal;
             case TargetType.Enemy:
-                return instance.OnEnemyNormalType;
+                return DamageTypeManager.EnemyNormal;
             default:
                 throw new ArgumentException();
         }
@@ -55,9 +46,9 @@ public class DamageHandler : MonoBehaviour {
         switch (type)
         {
             case TargetType.Player:
-                return instance.OnPlayerCriticalType;
+                return DamageTypeManager.PlayerCritical;
             case TargetType.Enemy:
-                return instance.OnEnemyCriticalType;
+                return DamageTypeManager.EnemyCritical;
             default:
                 throw new ArgumentException();
         }
@@ -67,5 +58,4 @@ public class DamageHandler : MonoBehaviour {
         Player,
         Enemy,
     }
-    
 }
