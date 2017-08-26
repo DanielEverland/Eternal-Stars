@@ -32,6 +32,12 @@ public class ItemIconElement : MonoBehaviour, IPointerEnterHandler, IPointerExit
         dragging = false;
         containsMouse = false;
 
+        stack.OnUpdate += SetProperties;
+
+        SetProperties();
+    }
+    private void SetProperties()
+    {
         SetSize();
         SetIcon();
         SetRarityColor();
@@ -42,8 +48,17 @@ public class ItemIconElement : MonoBehaviour, IPointerEnterHandler, IPointerExit
         if (containsMouse)
         {
             InventoryItemTooltipManager.Tick(stack.Item);
+
+            if (Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                DoRightClick();
+            }
         }
 
+        DoDragging();
+    }
+    private void DoDragging()
+    {
         if (containsMouse && !dragging)
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
@@ -56,10 +71,10 @@ public class ItemIconElement : MonoBehaviour, IPointerEnterHandler, IPointerExit
             if (Input.GetKeyUp(KeyCode.Mouse0))
             {
                 dragging = false;
-                
-                if(SlotBase.SelectedSlot != null)
+
+                if (SlotBase.SelectedSlot != null)
                 {
-                    if(playerContainer.Fits(stack.Item, SlotBase.SelectedSlot.Index))
+                    if (playerContainer.Fits(stack.Item, SlotBase.SelectedSlot.Index))
                     {
                         Player.Instance.Container.Remove(stack);
                         Player.Instance.Container.Add(SlotBase.SelectedSlot.Index, stack);
@@ -73,6 +88,10 @@ public class ItemIconElement : MonoBehaviour, IPointerEnterHandler, IPointerExit
                 transform.position = Input.mousePosition;
             }
         }
+    }
+    public void DoRightClick()
+    {
+        stack.Item.OnRightClick(stack);
     }
     private void SetIcon()
     {
@@ -103,5 +122,10 @@ public class ItemIconElement : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public void OnPointerExit(PointerEventData eventData)
     {
         containsMouse = false;
+    }
+    private void OnDestroy()
+    {
+        if(stack != null)
+            stack.OnUpdate -= SetProperties;
     }
 }

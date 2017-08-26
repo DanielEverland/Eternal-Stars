@@ -17,14 +17,14 @@ public class ConsumableItem : ItemBase, ScriptableObjectManager {
     public override CustomTooltipLoadout TooltipLoadout { get { return _customTooltip; } }
     private static ConsumableItemTooltip _customTooltip = new ConsumableItemTooltip();
 
-    public void Consume()
+    public override void OnRightClick(ItemStack stack)
     {
         for (int i = 0; i < OnConsumeActions.Count; i++)
         {
             OnConsumeActions[i].Action();
-        }        
+        }
 
-        throw new NotImplementedException("Add a destroy item feature here");
+        stack.RemoveAmount(1);
     }
 #if UNITY_EDITOR
     public void CreateObject(Type type)

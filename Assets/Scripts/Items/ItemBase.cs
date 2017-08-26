@@ -24,6 +24,8 @@ public abstract class ItemBase : ScriptableObject {
     private IntVector2 _inventorySize;
     [SerializeField]
     private Sprite _icon;
+
+    public virtual void OnRightClick(ItemStack stack) { }
     
     #region Object handling shit
     public override bool Equals(object other)

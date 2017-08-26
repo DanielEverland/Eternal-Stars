@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,8 +16,28 @@ public class ItemStack {
     public int ItemAmount { get; private set; }
     public ContainerBase Container { get; private set; }
 
+    public event Action OnUpdate;
+
     public void AddAmount(int value = 1)
     {
         ItemAmount += value;
+
+        PushUpdate();
+    }
+    public void RemoveAmount(int value = 1)
+    {
+        ItemAmount -= value;
+
+        PushUpdate();
+
+        if (ItemAmount <= 0)
+        {
+            Container.Remove(this);
+        }
+    }
+    private void PushUpdate()
+    {
+        if (OnUpdate != null)
+            OnUpdate.Invoke();
     }
 }

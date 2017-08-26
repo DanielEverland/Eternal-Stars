@@ -13,6 +13,6 @@ public class RestoreHealthAction : ItemAction {
 
     public override void Action()
     {
-        throw new NotImplementedException("Restore health to player here");
+        Player.Instance.Health += HealthPointsToRestore;
     }
 }
