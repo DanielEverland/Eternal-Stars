@@ -14,6 +14,8 @@ public class ItemIconElement : MonoBehaviour, IPointerEnterHandler, IPointerExit
     private TMP_Text AmountLabel;
     [SerializeField]
     private Graphic FrameGraphic;
+    [SerializeField]
+    private ColorSwatch ColorSwatch;
 
     private RectTransform rectTransform { get { return (RectTransform)transform; } }
     private ContainerBase playerContainer { get { return Player.Instance.Container; } }
@@ -49,13 +51,36 @@ public class ItemIconElement : MonoBehaviour, IPointerEnterHandler, IPointerExit
         {
             InventoryItemTooltipManager.Tick(stack.Item);
 
-            if (Input.GetKeyDown(KeyCode.Mouse1))
+            if (Input.GetKeyUp(KeyCode.Mouse1))
             {
                 DoRightClick();
             }
         }
 
+        DoAnimation();
         DoDragging();
+    }
+    private void DoAnimation()
+    {
+        if (containsMouse)
+        {
+            if(Input.GetKey(KeyCode.Mouse0) || Input.GetKey(KeyCode.Mouse1))
+            {
+                StartColorTween(ColorSwatch.pressedColor);
+            }
+            else
+            {
+                StartColorTween(ColorSwatch.highlightedColor);
+            }
+        }
+        else
+        {
+            StartColorTween(ColorSwatch.normalColor);
+        }
+    }
+    private void StartColorTween(Color targetColor)
+    {
+        Icon.CrossFadeColor(targetColor, ColorSwatch.fadeDuration, true, true);
     }
     private void DoDragging()
     {
