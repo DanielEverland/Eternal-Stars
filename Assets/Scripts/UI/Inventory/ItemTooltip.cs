@@ -44,6 +44,7 @@ public class ItemTooltip : MonoBehaviour {
         contentSizeFitter.horizontalMinSize = nameTextElement.rectTransform.rect.width;
 
         DoLayout();
+        Move();
     }
     protected virtual void AssignValuesToUI()
     {
