@@ -18,7 +18,7 @@ public class ItemIconElement : MonoBehaviour, IPointerEnterHandler, IPointerExit
     private ColorSwatch ColorSwatch;
 
     private RectTransform rectTransform { get { return (RectTransform)transform; } }
-    private ContainerBase playerContainer { get { return Player.Instance.Container; } }
+    private ContainerBase playerContainer { get { return Player.Instance.ItemContainer; } }
 
     private ItemStack stack;
     private InventoryBase inventoryBase;
@@ -99,10 +99,10 @@ public class ItemIconElement : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
                 if (SlotBase.SelectedSlot != null)
                 {
-                    if (playerContainer.Fits(stack.Item, SlotBase.SelectedSlot.Index))
+                    if (SlotBase.SelectedSlot.Container.Fits(stack.Item))
                     {
-                        Player.Instance.Container.Remove(stack);
-                        Player.Instance.Container.Add(SlotBase.SelectedSlot.Index, stack);
+                        SlotBase.SelectedSlot.Container.Remove(stack);
+                        SlotBase.SelectedSlot.Container.Add(SlotBase.SelectedSlot.Index, stack);
                     }
                 }
 

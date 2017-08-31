@@ -6,17 +6,16 @@ using UnityEngine;
 public class InventoryBase : MonoBehaviour {
     
     [SerializeField]
-    private GameObject SlotPrefab;
-    [SerializeField]
     private Transform SlotParent;
     [SerializeField]
     private GridLayoutGroup gridLayout;
     [SerializeField]
     private Transform iconParent;
 
-    private ContainerBase Container { get { return Player.Instance.Container; } }
+    private ContainerBase Container { get { return Player.Instance.ItemContainer; } }
     private Dictionary<Vector2, SlotBase> Slots = new Dictionary<Vector2, SlotBase>();
     private List<ItemIconElement> Icons = new List<ItemIconElement>();
+    private List<GameObject> PoolObjects = new List<GameObject>();
 
     public const int ELEMENT_SIZE = 40;
     public const int ELEMENT_SPACING = -1;
@@ -83,12 +82,13 @@ public class InventoryBase : MonoBehaviour {
                 y = (Mathf.CeilToInt((i + 1f) / (float)ContainerBase.INVENTORY_COLUMNS) - 1),
             };
 
-            GameObject obj = Instantiate(SlotPrefab);
+            GameObject obj = PlayModeObjectPool.Pool.GetObject("InventorySlot");
+            PoolObjects.Add(obj);
 
             obj.transform.SetParent(SlotParent);
 
             SlotBase slot = obj.GetComponent<SlotBase>();
-            slot.Initialize(this, position);
+            slot.Initialize(Player.Instance.ItemContainer, position);
 
             Slots.Add(position, slot);
         }
@@ -96,6 +96,11 @@ public class InventoryBase : MonoBehaviour {
     private void OnDestroy()
     {
         ClearItemIcons();
+
+        for (int i = 0; i < PoolObjects.Count; i++)
+        {
+            PlayModeObjectPool.Pool.ReturnObject(PoolObjects[i]);
+        }
 
         Container.OnContainerChanged -= UpdateItemIcons;
     }

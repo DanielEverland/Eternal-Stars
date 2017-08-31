@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ContainerBase {
+public class ContainerBase : IContainerBase {
 
 	public ContainerBase(int size)
     {
@@ -30,6 +30,17 @@ public class ContainerBase {
     private readonly int _containerSize;
     private readonly int _rows;
         
+    public void Add(object index, ItemStack stack)
+    {
+        if(index is Vector2)
+        {
+            Add((Vector2)index, stack);
+        }
+        else
+        {
+            throw new ArgumentException("Cannot add item with index " + index.GetType());
+        }
+    }
     public void Add(Vector2 index, ItemStack stack)
     {
         for (int y = (int)index.y; y >= 0; y--)
@@ -132,6 +143,10 @@ public class ContainerBase {
                 }
             }
         }
+    }
+    public bool Fits(ItemBase item)
+    {
+        return Fits(item, ContainerSearchType.AllowSameType);
     }
     public bool Fits(ItemBase item, ContainerSearchType searchType = ContainerSearchType.AllowSameType)
     {

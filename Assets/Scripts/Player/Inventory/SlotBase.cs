@@ -8,19 +8,19 @@ public class SlotBase : MonoBehaviour {
     
     public static SlotBase SelectedSlot { get; private set; }
 
-    public Vector2 Index { get; private set; }
+    public object Index { get; private set; }
+    public IContainerBase Container { get; private set; }
 
     private RectTransform rectTransform { get { return (RectTransform)transform; } }
 
-    private InventoryBase inventory;
     private bool containsMouse = false;
 
     private Rect oldLocalRect;
     private Rect worldRect;
 
-    public void Initialize(InventoryBase owner, Vector2 index)
+    public void Initialize(IContainerBase container, object index)
     {
-        this.inventory = owner;
+        this.Container = container;
         this.Index = index;
     }
     public void AssignIcon(ItemIconElement iconElement)
