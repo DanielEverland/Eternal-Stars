@@ -20,6 +20,7 @@ public class ItemTooltip : MonoBehaviour {
     public Graphic[] vanityElements;
     public RectTransform[] elementsToConsiderForLayout;
     public RectTransform contentParent;
+    public CanvasGroup canvasGroup;
     
     private RectTransform rectTransform { get { return (RectTransform)transform; } }
 
@@ -30,8 +31,12 @@ public class ItemTooltip : MonoBehaviour {
     private const float BACKGROUND_ALPHA = 230f / 255f;
     private const float HEADER_OFFSET = 5;
 
+    private bool shouldRelayout = false;
+
     public void Initialize(ItemBase item)
     {
+        ReturnContent();
+
         Item = item;
         tooltipLoadout = item.TooltipLoadout;
 
@@ -44,8 +49,10 @@ public class ItemTooltip : MonoBehaviour {
         LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
         contentSizeFitter.horizontalMinSize = nameTextElement.rectTransform.rect.width;
 
-        DoLayout();
+        shouldRelayout = true;
+
         Move();
+        Hide();
     }
     protected virtual void AssignValuesToUI()
     {
@@ -93,6 +100,8 @@ public class ItemTooltip : MonoBehaviour {
             x = Mathf.Max(contentParent.rect.width, maxWidth),
             y = header.sizeDelta.y + contentParent.rect.height + HEADER_OFFSET,
         };
+
+        Show();
     }
     public void Tick()
     {
@@ -101,7 +110,10 @@ public class ItemTooltip : MonoBehaviour {
     private void Update()
     {
         Move();
-        
+
+        if (shouldRelayout)
+            DoLayout();
+
         PollDestroy();
     }
     private void Move()
@@ -117,6 +129,10 @@ public class ItemTooltip : MonoBehaviour {
     }
     private void OnReturned()
     {
+        ReturnContent();
+    }
+    private void ReturnContent()
+    {
         for (int i = 0; i < contentParent.childCount; i++)
         {
             PlayModeObjectPool.Pool.ReturnObject(contentParent.GetChild(i).gameObject);
@@ -124,5 +140,13 @@ public class ItemTooltip : MonoBehaviour {
 
         if (tooltipLoadout != null)
             tooltipLoadout.OnReturned();
+    }
+    private void Hide()
+    {
+        canvasGroup.alpha = 0;
+    }
+    private void Show()
+    {
+        canvasGroup.alpha = 1;
     }
 }
