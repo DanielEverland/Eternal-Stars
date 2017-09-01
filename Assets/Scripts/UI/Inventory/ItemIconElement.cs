@@ -17,6 +17,8 @@ public class ItemIconElement : MonoBehaviour, IPointerEnterHandler, IPointerExit
     [SerializeField]
     private ColorSwatch ColorSwatch;
 
+    public ItemStack Stack { get { return stack; } }
+
     private RectTransform rectTransform { get { return (RectTransform)transform; } }
     private ContainerBase playerContainer { get { return Player.Instance.ItemContainer; } }
 

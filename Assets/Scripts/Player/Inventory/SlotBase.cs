@@ -32,6 +32,8 @@ public class SlotBase : MonoBehaviour {
         iconRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, slotRectTransform.rect.height);
         iconRectTransform.SetParent(transform);
         iconRectTransform.localPosition = Vector3.zero;
+
+        iconElement.Stack.ChangeContainer(Container);
     }
     private void Update()
     {

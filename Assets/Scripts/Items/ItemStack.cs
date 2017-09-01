@@ -14,10 +14,14 @@ public class ItemStack {
     
     public ItemBase Item { get; private set; }
     public int ItemAmount { get; private set; }
-    public ContainerBase Container { get; private set; }
+    public IContainerBase Container { get; private set; }
 
     public event Action OnUpdate;
 
+    public void ChangeContainer(IContainerBase newContainer)
+    {
+        Container = newContainer;
+    }
     public void AddAmount(int value = 1)
     {
         ItemAmount += value;
