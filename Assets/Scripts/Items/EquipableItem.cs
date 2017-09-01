@@ -3,12 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EquipableItem : ItemBase {
-
-    public EquipmentTypes EquipmentType { get { return _equipmentType; } }
+public abstract class EquipableItem : ItemBase {
     
-    [SerializeField]
-    private EquipmentTypes _equipmentType;
-
-    public override string ItemType { get { return EquipmentType.ToString(); } }
+    public abstract EquipmentTypes EquipmentType { get; }
 }

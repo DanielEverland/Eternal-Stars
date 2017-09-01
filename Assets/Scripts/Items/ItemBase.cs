@@ -19,9 +19,9 @@ public abstract class ItemBase : ScriptableObject {
     [SerializeField]
     private Rarity _rarity;
     [SerializeField]
-    private string _name;
+    private string _name = "";
     [SerializeField]
-    private IntVector2 _inventorySize;
+    private IntVector2 _inventorySize = new IntVector2(1, 1);
     [SerializeField]
     private Sprite _icon;
 
@@ -42,16 +42,7 @@ public abstract class ItemBase : ScriptableObject {
     }
     public override int GetHashCode()
     {
-        unchecked
-        {
-            int i = 13;
-
-            i *= 17 + Name.GetHashCode();
-            i *= 17 + Rarity.GetHashCode();
-            i *= 17 + InventorySize.GetHashCode();
-
-            return i;
-        }
+        return Name.GetHashCode();
     }
     public override string ToString()
     {
