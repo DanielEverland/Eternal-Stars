@@ -114,6 +114,8 @@ public class ItemIconElement : MonoBehaviour, IPointerEnterHandler, IPointerExit
             {
                 transform.position = Input.mousePosition;
                 transform.SetSiblingIndex(transform.parent.childCount - 1);
+
+                EG_Input.SuppressInput();
             }
         }
     }
