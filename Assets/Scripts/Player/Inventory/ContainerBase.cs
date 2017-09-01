@@ -97,10 +97,6 @@ public class ContainerBase : IContainerBase {
 
             ItemRemoved(stack.Item);
         }
-        else
-        {
-            throw new ArgumentException();
-        }
     }
     /// <summary>
     /// Given a position, returns whether or not said position is occupied by a stack.
