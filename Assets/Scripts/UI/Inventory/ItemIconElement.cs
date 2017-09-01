@@ -89,6 +89,8 @@ public class ItemIconElement : MonoBehaviour, IPointerEnterHandler, IPointerExit
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
                 dragging = true;
+
+                transform.SetParent(Canvas2D.Static);
             }
         }
         else if (dragging)
@@ -111,6 +113,7 @@ public class ItemIconElement : MonoBehaviour, IPointerEnterHandler, IPointerExit
             else
             {
                 transform.position = Input.mousePosition;
+                transform.SetSiblingIndex(transform.parent.childCount - 1);
             }
         }
     }
