@@ -44,10 +44,6 @@ public class EquipmentContainer : IContainerBase {
         {
             Remove(keyToRemove.Value);
         }
-        else
-        {
-            throw new NullReferenceException("Item " + stack.Item + " doesn't exist in container");
-        }
     }
     public void Remove(EquipmentSlotTypes slotType)
     {
