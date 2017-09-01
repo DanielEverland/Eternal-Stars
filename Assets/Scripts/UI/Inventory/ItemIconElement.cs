@@ -21,15 +21,15 @@ public class ItemIconElement : MonoBehaviour, IPointerEnterHandler, IPointerExit
     private ContainerBase playerContainer { get { return Player.Instance.ItemContainer; } }
 
     private ItemStack stack;
-    private InventoryBase inventoryBase;
+    private Action updateCallback;
 
     private bool containsMouse;
     private bool dragging;
     
-    public void Initialize(ItemStack stack, InventoryBase inventory)
+    public void Initialize(ItemStack stack, Action updateCallback)
     {
         this.stack = stack;
-        this.inventoryBase = inventory;
+        this.updateCallback = updateCallback;
 
         dragging = false;
         containsMouse = false;
@@ -108,7 +108,8 @@ public class ItemIconElement : MonoBehaviour, IPointerEnterHandler, IPointerExit
                     }
                 }
 
-                inventoryBase.Refresh();
+                if(updateCallback != null)
+                    updateCallback.Invoke();
             }
             else
             {

@@ -16,6 +16,9 @@ public class CharacterSheet : MonoBehaviour {
         { new SubMenu("Implants", EquipmentTypes.Implant, EquipmentSlotTypes.Implant1, EquipmentSlotTypes.Implant2, EquipmentSlotTypes.Implant3) },
     };
 
+    private List<CharacterSheetSubmenu> SheetSubmenus = new List<CharacterSheetSubmenu>();
+    private List<ItemIconElement> Icons = new List<ItemIconElement>();
+
     private void Start()
     {
         Initialize();
@@ -26,6 +29,42 @@ public class CharacterSheet : MonoBehaviour {
         {
             CreateSubmenu(subMenus[i]);
         }
+
+        Player.Instance.EquipmentContainer.OnUpdate += CreateItemIcons;
+        CreateItemIcons();
+    }
+    private void CreateItemIcons()
+    {
+        ClearItemIcons();
+
+        for (int i = 0; i < SheetSubmenus.Count; i++)
+        {
+            CharacterSheetSubmenu subMenu = SheetSubmenus[i];
+
+            foreach (KeyValuePair<EquipmentSlotTypes, SlotBase> pair in subMenu.Slots)
+            {
+                if (Player.Instance.EquipmentContainer.Contains(pair.Key))
+                {
+                    ItemStack stack = Player.Instance.EquipmentContainer.GetStack(pair.Key);
+
+                    ItemIconElement newElement = PlayModeObjectPool.Pool.GetObject("ItemIconElement").GetComponent<ItemIconElement>();
+                    Icons.Add(newElement);
+
+                    newElement.Initialize(stack, CreateItemIcons);
+
+                    pair.Value.AssignIcon(newElement);
+                }
+            }
+        }        
+    }
+    private void ClearItemIcons()
+    {
+        for (int i = 0; i < Icons.Count; i++)
+        {
+            PlayModeObjectPool.Pool.ReturnObject(Icons[i].gameObject);
+        }
+
+        Icons.Clear();
     }
     private void CreateSubmenu(SubMenu subMenu)
     {
@@ -34,6 +73,12 @@ public class CharacterSheet : MonoBehaviour {
         obj.transform.SetParent(subMenuParent);
 
         obj.Initialize(subMenu);
+
+        SheetSubmenus.Add(obj);
+    }
+    private void OnDestroy()
+    {
+        ClearItemIcons();
     }
 
     public class SubMenu

@@ -11,6 +11,8 @@ public class CharacterSheetSubmenu : MonoBehaviour {
     [SerializeField]
     private RectTransform slotParent;
 
+    public Dictionary<EquipmentSlotTypes, SlotBase> Slots = new Dictionary<EquipmentSlotTypes, SlotBase>();
+
     public void Initialize(CharacterSheet.SubMenu submenu)
     {
         header.text = submenu.HeaderName;
@@ -21,8 +23,11 @@ public class CharacterSheetSubmenu : MonoBehaviour {
             obj.transform.SetParent(slotParent);
 
             SlotBase slot = obj.GetComponent<SlotBase>();
+            EquipmentSlotTypes slotType = submenu.GetObject(i);
 
-            slot.Initialize(Player.Instance.EquipmentContainer, submenu.GetObject(i));
+            slot.Initialize(Player.Instance.EquipmentContainer, slotType);
+
+            Slots.Add(slotType, slot);
         }
     }
 }

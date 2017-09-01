@@ -9,8 +9,6 @@ public class InventoryBase : MonoBehaviour {
     private Transform SlotParent;
     [SerializeField]
     private GridLayoutGroup gridLayout;
-    [SerializeField]
-    private Transform iconParent;
 
     private ContainerBase Container { get { return Player.Instance.ItemContainer; } }
     private Dictionary<Vector2, SlotBase> Slots = new Dictionary<Vector2, SlotBase>();
@@ -51,9 +49,8 @@ public class InventoryBase : MonoBehaviour {
         ItemIconElement newElement = PlayModeObjectPool.Pool.GetObject("ItemIconElement").GetComponent<ItemIconElement>();
         Icons.Add(newElement);
 
-        newElement.Initialize(stack, this);
-
-        newElement.transform.SetParent(iconParent);
+        newElement.Initialize(stack, Refresh);
+        
         Slots[position].AssignIcon(newElement);
     }
     private void ClearItemIcons()

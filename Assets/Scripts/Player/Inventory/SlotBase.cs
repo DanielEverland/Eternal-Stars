@@ -28,7 +28,10 @@ public class SlotBase : MonoBehaviour {
         RectTransform iconRectTransform = (RectTransform)iconElement.transform;
         RectTransform slotRectTransform = (RectTransform)transform;
 
-        iconRectTransform.anchoredPosition = slotRectTransform.anchoredPosition;
+        iconRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, slotRectTransform.rect.width);
+        iconRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, slotRectTransform.rect.height);
+        iconRectTransform.SetParent(transform);
+        iconRectTransform.localPosition = Vector3.zero;
     }
     private void Update()
     {

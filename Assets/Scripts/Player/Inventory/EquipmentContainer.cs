@@ -4,10 +4,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EquipmentContainer : IContainerBase {
+
+    public event Action OnUpdate;
     
-    private Dictionary<EquipmentSlotTypes, EquipableItem> equippedItems = new Dictionary<EquipmentSlotTypes, EquipableItem>();
+    private Dictionary<EquipmentSlotTypes, ItemStack> equippedItems = new Dictionary<EquipmentSlotTypes, ItemStack>();
     
     public EquipableItem GetItem(EquipmentSlotTypes slotType)
+    {
+        if (equippedItems.ContainsKey(slotType))
+        {
+            return equippedItems[slotType].Item as EquipableItem;
+        }
+
+        return null;
+    }
+    public ItemStack GetStack(EquipmentSlotTypes slotType)
     {
         if (equippedItems.ContainsKey(slotType))
         {
@@ -20,20 +31,23 @@ public class EquipmentContainer : IContainerBase {
     {
         if(index is EquipmentSlotTypes && stack.Item is EquipableItem)
         {
-            Add((EquipmentSlotTypes)index, stack.Item as EquipableItem);
+            Add((EquipmentSlotTypes)index, stack);
         }
     }
-    public void Add(EquipmentSlotTypes slotType, EquipableItem item)
+    public void Add(EquipmentSlotTypes slotType, ItemStack stack)
     {
-        equippedItems.Add(slotType, item);
+        equippedItems.Add(slotType, stack);
+
+        if (OnUpdate != null)
+            OnUpdate.Invoke();
     }
     public void Remove(ItemStack stack)
     {
         EquipmentSlotTypes? keyToRemove = null;
 
-        foreach (KeyValuePair<EquipmentSlotTypes, EquipableItem> pair in equippedItems)
+        foreach (KeyValuePair<EquipmentSlotTypes, ItemStack> pair in equippedItems)
         {
-            if(pair.Value == stack.Item)
+            if(pair.Value.Item == stack.Item)
             {
                 keyToRemove = pair.Key;
                 break;
@@ -48,6 +62,9 @@ public class EquipmentContainer : IContainerBase {
     public void Remove(EquipmentSlotTypes slotType)
     {
         equippedItems.Remove(slotType);
+
+        if (OnUpdate != null)
+            OnUpdate.Invoke();
     }
     public bool Contains(EquipmentSlotTypes slotType)
     {
