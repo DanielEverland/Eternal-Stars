@@ -99,7 +99,7 @@ public class ItemIconElement : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
                 if (SlotBase.SelectedSlot != null)
                 {
-                    if (SlotBase.SelectedSlot.Container.Fits(stack.Item))
+                    if (SlotBase.SelectedSlot.Container.Fits(SlotBase.SelectedSlot.Index, stack.Item))
                     {
                         SlotBase.SelectedSlot.Container.Remove(stack);
                         SlotBase.SelectedSlot.Container.Add(SlotBase.SelectedSlot.Index, stack);

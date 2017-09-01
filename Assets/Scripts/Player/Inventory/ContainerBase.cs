@@ -144,9 +144,16 @@ public class ContainerBase : IContainerBase {
             }
         }
     }
-    public bool Fits(ItemBase item)
+    public bool Fits(object index, ItemBase item)
     {
-        return Fits(item, ContainerSearchType.AllowSameType);
+        if(index is Vector2)
+        {
+            return Fits(item, (Vector2)index);
+        }
+        else
+        {
+            return false;
+        }
     }
     public bool Fits(ItemBase item, ContainerSearchType searchType = ContainerSearchType.AllowSameType)
     {

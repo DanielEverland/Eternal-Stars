@@ -6,7 +6,7 @@ using UnityEngine;
 public class EquipmentContainer : IContainerBase {
     
     private Dictionary<EquipmentSlotTypes, EquipableItem> equippedItems = new Dictionary<EquipmentSlotTypes, EquipableItem>();
-
+    
     public EquipableItem GetItem(EquipmentSlotTypes slotType)
     {
         if (equippedItems.ContainsKey(slotType))
@@ -57,8 +57,25 @@ public class EquipmentContainer : IContainerBase {
     {
         return equippedItems.ContainsKey(slotType);
     }
-    public bool Fits(ItemBase item)
+    public bool Fits(object index, ItemBase item)
     {
-        return item is EquipableItem;
+        if(index is EquipmentSlotTypes && item is EquipableItem)
+        {
+            EquipmentSlotTypes slotType = (EquipmentSlotTypes)index;
+            EquipableItem equipment = (EquipableItem)item;
+
+            foreach (CharacterSheet.SubMenu subMenu in CharacterSheet.SubMenus)
+            {
+                if(subMenu.CompatibleEquipmentType == equipment.EquipmentType)
+                {
+                    if (subMenu.Contains(slotType))
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 }
