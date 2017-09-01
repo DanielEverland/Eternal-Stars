@@ -64,6 +64,7 @@ public class ContainerBase : IContainerBase {
                         if(existingStack.Item == stack.Item)
                         {
                             existingStack.AddAmount(stack.ItemAmount);
+                            ContainerChanged();
                         }
                         else
                         {
@@ -77,6 +78,8 @@ public class ContainerBase : IContainerBase {
         }
 
         Items.Add(index, stack);
+
+        ContainerChanged();
     }
     public void Remove(ItemStack stack)
     {
