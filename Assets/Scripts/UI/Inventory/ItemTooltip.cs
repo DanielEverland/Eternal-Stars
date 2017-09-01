@@ -18,6 +18,7 @@ public class ItemTooltip : MonoBehaviour {
     public Graphic[] glowElements;
     public Graphic[] backgroundElements;
     public Graphic[] vanityElements;
+    public RectTransform[] elementsToConsiderForLayout;
     public RectTransform contentParent;
     
     private RectTransform rectTransform { get { return (RectTransform)transform; } }
@@ -74,9 +75,22 @@ public class ItemTooltip : MonoBehaviour {
     {
         header.anchoredPosition = new Vector2(header.anchoredPosition.x, -HEADER_OFFSET);
 
+        float maxWidth = 0;
+        Rect thisRect = rectTransform.GetWorldRect();
+
+        for (int i = 0; i < elementsToConsiderForLayout.Length; i++)
+        {
+            Rect elementRect = elementsToConsiderForLayout[i].GetWorldRect();
+
+            float width = elementRect.xMax - thisRect.xMin;
+
+            if (width > maxWidth)
+                maxWidth = width;
+        }
+        
         rectTransform.sizeDelta = new Vector2()
         {
-            x = Mathf.Max(contentParent.rect.width, header.sizeDelta.x),
+            x = Mathf.Max(contentParent.rect.width, maxWidth),
             y = header.sizeDelta.y + contentParent.rect.height + HEADER_OFFSET,
         };
     }
