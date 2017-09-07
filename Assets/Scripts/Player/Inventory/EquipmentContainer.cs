@@ -79,18 +79,8 @@ public class EquipmentContainer : IContainerBase {
         if(index is EquipmentSlotIdentifier && item is EquipableItem)
         {
             EquipmentSlotIdentifier slotType = (EquipmentSlotIdentifier)index;
-            EquipableItem equipment = (EquipableItem)item;
 
-            foreach (CharacterSheet.SubMenu subMenu in CharacterSheet.SubMenus)
-            {
-                if(subMenu.EquipmentType == equipment.EquipmentType)
-                {
-                    if (subMenu.Contains(slotType))
-                    {
-                        return true;
-                    }
-                }
-            }
+            return !equippedItems.ContainsKey(slotType);
         }
 
         return false;
@@ -101,6 +91,10 @@ public struct EquipmentSlotIdentifier
     public EquipmentTypes EquipmentType;
     public byte Index;
 
+    public static EquipmentSlotIdentifier GetIdentifier(EquipmentTypes equipmentType, byte index)
+    {
+        return new EquipmentSlotIdentifier() { EquipmentType = equipmentType, Index = index };
+    }
     public override bool Equals(object obj)
     {
         if (obj == null)
