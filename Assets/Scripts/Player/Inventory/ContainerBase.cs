@@ -177,12 +177,12 @@ public class ContainerBase : IContainerBase {
     }
     public bool Fits(ItemBase item, Vector2 index, ContainerSearchType searchType = ContainerSearchType.AllowSameType)
     {
-        for (int y = (int)index.y; y > 0; y--)
+        for (int y = (int)index.y; y >= 0; y--)
         {
-            for (int x = (int)index.x; x > 0; x--)
+            for (int x = (int)index.x; x >= 0; x--)
             {
                 Vector2 currentPosition = new Vector2(x, y);
-
+                
                 if (Items.ContainsKey(currentPosition))
                 {
                     ItemStack existingStack = Items[currentPosition];
