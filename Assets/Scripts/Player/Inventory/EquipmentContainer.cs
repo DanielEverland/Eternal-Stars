@@ -7,45 +7,49 @@ public class EquipmentContainer : IContainerBase {
 
     public event Action OnUpdate;
     
-    private Dictionary<EquipmentSlotTypes, ItemStack> equippedItems = new Dictionary<EquipmentSlotTypes, ItemStack>();
+    private Dictionary<EquipmentSlotIdentifier, ItemStack> equippedItems = new Dictionary<EquipmentSlotIdentifier, ItemStack>();
     
-    public EquipableItem GetItem(EquipmentSlotTypes slotType)
+    public EquipableItem GetItem(EquipmentTypes equipmentType, byte slotIndex)
     {
-        if (equippedItems.ContainsKey(slotType))
+        return GetItem(new EquipmentSlotIdentifier() { EquipmentType = equipmentType, Index = slotIndex });
+    }
+    public EquipableItem GetItem(EquipmentSlotIdentifier slotIdentifier)
+    {
+        if (equippedItems.ContainsKey(slotIdentifier))
         {
-            return equippedItems[slotType].Item as EquipableItem;
+            return equippedItems[slotIdentifier].Item as EquipableItem;
         }
 
         return null;
     }
-    public ItemStack GetStack(EquipmentSlotTypes slotType)
+    public ItemStack GetStack(EquipmentSlotIdentifier slotIdentifier)
     {
-        if (equippedItems.ContainsKey(slotType))
+        if (equippedItems.ContainsKey(slotIdentifier))
         {
-            return equippedItems[slotType];
+            return equippedItems[slotIdentifier];
         }
 
         return null;
     }
     public void Add(object index, ItemStack stack)
     {
-        if(index is EquipmentSlotTypes && stack.Item is EquipableItem)
+        if(index is EquipmentSlotIdentifier && stack.Item is EquipableItem)
         {
-            Add((EquipmentSlotTypes)index, stack);
+            Add((EquipmentSlotIdentifier)index, stack);
         }
     }
-    public void Add(EquipmentSlotTypes slotType, ItemStack stack)
+    public void Add(EquipmentSlotIdentifier slotIdentifier, ItemStack stack)
     {
-        equippedItems.Add(slotType, stack);
+        equippedItems.Add(slotIdentifier, stack);
 
         if (OnUpdate != null)
             OnUpdate.Invoke();
     }
     public void Remove(ItemStack stack)
     {
-        EquipmentSlotTypes? keyToRemove = null;
+        EquipmentSlotIdentifier? keyToRemove = null;
 
-        foreach (KeyValuePair<EquipmentSlotTypes, ItemStack> pair in equippedItems)
+        foreach (KeyValuePair<EquipmentSlotIdentifier, ItemStack> pair in equippedItems)
         {
             if(pair.Value.Item == stack.Item)
             {
@@ -59,27 +63,27 @@ public class EquipmentContainer : IContainerBase {
             Remove(keyToRemove.Value);
         }
     }
-    public void Remove(EquipmentSlotTypes slotType)
+    public void Remove(EquipmentSlotIdentifier slotIdentifier)
     {
-        equippedItems.Remove(slotType);
+        equippedItems.Remove(slotIdentifier);
 
         if (OnUpdate != null)
             OnUpdate.Invoke();
     }
-    public bool Contains(EquipmentSlotTypes slotType)
+    public bool Contains(EquipmentSlotIdentifier slotIdentifier)
     {
-        return equippedItems.ContainsKey(slotType);
+        return equippedItems.ContainsKey(slotIdentifier);
     }
     public bool Fits(object index, ItemBase item)
     {
-        if(index is EquipmentSlotTypes && item is EquipableItem)
+        if(index is EquipmentSlotIdentifier && item is EquipableItem)
         {
-            EquipmentSlotTypes slotType = (EquipmentSlotTypes)index;
+            EquipmentSlotIdentifier slotType = (EquipmentSlotIdentifier)index;
             EquipableItem equipment = (EquipableItem)item;
 
             foreach (CharacterSheet.SubMenu subMenu in CharacterSheet.SubMenus)
             {
-                if(subMenu.CompatibleEquipmentType == equipment.EquipmentType)
+                if(subMenu.EquipmentType == equipment.EquipmentType)
                 {
                     if (subMenu.Contains(slotType))
                     {
@@ -90,5 +94,34 @@ public class EquipmentContainer : IContainerBase {
         }
 
         return false;
+    }
+}
+public struct EquipmentSlotIdentifier
+{
+    public EquipmentTypes EquipmentType;
+    public byte Index;
+
+    public override bool Equals(object obj)
+    {
+        if (obj == null)
+            return false;
+
+        return obj.GetHashCode() == this.GetHashCode();
+    }
+    public override int GetHashCode()
+    {
+        unchecked
+        {
+            int i = 13;
+
+            i *= 17 + EquipmentType.GetHashCode();
+            i *= 17 + Index.GetHashCode();
+
+            return i;
+        }
+    }
+    public override string ToString()
+    {
+        return string.Format("Type: {0}, Index: {1}", EquipmentType, Index);
     }
 }

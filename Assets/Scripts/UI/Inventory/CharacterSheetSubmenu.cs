@@ -11,23 +11,39 @@ public class CharacterSheetSubmenu : MonoBehaviour {
     [SerializeField]
     private RectTransform slotParent;
 
-    public Dictionary<EquipmentSlotTypes, SlotBase> Slots = new Dictionary<EquipmentSlotTypes, SlotBase>();
+    public List<EquipmentSlotEntry> Slots = new List<EquipmentSlotEntry>();
 
     public void Initialize(CharacterSheet.SubMenu submenu)
     {
         header.text = submenu.HeaderName;
 
-        for (int i = 0; i < submenu.SlotTypes.Count(); i++)
+        for (byte i = 0; i < submenu.SlotAmounts; i++)
         {
             GameObject obj = PlayModeObjectPool.Pool.GetObject("InventorySlot");
             obj.transform.SetParent(slotParent);
 
             SlotBase slot = obj.GetComponent<SlotBase>();
-            EquipmentSlotTypes slotType = submenu.GetObject(i);
 
-            slot.Initialize(Player.Instance.EquipmentContainer, slotType);
+            EquipmentSlotIdentifier identifier = new EquipmentSlotIdentifier()
+            {
+                EquipmentType = submenu.EquipmentType,
+                Index = i,
+            };
 
-            Slots.Add(slotType, slot);
+            slot.Initialize(Player.Instance.EquipmentContainer, identifier);
+            
+            EquipmentSlotEntry entry = new EquipmentSlotEntry()
+            {
+                Identifier = identifier,
+                Slot = slot,
+            };
+
+            Slots.Add(entry);
         }
     }
+}
+public struct EquipmentSlotEntry
+{
+    public EquipmentSlotIdentifier Identifier;
+    public SlotBase Slot;
 }

@@ -12,8 +12,8 @@ public class CharacterSheet : MonoBehaviour {
     public static IEnumerable<SubMenu> SubMenus { get { return subMenus; } }
     private static readonly List<SubMenu> subMenus = new List<SubMenu>()
     {
-        { new SubMenu("Weapons", EquipmentTypes.Weapon, EquipmentSlotTypes.Weapon1, EquipmentSlotTypes.Weapon2, EquipmentSlotTypes.Weapon3) },
-        { new SubMenu("Implants", EquipmentTypes.Implant, EquipmentSlotTypes.Implant1, EquipmentSlotTypes.Implant2, EquipmentSlotTypes.Implant3) },
+        { new SubMenu("Weapons", EquipmentTypes.Weapon, 3) },
+        { new SubMenu("Implants", EquipmentTypes.Implant, 3) },
     };
 
     private List<CharacterSheetSubmenu> SheetSubmenus = new List<CharacterSheetSubmenu>();
@@ -40,19 +40,21 @@ public class CharacterSheet : MonoBehaviour {
         for (int i = 0; i < SheetSubmenus.Count; i++)
         {
             CharacterSheetSubmenu subMenu = SheetSubmenus[i];
-
-            foreach (KeyValuePair<EquipmentSlotTypes, SlotBase> pair in subMenu.Slots)
+            
+            for (int y = 0; y < subMenu.Slots.Count; y++)
             {
-                if (Player.Instance.EquipmentContainer.Contains(pair.Key))
+                EquipmentSlotEntry entry = subMenu.Slots[y];
+
+                if (Player.Instance.EquipmentContainer.Contains(entry.Identifier))
                 {
-                    ItemStack stack = Player.Instance.EquipmentContainer.GetStack(pair.Key);
+                    ItemStack stack = Player.Instance.EquipmentContainer.GetStack(entry.Identifier);
 
                     ItemIconElement newElement = PlayModeObjectPool.Pool.GetObject("ItemIconElement").GetComponent<ItemIconElement>();
                     Icons.Add(newElement);
 
                     newElement.Initialize(stack, CreateItemIcons);
 
-                    pair.Value.AssignIcon(newElement);
+                    entry.Slot.AssignIcon(newElement);
                 }
             }
         }        
@@ -85,28 +87,24 @@ public class CharacterSheet : MonoBehaviour {
     {
         private SubMenu() { }
 
-        public SubMenu(string headerName, EquipmentTypes acceptsEquipmentType, params EquipmentSlotTypes[] slotTypes)
+        public SubMenu(string headerName, EquipmentTypes acceptsEquipmentType, byte slotAmount)
         {
             _headerName = headerName;
             _compatibleEquipmentType = acceptsEquipmentType;
-            _slotTypes = new List<EquipmentSlotTypes>(slotTypes);
+            _slotAmounts = slotAmount;
         }
 
         public string HeaderName { get { return _headerName; } }
-        public EquipmentTypes CompatibleEquipmentType { get { return _compatibleEquipmentType; } }
-        public IEnumerable<EquipmentSlotTypes> SlotTypes { get { return _slotTypes; } }
+        public EquipmentTypes EquipmentType { get { return _compatibleEquipmentType; } }
+        public byte SlotAmounts { get { return _slotAmounts; } }
         
         private readonly string _headerName;
-        private readonly List<EquipmentSlotTypes> _slotTypes;
         private readonly EquipmentTypes _compatibleEquipmentType;
+        private readonly byte _slotAmounts;
 
-        public EquipmentSlotTypes GetObject(int index)
+        public bool Contains(EquipmentSlotIdentifier identifier)
         {
-            return _slotTypes[index];
-        }
-        public bool Contains(EquipmentSlotTypes slotType)
-        {
-            return _slotTypes.Contains(slotType);
+            return identifier.EquipmentType == _compatibleEquipmentType;
         }
     }
 }

@@ -49,7 +49,7 @@ public class ItemIconElement : MonoBehaviour, IPointerEnterHandler, IPointerExit
     }
     private void Update()
     {
-        if (containsMouse)
+        if (containsMouse && !dragging)
         {
             InventoryItemTooltipManager.Tick(stack.Item);
 
