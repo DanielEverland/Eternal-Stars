@@ -199,6 +199,13 @@ public class ContainerBase : IContainerBase {
                         {
                             return false;
                         }
+                        else if(existingStack.Item == existingStack.Item && searchType == ContainerSearchType.AllowSameType)
+                        {
+                            if(existingStack.ItemAmount >= existingStack.Item.MaxStackSize)
+                            {
+                                return false;
+                            }
+                        }
                     }
                 }
             }

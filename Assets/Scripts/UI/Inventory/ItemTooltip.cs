@@ -39,7 +39,7 @@ public class ItemTooltip : MonoBehaviour {
 
         Item = item;
         tooltipLoadout = item.TooltipLoadout;
-
+        
         AssignValuesToUI();
 
         if (tooltipLoadout != null)
