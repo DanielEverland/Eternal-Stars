@@ -1,3 +1,4 @@
+using UnityEngine.Internal;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ public abstract class ItemBase : ScriptableObject {
     public virtual string Name { get { return _name; } }
     public virtual IntVector2 InventorySize { get { return _inventorySize; } }
     public virtual Sprite Icon { get { return _icon; } }
+    public virtual byte MaxStackSize { get { return _maxStackSize; } }
 
     public virtual CustomTooltipLoadout TooltipLoadout { get { return null; } }
 
@@ -17,15 +19,22 @@ public abstract class ItemBase : ScriptableObject {
     [Header("Base Properties")]
 
     [SerializeField]
-    private Rarity _rarity;
+    protected Rarity _rarity;
     [SerializeField]
-    private string _name = "";
+    protected string _name = "";
     [SerializeField]
-    private IntVector2 _inventorySize = new IntVector2(1, 1);
+    protected IntVector2 _inventorySize = new IntVector2(1, 1);
     [SerializeField]
-    private Sprite _icon;
-
+    protected Sprite _icon;
+    [Range(1, 255)][SerializeField]
+    protected byte _maxStackSize = 255;
+    
     public virtual void OnRightClick(ItemStack stack) { }
+
+    public virtual void OnCreatedInInspector()
+    {
+
+    }
     
     #region Object handling shit
     public override bool Equals(object other)

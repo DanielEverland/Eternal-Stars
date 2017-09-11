@@ -6,7 +6,6 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-[CreateAssetMenu(fileName = "ConsumableItem.asset", menuName = "Items/Consumable", order = Utility.CREATE_ASSET_ORDER_ID)]
 public class ConsumableItem : ItemBase, ScriptableObjectManager {
 
     [HideInInspector]
@@ -27,6 +26,11 @@ public class ConsumableItem : ItemBase, ScriptableObjectManager {
         stack.RemoveAmount(1);
     }
 #if UNITY_EDITOR
+    [MenuItem("Assets/Create/Items/Implant", priority = Utility.CREATE_ASSET_ORDER_ID)]
+    private static void CreateAssetImplant()
+    {
+        Utility.CreateItemAndRaname<ConsumableItem>();
+    }
     public void CreateObject(Type type)
     {
         OnConsumeActions.Add(CreateObject<ItemAction>(type));
