@@ -12,10 +12,7 @@ public class ConsumableItem : ItemBase, ScriptableObjectManager {
     public List<ItemAction> OnConsumeActions;
 
     public override string ItemType { get { return "Consumable"; } }
-
-    public override CustomTooltipLoadout TooltipLoadout { get { return _customTooltip; } }
-    private static ConsumableItemTooltip _customTooltip = new ConsumableItemTooltip();
-
+    
     public override void OnRightClick(ItemStack stack)
     {
         for (int i = 0; i < OnConsumeActions.Count; i++)
@@ -25,6 +22,18 @@ public class ConsumableItem : ItemBase, ScriptableObjectManager {
 
         stack.RemoveAmount(1);
     }
+    public override string GetTooltipContent()
+    {
+        string content = base.GetTooltipContent();
+
+        for (int i = 0; i < OnConsumeActions.Count; i++)
+        {
+            content += "\nUse: " + OnConsumeActions[i].Description;
+        }
+
+        return content;
+    }
+
 #if UNITY_EDITOR
     [MenuItem("Assets/Create/Items/Implant", priority = Utility.CREATE_ASSET_ORDER_ID)]
     private static void CreateAssetImplant()

@@ -31,6 +31,14 @@ public abstract class ItemBase : ScriptableObject {
     
     public virtual void OnRightClick(ItemStack stack) { }
 
+    public virtual string GetTooltipContent()
+    {
+        return "";
+    }
+    public virtual string GetTooltipFooter()
+    {
+        return string.Format(@"<align=""right"">Stack Size: {0}</align>", MaxStackSize);
+    }
     public virtual void OnCreatedInInspector()
     {
 

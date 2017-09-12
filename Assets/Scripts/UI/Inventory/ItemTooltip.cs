@@ -12,7 +12,7 @@ public class ItemTooltip : MonoBehaviour {
     
     public ConstrainedContentSizeFitter contentSizeFitter;
     public RectTransform header;
-    public RectTransform footer;
+    public RectTransform footerParent;
     public TMP_Text typeTextElement;
     public TMP_Text nameTextElement;
     public Image iconImage;
@@ -43,6 +43,8 @@ public class ItemTooltip : MonoBehaviour {
         tooltipLoadout = item.TooltipLoadout;
         
         AssignValuesToUI();
+
+        DoDefaultLoadout();
 
         if (tooltipLoadout != null)
             tooltipLoadout.Initialize(this);
@@ -79,6 +81,28 @@ public class ItemTooltip : MonoBehaviour {
             vanityElements[i].color = Item.Rarity.Color;
         }
     }
+    private void DoDefaultLoadout()
+    {
+        string tooltipContent = Item.GetTooltipContent().Trim();
+        string footerContent = Item.GetTooltipFooter().Trim();
+
+        if (tooltipContent != "")
+        {
+            AddTextElement(contentParent, tooltipContent);
+        }
+
+        if(footerContent != "")
+        {
+            AddTextElement(footerParent, string.Format("<size=11>{0}</size>", footerContent));
+        }
+    }
+    private void AddTextElement(RectTransform parent, string text)
+    {
+        TMP_Text textElement = PlayModeObjectPool.Pool.GetObject("ItemTooltipContentElement").GetComponent<TMP_Text>();
+        textElement.transform.SetParent(parent);
+
+        textElement.text = text;
+    }
     private void ForceLayoutRebuild()
     {
         for (int i = 0; i < elementsToForceLayoutRebuild.Length; i++)
@@ -107,10 +131,10 @@ public class ItemTooltip : MonoBehaviour {
         rectTransform.sizeDelta = new Vector2()
         {
             x = Mathf.Max(contentParent.rect.width, maxWidth),
-            y = header.sizeDelta.y + footer.sizeDelta.y + contentParent.rect.height + HEADER_OFFSET,
+            y = header.sizeDelta.y + footerParent.sizeDelta.y + contentParent.rect.height + HEADER_OFFSET,
         };
 
-        footer.gameObject.SetActive(footer.sizeDelta.y > 10);
+        footerParent.gameObject.SetActive(footerParent.sizeDelta.y > 10);
         contentParent.gameObject.SetActive(contentParent.sizeDelta.y > 10);
 
         Show();
@@ -148,6 +172,11 @@ public class ItemTooltip : MonoBehaviour {
         for (int i = 0; i < contentParent.childCount; i++)
         {
             PlayModeObjectPool.Pool.ReturnObject(contentParent.GetChild(i).gameObject, false);
+        }
+
+        for (int i = 0; i < footerParent.childCount; i++)
+        {
+            PlayModeObjectPool.Pool.ReturnObject(footerParent.GetChild(i).gameObject, false);
         }
 
         if (tooltipLoadout != null)
