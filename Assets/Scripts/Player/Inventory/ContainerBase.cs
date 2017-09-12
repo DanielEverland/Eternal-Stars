@@ -61,7 +61,7 @@ public class ContainerBase : IContainerBase {
                     
                     if(delta.x < existingStack.Item.InventorySize.x && delta.y < existingStack.Item.InventorySize.y)
                     {
-                        if(existingStack.Item == stack.Item)
+                        if(existingStack.Item == stack.Item && existingStack.Item.MaxStackSize >= existingStack.ItemAmount + stack.ItemAmount)
                         {
                             existingStack.AddAmount(stack.ItemAmount);
                             ContainerChanged();
@@ -117,28 +117,24 @@ public class ContainerBase : IContainerBase {
             for (int x = 0; x < Columns; x++)
             {
                 Vector2 pos = new Vector2(x, y);
+                
+                ContainerSearchQuery query = FindItem(pos);
+                    
+                if (query.successful)
+                {
+                    if (query.itemStack.Item == item && query.itemStack.Item.MaxStackSize >= query.itemStack.ItemAmount + 1)
+                    {
+                        Items[pos].AddAmount();
 
-                if (!Items.ContainsKey(pos))
+                        StackUpdated(Items[pos]);
+                    }
+                }
+                else
                 {
                     Items.Add(pos, stack);
 
                     ItemAdded(item);
                     return;
-                }
-                else
-                {
-                    ContainerSearchQuery query = FindItem(pos);
-                    
-                    if (query.successful)
-                    {
-                        if (query.itemStack.Item == item)
-                        {
-                            Items[pos].AddAmount();
-
-                            StackUpdated(Items[pos]);
-                            return;
-                        }
-                    }
                 }
             }
         }
