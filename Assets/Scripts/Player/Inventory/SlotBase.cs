@@ -17,9 +17,11 @@ public class SlotBase : MonoBehaviour {
 
     private Rect oldLocalRect;
     private Rect worldRect;
+    private bool shouldForceFitIcons;
 
-    public void Initialize(IContainerBase container, object index)
+    public void Initialize(IContainerBase container, object index, bool shouldForceFitIcons = false)
     {
+        this.shouldForceFitIcons = shouldForceFitIcons;
         this.Container = container;
         this.Index = index;
     }
@@ -28,8 +30,12 @@ public class SlotBase : MonoBehaviour {
         RectTransform iconRectTransform = (RectTransform)iconElement.transform;
         RectTransform slotRectTransform = (RectTransform)transform;
 
-        iconRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, slotRectTransform.rect.width);
-        iconRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, slotRectTransform.rect.height);
+        if(shouldForceFitIcons)
+        {
+            iconRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, slotRectTransform.rect.width);
+            iconRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, slotRectTransform.rect.height);
+        }
+        
         iconRectTransform.SetParent(transform);
         iconRectTransform.localPosition = Vector3.zero;
 

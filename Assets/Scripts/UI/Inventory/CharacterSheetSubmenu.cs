@@ -30,7 +30,7 @@ public class CharacterSheetSubmenu : MonoBehaviour {
                 Index = i,
             };
 
-            slot.Initialize(Player.Instance.EquipmentContainer, identifier);
+            slot.Initialize(Player.Instance.EquipmentContainer, identifier, true);
             
             EquipmentSlotEntry entry = new EquipmentSlotEntry()
             {
