@@ -37,14 +37,14 @@ public class ObjectPoolBehaviour : MonoBehaviour
             }
         }
     }
-    public void ReturnObject(GameObject obj)
+    public void ReturnObject(GameObject obj, bool destroyUnknownObjects = true)
     {
         if (UsedObjects.ContainsKey(obj.GetInstanceID()))
         {
             obj.SendMessage("OnReturned", SendMessageOptions.DontRequireReceiver);
             ReturnObjectToList(obj);
         }
-        else
+        else if(destroyUnknownObjects)
         {
             Destroy(obj);
         }
