@@ -6,9 +6,54 @@ using UnityEngine;
 public class EquipmentContainer : IContainerBase {
 
     public event Action OnUpdate;
+
+    public IEnumerable<EquipmentSlotIdentifier> SlotKeys { get { return equippedItems.Keys; } }
+    private Dictionary<EquipmentSlotIdentifier, ItemStack> equippedItems = new Dictionary<EquipmentSlotIdentifier, ItemStack>()
+    {
+        { new EquipmentSlotIdentifier(EquipmentTypes.Implant, 0), null },
+        { new EquipmentSlotIdentifier(EquipmentTypes.Implant, 1), null },
+        { new EquipmentSlotIdentifier(EquipmentTypes.Implant, 2), null },
+
+        { new EquipmentSlotIdentifier(EquipmentTypes.Weapon, 0), null },
+        { new EquipmentSlotIdentifier(EquipmentTypes.Weapon, 1), null },
+        { new EquipmentSlotIdentifier(EquipmentTypes.Weapon, 2), null },
+    };
     
-    private Dictionary<EquipmentSlotIdentifier, ItemStack> equippedItems = new Dictionary<EquipmentSlotIdentifier, ItemStack>();
-    
+    public bool TryAdd(ItemStack stack)
+    {
+        if (!(stack.Item is EquipableItem))
+            return false;
+        
+        EquipableItem item = stack.Item as EquipableItem;
+        EquipmentSlotIdentifier? key = null;
+
+        foreach (KeyValuePair<EquipmentSlotIdentifier, ItemStack> pair in equippedItems)
+        {
+            if(pair.Key.EquipmentType == item.EquipmentType && pair.Value == null)
+            {
+                key = pair.Key;
+                break;
+            }
+        }
+
+        if(key.HasValue)
+        {
+            stack.RemoveAmount(1);
+
+            equippedItems[key.Value] = new ItemStack(item, this);
+
+            if(OnUpdate != null)
+            {
+                OnUpdate.Invoke();
+            }
+
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     public EquipableItem GetItem(EquipmentTypes equipmentType, byte slotIndex)
     {
         return GetItem(new EquipmentSlotIdentifier() { EquipmentType = equipmentType, Index = slotIndex });
@@ -40,7 +85,7 @@ public class EquipmentContainer : IContainerBase {
     }
     public void Add(EquipmentSlotIdentifier slotIdentifier, ItemStack stack)
     {
-        equippedItems.Add(slotIdentifier, stack);
+        equippedItems[slotIdentifier] = stack;
 
         if (OnUpdate != null)
             OnUpdate.Invoke();
@@ -65,14 +110,14 @@ public class EquipmentContainer : IContainerBase {
     }
     public void Remove(EquipmentSlotIdentifier slotIdentifier)
     {
-        equippedItems.Remove(slotIdentifier);
+        equippedItems[slotIdentifier] = null;
 
         if (OnUpdate != null)
             OnUpdate.Invoke();
     }
     public bool Contains(EquipmentSlotIdentifier slotIdentifier)
     {
-        return equippedItems.ContainsKey(slotIdentifier);
+        return equippedItems[slotIdentifier] != null;
     }
     public bool Fits(object index, ItemBase item)
     {
@@ -80,7 +125,7 @@ public class EquipmentContainer : IContainerBase {
         {
             EquipmentSlotIdentifier slotType = (EquipmentSlotIdentifier)index;
 
-            return !equippedItems.ContainsKey(slotType);
+            return equippedItems[slotType] != null;
         }
 
         return false;
@@ -88,6 +133,12 @@ public class EquipmentContainer : IContainerBase {
 }
 public struct EquipmentSlotIdentifier
 {
+    public EquipmentSlotIdentifier(EquipmentTypes type, byte index)
+    {
+        this.EquipmentType = type;
+        this.Index = index;
+    }
+
     public EquipmentTypes EquipmentType;
     public byte Index;
 
@@ -100,7 +151,16 @@ public struct EquipmentSlotIdentifier
         if (obj == null)
             return false;
 
-        return obj.GetHashCode() == this.GetHashCode();
+        if(obj is EquipmentSlotIdentifier)
+        {
+            EquipmentSlotIdentifier otherIdentifier = (EquipmentSlotIdentifier)obj;
+
+            return otherIdentifier.EquipmentType == this.EquipmentType && otherIdentifier.Index == this.Index;
+        }
+        else
+        {
+            return false;
+        }
     }
     public override int GetHashCode()
     {
@@ -108,8 +168,8 @@ public struct EquipmentSlotIdentifier
         {
             int i = 13;
 
-            i *= 17 + EquipmentType.GetHashCode();
-            i *= 17 + Index.GetHashCode();
+            i *= 17 * EquipmentType.GetHashCode();
+            i *= 17 * Index.GetHashCode();
 
             return i;
         }

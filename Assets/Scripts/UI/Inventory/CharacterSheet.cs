@@ -12,8 +12,8 @@ public class CharacterSheet : MonoBehaviour {
     public static IEnumerable<SubMenu> SubMenus { get { return subMenus; } }
     private static readonly List<SubMenu> subMenus = new List<SubMenu>()
     {
-        { new SubMenu("Weapons", EquipmentTypes.Weapon, 3) },
-        { new SubMenu("Implants", EquipmentTypes.Implant, 3) },
+        { new SubMenu("Weapons", EquipmentTypes.Weapon) },
+        { new SubMenu("Implants", EquipmentTypes.Implant) },
     };
 
     private List<CharacterSheetSubmenu> SheetSubmenus = new List<CharacterSheetSubmenu>();
@@ -87,20 +87,17 @@ public class CharacterSheet : MonoBehaviour {
     {
         private SubMenu() { }
 
-        public SubMenu(string headerName, EquipmentTypes acceptsEquipmentType, byte slotAmount)
+        public SubMenu(string headerName, EquipmentTypes acceptsEquipmentType)
         {
             _headerName = headerName;
             _compatibleEquipmentType = acceptsEquipmentType;
-            _slotAmounts = slotAmount;
         }
 
         public string HeaderName { get { return _headerName; } }
         public EquipmentTypes EquipmentType { get { return _compatibleEquipmentType; } }
-        public byte SlotAmounts { get { return _slotAmounts; } }
         
         private readonly string _headerName;
         private readonly EquipmentTypes _compatibleEquipmentType;
-        private readonly byte _slotAmounts;
 
         public bool Contains(EquipmentSlotIdentifier identifier)
         {

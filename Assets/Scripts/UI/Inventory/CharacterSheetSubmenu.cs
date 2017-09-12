@@ -17,7 +17,7 @@ public class CharacterSheetSubmenu : MonoBehaviour {
     {
         header.text = submenu.HeaderName;
 
-        for (byte i = 0; i < submenu.SlotAmounts; i++)
+        for (byte i = 0; i < GetEquipmentSlotCount(submenu.EquipmentType); i++)
         {
             GameObject obj = PlayModeObjectPool.Pool.GetObject("InventorySlot");
             obj.transform.SetParent(slotParent);
@@ -40,6 +40,18 @@ public class CharacterSheetSubmenu : MonoBehaviour {
 
             Slots.Add(entry);
         }
+    }
+    private byte GetEquipmentSlotCount(EquipmentTypes type)
+    {
+        byte count = 0;
+
+        foreach (EquipmentSlotIdentifier identifier in Player.Instance.EquipmentContainer.SlotKeys)
+        {
+            if (identifier.EquipmentType == type)
+                count++;
+        }
+
+        return count;
     }
 }
 public struct EquipmentSlotEntry

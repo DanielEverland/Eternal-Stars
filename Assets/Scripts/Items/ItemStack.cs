@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ItemStack {
 
-	public ItemStack(ItemBase item, ContainerBase owner, int amount = 1)
+	public ItemStack(ItemBase item, IContainerBase owner, int amount = 1)
     {
         Item = item;
         ItemAmount = amount;
