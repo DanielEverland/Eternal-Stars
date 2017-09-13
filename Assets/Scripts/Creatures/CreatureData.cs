@@ -26,4 +26,9 @@ public class CreatureData : ScriptableObject {
     private Vector2 _boundsCenter;
     [SerializeField]
     private Vector2 _boundsSize = Vector2.one;
+
+    public virtual void AssignData(Creature creature)
+    {
+
+    }
 }

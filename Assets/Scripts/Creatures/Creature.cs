@@ -43,11 +43,12 @@ public class Creature : MonoBehaviour {
 
     protected virtual void Awake()
     {
-
+        
     }
     protected virtual void Start()
     {
         GetComponent<DamageTaker>().OnDamge.AddListener(TakeDamage);
+        _creatureData.AssignData(this);
     }
     protected virtual void TakeDamage(float damageAmount)
     {

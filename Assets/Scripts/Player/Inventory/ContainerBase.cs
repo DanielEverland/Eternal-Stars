@@ -110,8 +110,14 @@ public class ContainerBase : IContainerBase {
     }
     public void Add(ItemBase item)
     {
-        ItemStack stack = new ItemStack(item, this);
-
+        Add(new ItemStack(item, this));
+    }
+    public void Add(ItemBase item, int amount)
+    {
+        Add(new ItemStack(item, this, amount));
+    }
+    public void Add(ItemStack stack)
+    {
         for (int y = 0; y < Rows; y++)
         {
             for (int x = 0; x < Columns; x++)
@@ -122,7 +128,7 @@ public class ContainerBase : IContainerBase {
                     
                 if (query.successful)
                 {
-                    if (query.itemStack.Item == item && query.itemStack.Item.MaxStackSize >= query.itemStack.ItemAmount + 1)
+                    if (query.itemStack.Item == stack.Item && query.itemStack.Item.MaxStackSize >= query.itemStack.ItemAmount + 1)
                     {
                         Items[pos].AddAmount();
 
@@ -133,7 +139,7 @@ public class ContainerBase : IContainerBase {
                 {
                     Items.Add(pos, stack);
 
-                    ItemAdded(item);
+                    ItemAdded(stack.Item);
                     return;
                 }
             }

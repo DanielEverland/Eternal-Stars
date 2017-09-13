@@ -16,3 +16,8 @@ MonoBehaviour:
   _boundsCenter: {x: 0, y: 0}
   _boundsSize: {x: 1, y: 1}
   _defaultInventorySize: 32
+  _defaultInventoryItems:
+  - Item: {fileID: 11400000, guid: 827220660fcf43245a815312712207db, type: 2}
+    Amount: 5
+  - Item: {fileID: 11400000, guid: 50a660ae7d340de4fb67712706779126, type: 2}
+    Amount: 1

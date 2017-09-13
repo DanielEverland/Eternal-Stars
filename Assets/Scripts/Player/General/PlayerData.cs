@@ -10,4 +10,30 @@ public class PlayerData : CreatureData {
 
     [SerializeField]
     private int _defaultInventorySize = 32;
+    [SerializeField]
+    private DefaultInventoryItem[] _defaultInventoryItems;
+
+    public override void AssignData(Creature creature)
+    {
+        base.AssignData(creature);
+
+        if(creature is Player)
+        {
+            Player player = (Player)creature;
+
+            for (int i = 0; i < _defaultInventoryItems.Length; i++)
+            {
+                DefaultInventoryItem item = _defaultInventoryItems[i];
+
+                player.ItemContainer.Add(item.Item, item.Amount);
+            }
+        }
+    }
+
+    [System.Serializable]
+    private class DefaultInventoryItem
+    {
+        public ItemBase Item;
+        public int Amount = 1;
+    }
 }
