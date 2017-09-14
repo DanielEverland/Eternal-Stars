@@ -1,3 +1,4 @@
+using System.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,23 +11,7 @@ public abstract class EquipableItem : ItemBase {
 
     public bool UniqueEquipped { get { return _uniqueEquipped; } }
     public abstract EquipmentTypes EquipmentType { get; }
-
-    private bool IsEquipped
-    {
-        get
-        {
-            foreach (ItemStack stack in Player.Instance.EquipmentContainer.Stacks)
-            {
-                if(stack.Item == this)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-    }
-
+    
     public override string GetTooltipFooter()
     {
         return base.GetTooltipFooter() + ((UniqueEquipped == false) ? "\nNon-Unique" : "");
@@ -34,8 +19,8 @@ public abstract class EquipableItem : ItemBase {
     public override void OnRightClick(ItemStack stack)
     {
         base.OnRightClick(stack);
-        
-        if(!IsEquipped)
+
+        if (!Player.Instance.EquipmentContainer.Stacks.Contains(stack))
             Player.Instance.EquipmentContainer.TryAdd(stack);
     }
     public override void OnCreatedInInspector()
