@@ -171,7 +171,7 @@ public class EquipmentContainer : IContainerBase {
         {
             EquipmentSlotIdentifier slotType = (EquipmentSlotIdentifier)index;
 
-            return equippedItems[slotType] != null;
+            return equippedItems[slotType] == null;
         }
 
         return false;
