@@ -32,8 +32,15 @@ public class SlotBase : MonoBehaviour {
 
         if(shouldForceFitIcons)
         {
+            iconRectTransform.anchorMin = Vector2.zero;
+            iconRectTransform.anchorMax = Vector2.one;
             iconRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, slotRectTransform.rect.width);
             iconRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, slotRectTransform.rect.height);
+        }
+        else
+        {
+            iconRectTransform.anchorMin = new Vector2(0.5f, 0.5f);
+            iconRectTransform.anchorMax = new Vector2(0.5f, 0.5f);
         }
         
         iconRectTransform.SetParent(transform);
