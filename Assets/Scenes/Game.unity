@@ -1319,7 +1319,7 @@ Light:
   serializedVersion: 8
   m_Type: 1
   m_Color: {r: 0.7941176, g: 0.9574036, b: 1, a: 1}
-  m_Intensity: 2
+  m_Intensity: 1.5
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -2568,7 +2568,7 @@ Camera:
   far clip plane: 10000
   field of view: 60
   orthographic: 1
-  orthographic size: 473
+  orthographic size: 493
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
