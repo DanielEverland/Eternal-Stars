@@ -7,11 +7,28 @@ public abstract class EquipableItem : ItemBase {
     
     public abstract EquipmentTypes EquipmentType { get; }
 
+    private bool IsEquipped
+    {
+        get
+        {
+            foreach (ItemStack stack in Player.Instance.EquipmentContainer.Stacks)
+            {
+                if(stack.Item == this)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
+
     public override void OnRightClick(ItemStack stack)
     {
         base.OnRightClick(stack);
 
-        Player.Instance.EquipmentContainer.TryAdd(stack);
+        if(!IsEquipped)
+            Player.Instance.EquipmentContainer.TryAdd(stack);
     }
     public override void OnCreatedInInspector()
     {

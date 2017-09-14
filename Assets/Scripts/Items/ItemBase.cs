@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine.Internal;
 using System;
 using System.Collections;
@@ -5,6 +6,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class ItemBase : ScriptableObject {
+
+    
 
     public virtual Rarity Rarity { get { return _rarity; } }
     public virtual string Name { get { return _name; } }
@@ -59,7 +62,7 @@ public abstract class ItemBase : ScriptableObject {
     }
     public override int GetHashCode()
     {
-        return Name.GetHashCode();
+        return GetInstanceID();
     }
     public override string ToString()
     {
@@ -70,7 +73,7 @@ public abstract class ItemBase : ScriptableObject {
         if (other == null)
             return false;
 
-        return other.GetHashCode() == GetHashCode();
+        return this.GetInstanceID() == other.GetInstanceID();
     }
     public static bool operator ==(ItemBase a, ItemBase b)
     {

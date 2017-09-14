@@ -61,7 +61,7 @@ public class ContainerBase : IContainerBase {
                     
                     if(delta.x < existingStack.Item.InventorySize.x && delta.y < existingStack.Item.InventorySize.y)
                     {
-                        if(existingStack.Item == stack.Item && existingStack.Item.MaxStackSize >= existingStack.ItemAmount + stack.ItemAmount)
+                        if(existingStack.Item.GetType() == stack.Item.GetType() && existingStack.Item.MaxStackSize >= existingStack.ItemAmount + stack.ItemAmount)
                         {
                             existingStack.AddAmount(stack.ItemAmount);
                             ContainerChanged();
@@ -128,7 +128,7 @@ public class ContainerBase : IContainerBase {
                     
                 if (query.successful)
                 {
-                    if (query.itemStack.Item == stack.Item && query.itemStack.Item.MaxStackSize >= query.itemStack.ItemAmount + 1)
+                    if (query.itemStack.Item.GetType() == stack.Item.GetType() && query.itemStack.Item.MaxStackSize >= query.itemStack.ItemAmount + 1)
                     {
                         Items[pos].AddAmount();
 
@@ -197,11 +197,11 @@ public class ContainerBase : IContainerBase {
                     
                     if (delta.x < existingStack.Item.InventorySize.x && delta.y < existingStack.Item.InventorySize.y)
                     {
-                        if ((existingStack.Item != item) || (existingStack.Item == item && searchType == ContainerSearchType.DisallowSameType))
+                        if ((existingStack.Item != item) || (existingStack.Item.GetType() == item.GetType() && searchType == ContainerSearchType.DisallowSameType))
                         {
                             return false;
                         }
-                        else if(existingStack.Item == existingStack.Item && searchType == ContainerSearchType.AllowSameType)
+                        else if(existingStack.Item.GetType() == existingStack.Item.GetType() && searchType == ContainerSearchType.AllowSameType)
                         {
                             if(existingStack.ItemAmount >= existingStack.Item.MaxStackSize)
                             {
@@ -291,7 +291,17 @@ public struct ContainerSearchQuery
     }
     public override bool Equals(object obj)
     {
-        return obj.GetHashCode() == this.GetHashCode();
+        if (obj == null)
+            return false;
+
+        if(obj is ContainerSearchQuery)
+        {
+            ContainerSearchQuery other = (ContainerSearchQuery)obj;
+
+            return other.successful == this.successful && other.availablePosition == this.availablePosition && other.itemStack == this.itemStack;
+        }
+
+        return false;
     }
     public override int GetHashCode()
     {

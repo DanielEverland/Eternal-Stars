@@ -1,3 +1,4 @@
+using System.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ public class EquipmentContainer : IContainerBase {
     public event Action OnUpdate;
 
     public IEnumerable<EquipmentSlotIdentifier> SlotKeys { get { return equippedItems.Keys; } }
+    public IEnumerable<ItemStack> Stacks { get { return equippedItems.Values.Where(x => x != null); } }
     private Dictionary<EquipmentSlotIdentifier, ItemStack> equippedItems = new Dictionary<EquipmentSlotIdentifier, ItemStack>()
     {
         { new EquipmentSlotIdentifier(EquipmentTypes.Implant, 0), null },
@@ -96,7 +98,7 @@ public class EquipmentContainer : IContainerBase {
 
         foreach (KeyValuePair<EquipmentSlotIdentifier, ItemStack> pair in equippedItems)
         {
-            if(pair.Value.Item == stack.Item)
+            if(pair.Value.Item.GetType() == stack.Item.GetType())
             {
                 keyToRemove = pair.Key;
                 break;
