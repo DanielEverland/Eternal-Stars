@@ -10,6 +10,11 @@ public class ItemStack {
         Item = item;
         ItemAmount = amount;
         Container = owner;
+
+        if(amount > item.MaxStackSize)
+        {
+            throw new ArgumentException("Can't have a larger stack than the item will allow");
+        }
     }
     
     public ItemBase Item { get; private set; }
@@ -24,6 +29,11 @@ public class ItemStack {
     }
     public void AddAmount(int value = 1)
     {
+        if (ItemAmount + value > Item.MaxStackSize)
+        {
+            throw new ArgumentException("Can't have a larger stack than the item will allow");
+        }
+
         ItemAmount += value;
 
         PushUpdate();

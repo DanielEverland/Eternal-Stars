@@ -23,9 +23,32 @@ public class PlayerData : CreatureData {
 
             for (int i = 0; i < _defaultInventoryItems.Length; i++)
             {
-                DefaultInventoryItem item = _defaultInventoryItems[i];
+                DefaultInventoryItem entry = _defaultInventoryItems[i];
 
-                player.ItemContainer.Add(item.Item, item.Amount);
+                if(entry.Item.MaxStackSize < entry.Amount)
+                {
+                    int amount = entry.Amount;
+
+                    while (amount > 0)
+                    {
+                        if(entry.Item.MaxStackSize < amount)
+                        {
+                            player.ItemContainer.Add(entry.Item, entry.Item.MaxStackSize);
+
+                            amount -= entry.Item.MaxStackSize;
+                        }
+                        else
+                        {
+                            player.ItemContainer.Add(entry.Item, amount);
+
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    player.ItemContainer.Add(entry.Item, entry.Amount);
+                }
             }
         }
     }

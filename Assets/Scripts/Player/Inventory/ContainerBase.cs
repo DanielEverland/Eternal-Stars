@@ -133,6 +133,7 @@ public class ContainerBase : IContainerBase {
                         Items[pos].AddAmount();
 
                         StackUpdated(Items[pos]);
+                        return;
                     }
                 }
                 else
@@ -144,6 +145,8 @@ public class ContainerBase : IContainerBase {
                 }
             }
         }
+        
+        
     }
     public bool Fits(object index, ItemBase item)
     {
