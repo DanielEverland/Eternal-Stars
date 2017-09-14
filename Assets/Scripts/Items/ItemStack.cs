@@ -7,7 +7,7 @@ public class ItemStack {
 
 	public ItemStack(ItemBase item, IContainerBase owner, int amount = 1)
     {
-        Item = UnityEngine.Object.Instantiate(item);
+        Item = item;
         ItemAmount = amount;
         Container = owner;
 
