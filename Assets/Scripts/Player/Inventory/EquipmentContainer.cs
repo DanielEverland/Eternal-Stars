@@ -155,7 +155,7 @@ public class EquipmentContainer : IContainerBase {
     public bool Fits(object index, ItemBase item)
     {
         if (!(item is EquipableItem))
-            throw new ArgumentException("Calls fits before add");
+            return false;
 
         EquipableItem equipableItem = item as EquipableItem;
 
@@ -163,7 +163,7 @@ public class EquipmentContainer : IContainerBase {
         {
             if (ContainsType(equipableItem))
             {
-                throw new ArgumentException("Calls fits before add");
+                return false;
             }
         }
 
