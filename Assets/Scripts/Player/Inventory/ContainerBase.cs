@@ -11,7 +11,7 @@ public class ContainerBase : IContainerBase {
         Items = new Dictionary<Vector2, ItemStack>();
 
         _containerSize = size;
-        _rows = Mathf.CeilToInt(size / Columns);
+        _rows = Mathf.CeilToInt((float)size / (float)Columns);
     }
     private ContainerBase() { }
 
