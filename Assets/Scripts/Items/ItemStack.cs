@@ -20,6 +20,7 @@ public class ItemStack {
     public ItemBase Item { get; private set; }
     public int ItemAmount { get; private set; }
     public IContainerBase Container { get; private set; }
+    public bool IsFull { get { return ItemAmount >= Item.MaxStackSize; } }
 
     public event Action OnUpdate;
 

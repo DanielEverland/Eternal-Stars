@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using System;
 using NUnit.Framework;
 using System.Collections;
@@ -118,14 +119,49 @@ public class ContainerBase : IContainerBase {
     }
     public void Add(ItemStack stack)
     {
+        List<ItemStack> stacks = new List<ItemStack>(Items.Values);
+        for (int i = 0; i < stacks.Count; i++)
+        {
+            ItemStack stackToCheck = stacks[i];
+
+            if(stackToCheck.Item.GetType() == stack.Item.GetType())
+            {
+                if (!stackToCheck.IsFull)
+                {
+                    Merge(stack, stackToCheck);
+                    return;
+                }
+            }
+        }
+
+        AddToFirstAvailableSlot(stack);
+    }
+    private void Merge(ItemStack source, ItemStack destination)
+    {
+        if(destination.Item.MaxStackSize >= destination.ItemAmount + source.ItemAmount)
+        {
+            destination.AddAmount(source.ItemAmount);
+        }
+        else
+        {
+            int amountToAdd = destination.Item.MaxStackSize - destination.ItemAmount;
+
+            destination.AddAmount(amountToAdd);
+            source.RemoveAmount(amountToAdd);
+
+            Add(source);
+        }
+    }
+    private void AddToFirstAvailableSlot(ItemStack stack)
+    {
         for (int y = 0; y < Rows; y++)
         {
             for (int x = 0; x < Columns; x++)
             {
                 Vector2 pos = new Vector2(x, y);
-                
+
                 ContainerSearchQuery query = FindItem(pos);
-                    
+
                 if (query.successful)
                 {
                     if (query.itemStack.Item.GetType() == stack.Item.GetType() && query.itemStack.Item.MaxStackSize >= query.itemStack.ItemAmount + 1)
