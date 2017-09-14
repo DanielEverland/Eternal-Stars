@@ -37,12 +37,16 @@ public class TransformReplicator : MonoBehaviour, ILayoutSelfController
     }
     public void SetLayoutHorizontal()
     {
-        rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, Target.rect.width + sizeOffset.x);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(Target);
+
+        rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, Target.GetWorldRect().width + sizeOffset.x);
         rectTransform.pivot = Target.pivot;
         transform.position = Target.transform.position + (Vector3)positionOffset;
     }
     public void SetLayoutVertical()
     {
-        rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Target.rect.height + sizeOffset.y);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(Target);
+
+        rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Target.GetWorldRect().height + sizeOffset.y);
     }
 }
