@@ -129,7 +129,7 @@ public class EquipmentContainer : IContainerBase {
 
         foreach (KeyValuePair<EquipmentSlotIdentifier, ItemStack> pair in equippedItems)
         {
-            if(pair.Value.Item.GetType() == stack.Item.GetType())
+            if(pair.Value == stack)
             {
                 keyToRemove = pair.Key;
                 break;
