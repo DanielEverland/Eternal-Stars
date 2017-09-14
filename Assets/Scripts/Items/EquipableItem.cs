@@ -34,7 +34,7 @@ public abstract class EquipableItem : ItemBase {
     public override void OnRightClick(ItemStack stack)
     {
         base.OnRightClick(stack);
-
+        
         if(!IsEquipped)
             Player.Instance.EquipmentContainer.TryAdd(stack);
     }
