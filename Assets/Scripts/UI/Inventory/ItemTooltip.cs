@@ -33,8 +33,6 @@ public class ItemTooltip : MonoBehaviour {
     private const float BACKGROUND_ALPHA = 230f / 255f;
     private const float HEADER_OFFSET = 5;
 
-    private bool shouldRelayout = false;
-
     public void Initialize(ItemBase item)
     {
         ReturnContent();
@@ -49,13 +47,14 @@ public class ItemTooltip : MonoBehaviour {
         if (tooltipLoadout != null)
             tooltipLoadout.Initialize(this);
 
+        rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 0);
+        rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 0);
+
         ForceLayoutRebuild();
+        DoLayout();
+
         contentSizeFitter.horizontalMinSize = nameTextElement.rectTransform.rect.width;
-
-        shouldRelayout = true;
-
         Move();
-        Hide();
     }
     protected virtual void AssignValuesToUI()
     {
@@ -105,6 +104,8 @@ public class ItemTooltip : MonoBehaviour {
     }
     private void ForceLayoutRebuild()
     {
+        Canvas.ForceUpdateCanvases();
+
         for (int i = 0; i < elementsToForceLayoutRebuild.Length; i++)
         {
             elementsToForceLayoutRebuild[i].gameObject.SetActive(true);
@@ -117,7 +118,7 @@ public class ItemTooltip : MonoBehaviour {
 
         float maxWidth = 0;
         Rect thisRect = rectTransform.GetWorldRect();
-
+        
         for (int i = 0; i < elementsToConsiderForLayout.Length; i++)
         {
             Rect elementRect = elementsToConsiderForLayout[i].GetWorldRect();
@@ -127,17 +128,15 @@ public class ItemTooltip : MonoBehaviour {
             if (width > maxWidth)
                 maxWidth = width;
         }
-        
+                
         rectTransform.sizeDelta = new Vector2()
         {
-            x = Mathf.Max(contentParent.rect.width, maxWidth),
+            x = Mathf.Max(contentParent.GetWorldRect().width, maxWidth),
             y = header.sizeDelta.y + footerParent.sizeDelta.y + contentParent.rect.height + HEADER_OFFSET,
         };
 
         footerParent.gameObject.SetActive(footerParent.sizeDelta.y > 10);
         contentParent.gameObject.SetActive(contentParent.sizeDelta.y > 10);
-
-        Show();
     }
     public void Tick()
     {
@@ -146,9 +145,6 @@ public class ItemTooltip : MonoBehaviour {
     private void Update()
     {
         Move();
-
-        if (shouldRelayout)
-            DoLayout();
 
         PollDestroy();
     }
@@ -181,13 +177,5 @@ public class ItemTooltip : MonoBehaviour {
 
         if (tooltipLoadout != null)
             tooltipLoadout.OnReturned();
-    }
-    private void Hide()
-    {
-        canvasGroup.alpha = 0;
-    }
-    private void Show()
-    {
-        canvasGroup.alpha = 1;
     }
 }
