@@ -40,7 +40,7 @@ public abstract class ItemBase : ScriptableObject {
     }
     public virtual string GetTooltipFooter()
     {
-        return string.Format(@"<align=""right"">Stack Size: {0}</align>", MaxStackSize);
+        return string.Format(@"Stack Size: {0}", MaxStackSize);
     }
     public virtual void OnCreatedInInspector()
     {

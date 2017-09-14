@@ -21,6 +21,16 @@ public class EquipmentContainer : IContainerBase {
         { new EquipmentSlotIdentifier(EquipmentTypes.Weapon, 2), null },
     };
     
+    public bool ContainsType(EquipableItem item)
+    {
+        foreach (ItemStack stack in Stacks)
+        {
+            if (stack.Item.GetType() == item.GetType())
+                return true;
+        }
+
+        return false;
+    }
     public bool TryAdd(ItemStack stack)
     {
         if (!(stack.Item is EquipableItem))
@@ -28,6 +38,14 @@ public class EquipmentContainer : IContainerBase {
         
         EquipableItem item = stack.Item as EquipableItem;
         EquipmentSlotIdentifier? key = null;
+
+        if (item.UniqueEquipped)
+        {
+            if(ContainsType(item))
+            {
+                return false;
+            }
+        }
 
         foreach (KeyValuePair<EquipmentSlotIdentifier, ItemStack> pair in equippedItems)
         {
@@ -87,6 +105,19 @@ public class EquipmentContainer : IContainerBase {
     }
     public void Add(EquipmentSlotIdentifier slotIdentifier, ItemStack stack)
     {
+        if (!(stack.Item is EquipableItem))
+            throw new ArgumentException("Calls fits before add");
+
+        EquipableItem item = stack.Item as EquipableItem;
+
+        if (item.UniqueEquipped)
+        {
+            if (ContainsType(item))
+            {
+                throw new ArgumentException("Calls fits before add");
+            }
+        }
+
         equippedItems[slotIdentifier] = stack;
 
         if (OnUpdate != null)
@@ -123,7 +154,20 @@ public class EquipmentContainer : IContainerBase {
     }
     public bool Fits(object index, ItemBase item)
     {
-        if(index is EquipmentSlotIdentifier && item is EquipableItem)
+        if (!(item is EquipableItem))
+            throw new ArgumentException("Calls fits before add");
+
+        EquipableItem equipableItem = item as EquipableItem;
+
+        if (equipableItem.UniqueEquipped)
+        {
+            if (ContainsType(equipableItem))
+            {
+                throw new ArgumentException("Calls fits before add");
+            }
+        }
+
+        if (index is EquipmentSlotIdentifier && item is EquipableItem)
         {
             EquipmentSlotIdentifier slotType = (EquipmentSlotIdentifier)index;
 

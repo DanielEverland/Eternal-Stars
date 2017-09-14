@@ -4,7 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class EquipableItem : ItemBase {
-    
+
+    [SerializeField]
+    private bool _uniqueEquipped = true;
+
+    public bool UniqueEquipped { get { return _uniqueEquipped; } }
     public abstract EquipmentTypes EquipmentType { get; }
 
     private bool IsEquipped
@@ -23,6 +27,10 @@ public abstract class EquipableItem : ItemBase {
         }
     }
 
+    public override string GetTooltipFooter()
+    {
+        return base.GetTooltipFooter() + ((UniqueEquipped == false) ? "\nNon-Unique" : "");
+    }
     public override void OnRightClick(ItemStack stack)
     {
         base.OnRightClick(stack);
