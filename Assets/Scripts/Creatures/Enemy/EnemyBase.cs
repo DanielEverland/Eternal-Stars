@@ -34,10 +34,6 @@ public class EnemyBase : AIBehaviour {
     {
         ItemBase itemToDrop = Data.GetDropableItem();
 
-        GameObject obj = PlayModeObjectPool.Pool.GetObject("ItemHandler");
-        obj.transform.position = transform.position;
-
-        ItemHandler handler = obj.GetComponent<ItemHandler>();
-        handler.Initialize(itemToDrop);
+        ItemHandler.DropItem(itemToDrop, transform.position);
     }
 }

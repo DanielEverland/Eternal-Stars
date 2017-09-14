@@ -145,8 +145,11 @@ public class ContainerBase : IContainerBase {
                 }
             }
         }
-        
-        
+
+        for (int i = 0; i < stack.ItemAmount; i++)
+        {
+            ItemHandler.DropItem(stack.Item, Player.Instance.transform.position);
+        }
     }
     public bool Fits(object index, ItemBase item)
     {

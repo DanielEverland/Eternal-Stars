@@ -12,6 +12,16 @@ public class ItemHandler : MonoBehaviour {
     private ItemBase item;
     private ItemHandlerLabel label;
 
+    public static void DropItem(ItemBase item, Vector3 position)
+    {
+        position.y = 0;
+
+        GameObject obj = PlayModeObjectPool.Pool.GetObject("ItemHandler");
+        obj.transform.position = position;
+
+        ItemHandler handler = obj.GetComponent<ItemHandler>();
+        handler.Initialize(item);
+    }
 	public void Initialize(ItemBase item)
     {
         this.item = item;
