@@ -14,3 +14,13 @@ MonoBehaviour:
   _colorEntries:
   - Key: PanelBackground
     Color: {r: 0.0999135, g: 0.153, b: 0.20588234, a: 0.697}
+  - Key: VanityColor
+    Color: {r: 0.47794116, g: 0.67596346, b: 1, a: 0.109}
+  - Key: TextColor
+    Color: {r: 0.7647059, g: 0.8539554, b: 1, a: 0.778}
+  - Key: TextGlowColor
+    Color: {r: 0.50735295, g: 0.7553754, b: 1, a: 0.097}
+  - Key: PanelLineColor
+    Color: {r: 0.9632353, g: 0.97718054, b: 1, a: 0.084}
+  - Key: SlotColor
+    Color: {r: 0.48172578, g: 0.5751178, b: 0.72794116, a: 0.116}

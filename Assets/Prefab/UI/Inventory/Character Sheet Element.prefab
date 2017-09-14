@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 222817493212252582}
   - component: {fileID: 114725797411235706}
   - component: {fileID: 114984179756899354}
+  - component: {fileID: 114168747850565564}
   m_Layer: 5
   m_Name: Title
   m_TagString: Untagged
@@ -73,6 +74,7 @@ GameObject:
   - component: {fileID: 222069098924449088}
   - component: {fileID: 114109901983448918}
   - component: {fileID: 114013334293057234}
+  - component: {fileID: 114477988959099040}
   m_Layer: 5
   m_Name: Glow
   m_TagString: Untagged
@@ -106,7 +108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.50735295, g: 0.7553754, b: 1, a: 0.053}
+  m_Color: {r: 0.50735295, g: 0.7553754, b: 1, a: 0.097}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -121,6 +123,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114168747850565564
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1529424601580830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 199e22161762da44caccf206e62e8ed6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Target: {fileID: 114725797411235706}
+  Key: TextColor
 --- !u!114 &114448791153138184
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -152,6 +167,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   header: {fileID: 114725797411235706}
   slotParent: {fileID: 224587492249068490}
+--- !u!114 &114477988959099040
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1916337240593436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 199e22161762da44caccf206e62e8ed6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Target: {fileID: 114109901983448918}
+  Key: TextGlowColor
 --- !u!114 &114725797411235706
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -181,8 +209,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 3825195459
-  m_fontColor: {r: 0.7647059, g: 0.8539554, b: 1, a: 0.891}
+    rgba: 3338656195
+  m_fontColor: {r: 0.7647059, g: 0.8539554, b: 1, a: 0.778}
   m_enableVertexGradient: 0
   m_fontColorGradient:
     topLeft: {r: 1, g: 1, b: 1, a: 1}

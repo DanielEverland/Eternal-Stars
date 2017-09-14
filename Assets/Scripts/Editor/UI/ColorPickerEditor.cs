@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CustomEditor(typeof(ColorPicker))]
+[CanEditMultipleObjects()]
 public class ColorPickerEditor : Editor {
 
 	private ColorPicker Target { get { return (ColorPicker)target; } }

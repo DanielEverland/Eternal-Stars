@@ -7,7 +7,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "UI Colors.asset", menuName = "UI/Colors", order = Utility.CREATE_ASSET_ORDER_ID)]
 public class UIColors : ScriptableObject {
 
-	private static UIColors Instance
+	public static UIColors Instance
     {
         get
         {

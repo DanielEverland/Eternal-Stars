@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 114852731527606676}
   - component: {fileID: 114990607675555620}
   - component: {fileID: 114501022168867298}
+  - component: {fileID: 114138397595206162}
   m_Layer: 5
   m_Name: InventorySlot
   m_TagString: Untagged
@@ -30,6 +31,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &114138397595206162
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1821354152807466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 199e22161762da44caccf206e62e8ed6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Target: {fileID: 114852731527606676}
+  Key: SlotColor
 --- !u!114 &114501022168867298
 MonoBehaviour:
   m_ObjectHideFlags: 1

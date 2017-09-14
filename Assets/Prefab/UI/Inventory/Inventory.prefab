@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 114830076941466326}
   - component: {fileID: 114520891465737018}
   - component: {fileID: 114078512930629276}
+  - component: {fileID: 114852489881022640}
   m_Layer: 5
   m_Name: Inventory
   m_TagString: Untagged
@@ -73,6 +74,7 @@ GameObject:
   - component: {fileID: 224332474180543384}
   - component: {fileID: 222197599040398776}
   - component: {fileID: 114025723677131982}
+  - component: {fileID: 114305527297516526}
   m_Layer: 5
   m_Name: Bottom Bar
   m_TagString: Untagged
@@ -90,6 +92,7 @@ GameObject:
   - component: {fileID: 224096034137781658}
   - component: {fileID: 222566825948306970}
   - component: {fileID: 114727301272291412}
+  - component: {fileID: 114017980077026294}
   m_Layer: 5
   m_Name: Top Bar
   m_TagString: Untagged
@@ -124,6 +127,7 @@ GameObject:
   - component: {fileID: 224475308304423682}
   - component: {fileID: 222289804066530804}
   - component: {fileID: 114503270565175518}
+  - component: {fileID: 114892149652465578}
   m_Layer: 5
   m_Name: Glow
   m_TagString: Untagged
@@ -142,6 +146,7 @@ GameObject:
   - component: {fileID: 222914166501030390}
   - component: {fileID: 114483913343024962}
   - component: {fileID: 114393249097618260}
+  - component: {fileID: 114833680309943164}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -159,6 +164,7 @@ GameObject:
   - component: {fileID: 224467891946753406}
   - component: {fileID: 222476044696868064}
   - component: {fileID: 114398248664112842}
+  - component: {fileID: 114509954735554206}
   m_Layer: 5
   m_Name: Line
   m_TagString: Untagged
@@ -233,6 +239,19 @@ MonoBehaviour:
   m_PreferredHeight: 34.44
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+--- !u!114 &114017980077026294
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1406295701606604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 199e22161762da44caccf206e62e8ed6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Target: {fileID: 114727301272291412}
+  Key: VanityColor
 --- !u!114 &114025723677131982
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -294,6 +313,19 @@ MonoBehaviour:
   m_Spacing: {x: -1, y: -1}
   m_Constraint: 1
   m_ConstraintCount: 6
+--- !u!114 &114305527297516526
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1400771419438068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 199e22161762da44caccf206e62e8ed6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Target: {fileID: 114025723677131982}
+  Key: VanityColor
 --- !u!114 &114306321892656536
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -527,6 +559,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114509954735554206
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1861040430779956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 199e22161762da44caccf206e62e8ed6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Target: {fileID: 114398248664112842}
+  Key: PanelLineColor
 --- !u!114 &114520891465737018
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -622,6 +667,32 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114833680309943164
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1698062176425686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 199e22161762da44caccf206e62e8ed6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Target: {fileID: 114483913343024962}
+  Key: TextColor
+--- !u!114 &114852489881022640
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1078846656937982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 199e22161762da44caccf206e62e8ed6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Target: {fileID: 114830076941466326}
+  Key: PanelBackground
 --- !u!114 &114862470419600882
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -640,6 +711,19 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+--- !u!114 &114892149652465578
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1566429954016164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 199e22161762da44caccf206e62e8ed6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Target: {fileID: 114503270565175518}
+  Key: TextGlowColor
 --- !u!222 &222149574216335202
 CanvasRenderer:
   m_ObjectHideFlags: 1

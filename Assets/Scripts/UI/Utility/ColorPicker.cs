@@ -25,4 +25,11 @@ public class ColorPicker : MonoBehaviour {
     {
         Target.color = UIColors.GetColor(Key);
     }
+#if UNITY_EDITOR
+    [ContextMenu("Select Color Manager")]
+    private void SelectColorManager()
+    {
+        UnityEditor.Selection.activeObject = UIColors.Instance;
+    }
+#endif
 }
