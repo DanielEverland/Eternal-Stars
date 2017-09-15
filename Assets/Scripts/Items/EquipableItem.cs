@@ -8,9 +8,13 @@ public abstract class EquipableItem : ItemBase {
 
     [SerializeField]
     private bool _uniqueEquipped = true;
+    [SerializeField]
+    private string _description;
 
     public bool UniqueEquipped { get { return _uniqueEquipped; } }
     public abstract EquipmentTypes EquipmentType { get; }
+
+    protected string Description { get { return _description; } }
     
     public override string GetTooltipFooter()
     {

@@ -9,17 +9,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 97ad744ff2adc1c478dbabe71255f2a9, type: 3}
-  m_Name: TestImplant
+  m_Name: ImplantItem
   m_EditorClassIdentifier: 
-  _rarity: {fileID: 11400000, guid: f470069f73018d94fbb618a8b6836370, type: 2}
-  _name: Test Implant
+  _rarity: {fileID: 0}
+  _name: 
   _inventorySize:
     _x: 1
     _y: 1
-  _icon: {fileID: 21300000, guid: dabaa5a0d61578941ac45b41f342fbd0, type: 3}
+  _icon: {fileID: 0}
   _maxStackSize: 1
   _uniqueEquipped: 1
-  _description: Has a % chance of healing when damaged
-  ProcChance: 0.506
+  _description: 
+  ProcChance: 0
   ProcTriggers: []
   ProcActions: []

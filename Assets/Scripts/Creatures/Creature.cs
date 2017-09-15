@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,6 +7,9 @@ using UnityEngine;
 [RequireComponent(typeof(DamageTaker))]
 [RequireComponent(typeof(CreatureQuadtreeReporter))]
 public class Creature : MonoBehaviour {
+
+    public event Action OnTakeDamage;
+    public event Action OnHealed;
 
     public CharacterController Controller { get { return _characterController; } }
     public float Speed { get { return _creatureData.Speed; } }
@@ -19,7 +23,20 @@ public class Creature : MonoBehaviour {
         }
         set
         {
-            healthModifier = Mathf.Clamp(Data.Health - value, 0, float.MaxValue);
+            float newHealthModifier = Mathf.Clamp(Data.Health - value, 0, float.MaxValue);
+
+            if (newHealthModifier < healthModifier)
+            {
+                if (OnHealed != null)
+                    OnHealed.Invoke();
+            }
+            else if(newHealthModifier > healthModifier)
+            {
+                if (OnTakeDamage != null)
+                    OnTakeDamage.Invoke();
+            }
+
+            healthModifier = newHealthModifier;
 
             if(Health <= 0)
             {
