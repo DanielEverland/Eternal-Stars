@@ -15,10 +15,18 @@ public class ImplantItem : EquipableItem {
     private List<ItemTrigger> ProcTriggers;
     [SerializeField]
     private List<ItemAction> ProcActions;
-        
+
+    public override string Description
+    {
+        get
+        {
+            return base.Description.Replace("%", Mathf.RoundToInt(ProcChance * 100) + "%");
+        }
+    }
+
     public override string GetTooltipContent()
     {
-        return base.GetTooltipContent() + "\n" + Description.Replace("%", Mathf.RoundToInt(ProcChance * 100) + "%");
+        return base.GetTooltipContent() + "\n" + Description;
     }
 
 #if UNITY_EDITOR

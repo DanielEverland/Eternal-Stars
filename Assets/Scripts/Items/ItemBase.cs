@@ -6,18 +6,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class ItemBase : ScriptableObject {
-
     
-
     public virtual Rarity Rarity { get { return _rarity; } }
     public virtual string Name { get { return _name; } }
     public virtual IntVector2 InventorySize { get { return _inventorySize; } }
     public virtual Sprite Icon { get { return _icon; } }
     public virtual byte MaxStackSize { get { return _maxStackSize; } }
+    public virtual string Description { get { return _description; } }
 
     public virtual CustomTooltipLoadout TooltipLoadout { get { return null; } }
 
     public abstract string ItemType { get; }
+
+    public const int LARGEST_SIZE = 5;
 
     [Header("Base Properties")]
 
@@ -26,6 +27,8 @@ public abstract class ItemBase : ScriptableObject {
     [SerializeField]
     protected string _name = "";
     [SerializeField]
+    protected string _description;
+    [SerializeField]
     protected IntVector2 _inventorySize = new IntVector2(1, 1);
     [SerializeField]
     protected Sprite _icon;
@@ -33,7 +36,7 @@ public abstract class ItemBase : ScriptableObject {
     protected byte _maxStackSize = 255;
     
     public virtual void OnRightClick(ItemStack stack) { }
-
+        
     public virtual string GetTooltipContent()
     {
         return "";

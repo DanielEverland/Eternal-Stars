@@ -40,9 +40,15 @@ public static class EG_EditorUtility {
         }
     }
     private static GUIStyle _selectButtonStyle;
-
+    
     private static GUIStyle spriteTextureStyle = new GUIStyle();
+    private static GUIStyle largeTextFieldStyle = new GUIStyle(EditorStyles.textField)
+    {
+        fontSize = 13,
+    };
 
+    private const float NAME_HEIGHT = 20;
+    private const float SPACING = 3;
     private const float SPRITE_TEXTURE_PADDING = 3;
     private const float SPRITE_FIELD_SIZE = 80;
     private const float SELECT_WIDTH = 36;
@@ -53,7 +59,56 @@ public static class EG_EditorUtility {
     
     public static void DrawEquipmentUI(Rect rect, EquipableItem item, SerializedObject obj)
     {
+        EditorGUIUtility.labelWidth = 70;
         obj.FindProperty("_icon").objectReferenceValue = DrawSprite(rect, item.Icon);
+
+        //Name
+        Rect nameRect = new Rect(rect.x + SPRITE_FIELD_SIZE + SPACING, rect.y, rect.width - (SPRITE_FIELD_SIZE + SPACING), NAME_HEIGHT);
+        obj.FindProperty("_name").stringValue = EditorGUI.TextField(nameRect, item.Name, largeTextFieldStyle);
+
+        rect.y += nameRect.height + SPACING;
+
+        //Description
+        string description = obj.FindProperty("_description").stringValue;
+        Rect descriptionRect = new Rect(rect.x + SPRITE_FIELD_SIZE + SPACING, rect.y, rect.width - (SPRITE_FIELD_SIZE + SPACING), EditorGUIUtility.singleLineHeight);
+        description = EditorGUI.TextField(descriptionRect, new GUIContent("Description", item.Description), description);
+        obj.FindProperty("_description").stringValue = description;
+
+        rect.y += descriptionRect.height + SPACING;
+        
+        //Rarity
+        List<Rarity> rarities = Rarity.AllRarities;
+        Rarity rarity = obj.FindProperty("_rarity").objectReferenceValue as Rarity;
+        int index = rarities.IndexOf(rarity);
+        Rect rarityRect = new Rect(rect.x + SPRITE_FIELD_SIZE + SPACING, rect.y, rect.width - (SPRITE_FIELD_SIZE + SPACING), EditorGUIUtility.singleLineHeight);
+        index = EditorGUI.Popup(rarityRect, "Rarity", index, rarities.Select(x => x.Name).ToArray());
+        obj.FindProperty("_rarity").objectReferenceValue = rarities[index];
+
+        rect.y += rarityRect.height + SPACING;
+        
+        //Max Stack Size
+        byte maxStackSize = (byte)obj.FindProperty("_maxStackSize").intValue;
+        Rect maxStackSizeRect = new Rect(rect.x + SPRITE_FIELD_SIZE + SPACING, rect.y, rect.width - (SPRITE_FIELD_SIZE + SPACING), EditorGUIUtility.singleLineHeight);
+        maxStackSize = (byte)EditorGUI.IntSlider(maxStackSizeRect, new GUIContent("Max Stack", ""), maxStackSize, 1, 255);
+        obj.FindProperty("_maxStackSize").intValue = maxStackSize;
+
+        rect.y += maxStackSizeRect.height + SPACING;
+
+        //Inventory Size
+        float widthOfSliderField = (((rect.width - EditorGUIUtility.labelWidth) - SPACING) / 2);
+        Rect labelRect = new Rect(rect.x, rect.y, EditorGUIUtility.labelWidth, EditorGUIUtility.singleLineHeight);
+        Rect xRect = new Rect(labelRect.x + labelRect.width, rect.y, widthOfSliderField, EditorGUIUtility.singleLineHeight);
+        Rect yRect = new Rect(xRect.x + xRect.width + SPACING, rect.y, widthOfSliderField, EditorGUIUtility.singleLineHeight);
+
+        IntVector2 value = item.InventorySize;
+        float oldWidth = EditorGUIUtility.labelWidth;
+        EditorGUIUtility.labelWidth = 12;
+
+        EditorGUI.LabelField(labelRect, "Size");
+        EditorGUI.IntSlider(xRect, "X", value.x, 1, ItemBase.LARGEST_SIZE);
+        EditorGUI.IntSlider(yRect, "Y", value.y, 1, ItemBase.LARGEST_SIZE);
+
+        EditorGUIUtility.labelWidth = oldWidth;
 
         obj.ApplyModifiedProperties();
     }

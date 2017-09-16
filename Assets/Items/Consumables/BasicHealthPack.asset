@@ -13,6 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rarity: {fileID: 11400000, guid: e1c0fb97900947f4dbda4ce1e570639b, type: 2}
   _name: Basic Health Pack
+  _description: 
   _inventorySize:
     _x: 1
     _y: 1

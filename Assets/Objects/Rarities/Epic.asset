@@ -13,3 +13,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _displayName: Epic
   _color: {r: 0.44313726, g: 0.14901961, b: 0.7764706, a: 1}
+  _orderWeigth: 3

@@ -13,3 +13,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _displayName: Rare
   _color: {r: 0.14901961, g: 0.49019608, b: 0.8, a: 1}
+  _orderWeigth: 2
