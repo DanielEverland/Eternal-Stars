@@ -105,11 +105,13 @@ public static class EG_EditorUtility {
         EditorGUIUtility.labelWidth = 12;
 
         EditorGUI.LabelField(labelRect, "Size");
-        EditorGUI.IntSlider(xRect, "X", value.x, 1, ItemBase.LARGEST_SIZE);
-        EditorGUI.IntSlider(yRect, "Y", value.y, 1, ItemBase.LARGEST_SIZE);
+        value.x = EditorGUI.IntSlider(xRect, "X", value.x, 1, ItemBase.LARGEST_SIZE);
+        value.y = EditorGUI.IntSlider(yRect, "Y", value.y, 1, ItemBase.LARGEST_SIZE);
 
         EditorGUIUtility.labelWidth = oldWidth;
 
+        item.GetType().GetField("_inventorySize", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(item, value);
+        
         obj.ApplyModifiedProperties();
     }
     public static Sprite DrawSprite(Rect rect, Sprite sprite, float size = SPRITE_FIELD_SIZE)
