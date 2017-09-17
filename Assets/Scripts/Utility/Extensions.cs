@@ -1,3 +1,4 @@
+using System.IO;
 using UnityEditor;
 using System;
 using System.Linq;
@@ -27,32 +28,31 @@ public static class Extensions {
             return false;
         }
     }
-    public static Texture2D ToTextureSafe(this Sprite sprite)
-    {
-        if (sprite.texture.IsReadable())
-        {
-            return ToTexture(sprite);
-        }
-        else
-        {
-            return sprite.texture;
-        }
-    }
+#if UNITY_EDITOR
     public static Texture2D ToTexture(this Sprite sprite)
     {
-        if (!sprite.HasMultiple())
-            return sprite.texture;
+        string pathToAsset = AssetDatabase.GetAssetPath(sprite);
+        string fixedDataPath = Application.dataPath.Replace("Assets", "");
+        string fullPath = fixedDataPath + pathToAsset;
 
-        Texture2D texture = new Texture2D((int)sprite.rect.width, (int)sprite.rect.height);
-        Color[] pixels = sprite.texture.GetPixels((int)sprite.textureRect.x,
+        Rect spriteRect = sprite.textureRect;
+        byte[] imageData = File.ReadAllBytes(fullPath);
+
+        Texture2D texture = new Texture2D(sprite.texture.width, sprite.texture.height, sprite.texture.format, sprite.texture.mipmapCount > 0);
+        texture.LoadImage(imageData);
+
+        Texture2D spriteTexture = new Texture2D((int)sprite.textureRect.width, (int)sprite.textureRect.height);
+        Color[] pixels = texture.GetPixels((int)sprite.textureRect.x,
                                                 (int)sprite.textureRect.y,
                                                 (int)sprite.textureRect.width,
                                                 (int)sprite.textureRect.height);
-        texture.SetPixels(pixels);
-        texture.Apply();
+        
+        spriteTexture.SetPixels(pixels);
+        spriteTexture.Apply();
 
-        return texture;
+        return spriteTexture;
     }
+#endif
     public static string ToHex(this Color color)
     {
         return string.Format("#{0}{1}{2}{3}",

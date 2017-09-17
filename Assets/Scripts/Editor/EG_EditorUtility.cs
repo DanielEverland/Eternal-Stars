@@ -121,7 +121,7 @@ public static class EG_EditorUtility {
 
         int controlID = EditorGUIUtility.GetControlID(FocusType.Passive);
         
-        if (GUI.Button(buttonRect, new GUIContent("", (sprite.texture.IsReadable() || !sprite.HasMultiple()) ? "" : "Enable texture read/write in importer"), SpriteButtonStyle))
+        if (GUI.Button(buttonRect, GUIContent.none, SpriteButtonStyle))
         {
             EditorGUIUtility.ShowObjectPicker<Sprite>(sprite, false, "", controlID);       
         }
@@ -135,9 +135,30 @@ public static class EG_EditorUtility {
         {
             if(sprite != null)
             {
-                Rect spriteRect = new Rect(buttonRect.x + SPRITE_TEXTURE_PADDING, buttonRect.y + SPRITE_TEXTURE_PADDING, buttonRect.width - SPRITE_TEXTURE_PADDING * 2, buttonRect.height - SPRITE_TEXTURE_PADDING * 2);
+                Texture2D texture = sprite.ToTexture();
+                spriteTextureStyle.normal.background = texture;
+                
+                int fittedWidth;
+                int fittedHeight;
+                float aspectRatio = (float)texture.height / (float)texture.width;
+                float availableWidth = buttonRect.width - SPRITE_TEXTURE_PADDING * 2;
+                float availableHeight = buttonRect.height - SPRITE_TEXTURE_PADDING * 2;
 
-                spriteTextureStyle.normal.background = sprite.ToTextureSafe();
+                if (texture.width > texture.height)
+                {
+                    fittedWidth = (int)availableWidth;
+                    fittedHeight = (int)((float)availableWidth * aspectRatio);
+                }
+                else
+                {
+                    fittedWidth = (int)((float)availableHeight / aspectRatio);
+                    fittedHeight = (int)availableHeight;
+                }
+
+                float yOffset = availableHeight / 2 - fittedHeight / 2;
+
+                Rect spriteRect = new Rect(buttonRect.x + SPRITE_TEXTURE_PADDING, buttonRect.y + SPRITE_TEXTURE_PADDING + yOffset, fittedWidth, fittedHeight);
+
                 spriteTextureStyle.Draw(spriteRect, GUIContent.none, false, false, false, false);        
             }
 
@@ -152,10 +173,6 @@ public static class EG_EditorUtility {
         if (sprite == null)
         {
             GUI.Label(buttonRect, "None\n(Sprite)");
-        }        
-        else if (!sprite.texture.IsReadable() && sprite.HasMultiple())
-        {
-            GUI.Label(buttonRect, "Proper\nPreview\nUnavailable");
         }
 
         return sprite;
