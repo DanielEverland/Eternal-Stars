@@ -113,6 +113,7 @@ public static class EG_EditorUtility {
         item.GetType().GetField("_inventorySize", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(item, value);
         
         obj.ApplyModifiedProperties();
+        GUILayoutUtility.GetRect(rect.width, rect.y + SPACING);
     }
     public static Sprite DrawSprite(Rect rect, Sprite sprite, float size = SPRITE_FIELD_SIZE)
     {
