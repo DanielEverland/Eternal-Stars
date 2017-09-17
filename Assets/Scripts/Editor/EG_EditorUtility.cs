@@ -57,7 +57,7 @@ public static class EG_EditorUtility {
     private static Texture2D SpriteFieldBackground { get { return ObjectImporter.SpriteFieldBackground; } }
     private static Texture2D SelectButtonBackground { get { return ObjectImporter.SelectButtonBackground; } }
     
-    public static void DrawEquipmentUI(Rect rect, EquipableItem item, SerializedObject obj)
+    public static void DrawItemBaseUI(Rect rect, ItemBase item, SerializedObject obj)
     {
         EditorGUIUtility.labelWidth = 70;
         obj.FindProperty("_icon").objectReferenceValue = DrawSprite(rect, item.Icon);

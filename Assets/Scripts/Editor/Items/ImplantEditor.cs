@@ -12,6 +12,6 @@ public class ImplantEditor : Editor {
     {
         Rect rect = EditorGUILayout.GetControlRect();
 
-        EG_EditorUtility.DrawEquipmentUI(rect, Target, serializedObject);
+        EG_EditorUtility.DrawItemBaseUI(rect, Target, serializedObject);
     }
 }
