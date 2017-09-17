@@ -121,9 +121,9 @@ public static class EG_EditorUtility {
 
         int controlID = EditorGUIUtility.GetControlID(FocusType.Passive);
         
-        if (GUI.Button(buttonRect, GUIContent.none, SpriteButtonStyle))
+        if (GUI.Button(buttonRect, new GUIContent("", (sprite.texture.IsReadable() || !sprite.HasMultiple()) ? "" : "Enable texture read/write in importer"), SpriteButtonStyle))
         {
-            EditorGUIUtility.ShowObjectPicker<Sprite>(sprite, false, "", controlID);
+            EditorGUIUtility.ShowObjectPicker<Sprite>(sprite, false, "", controlID);       
         }
         
         if(Event.current.commandName == "ObjectSelectorUpdated" && EditorGUIUtility.GetObjectPickerControlID() == controlID)
@@ -137,8 +137,8 @@ public static class EG_EditorUtility {
             {
                 Rect spriteRect = new Rect(buttonRect.x + SPRITE_TEXTURE_PADDING, buttonRect.y + SPRITE_TEXTURE_PADDING, buttonRect.width - SPRITE_TEXTURE_PADDING * 2, buttonRect.height - SPRITE_TEXTURE_PADDING * 2);
 
-                spriteTextureStyle.normal.background = sprite.texture;
-                spriteTextureStyle.Draw(spriteRect, GUIContent.none, false, false, false, false);
+                spriteTextureStyle.normal.background = sprite.ToTextureSafe();
+                spriteTextureStyle.Draw(spriteRect, GUIContent.none, false, false, false, false);        
             }
 
             //Draw select rect
@@ -146,13 +146,17 @@ public static class EG_EditorUtility {
             SelectButtonStyle.Draw(selectRect, GUIContent.none, 0);
         }
 
-        if(sprite == null)
-        {
-            GUIStyle style = GUI.skin.GetStyle("Label");
-            style.alignment = TextAnchor.UpperCenter;
+        GUIStyle labelStyle = GUI.skin.GetStyle("Label");
+        labelStyle.alignment = TextAnchor.UpperCenter;
 
+        if (sprite == null)
+        {
             GUI.Label(buttonRect, "None\n(Sprite)");
         }        
+        else if (!sprite.texture.IsReadable() && sprite.HasMultiple())
+        {
+            GUI.Label(buttonRect, "Proper\nPreview\nUnavailable");
+        }
 
         return sprite;
     }

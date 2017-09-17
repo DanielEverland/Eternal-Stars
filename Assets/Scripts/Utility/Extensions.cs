@@ -1,3 +1,4 @@
+using UnityEditor;
 using System;
 using System.Linq;
 using System.Collections;
@@ -7,7 +8,51 @@ using UnityEngine;
 public static class Extensions {
 
     private const int MAX_OUTPUT_ARRAY_LENGTH = 100;
+    
+    public static bool HasMultiple(this Sprite sprite)
+    {
+        string assetPath = AssetDatabase.GetAssetPath(sprite);
+        
+        return AssetDatabase.LoadAllAssetsAtPath(assetPath).OfType<Sprite>().ToArray().Length > 1;
+    }
+    public static bool IsReadable(this Texture2D texture)
+    {
+        try
+        {
+            texture.GetPixel(0, 0);
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+    public static Texture2D ToTextureSafe(this Sprite sprite)
+    {
+        if (sprite.texture.IsReadable())
+        {
+            return ToTexture(sprite);
+        }
+        else
+        {
+            return sprite.texture;
+        }
+    }
+    public static Texture2D ToTexture(this Sprite sprite)
+    {
+        if (!sprite.HasMultiple())
+            return sprite.texture;
 
+        Texture2D texture = new Texture2D((int)sprite.rect.width, (int)sprite.rect.height);
+        Color[] pixels = sprite.texture.GetPixels((int)sprite.textureRect.x,
+                                                (int)sprite.textureRect.y,
+                                                (int)sprite.textureRect.width,
+                                                (int)sprite.textureRect.height);
+        texture.SetPixels(pixels);
+        texture.Apply();
+
+        return texture;
+    }
     public static string ToHex(this Color color)
     {
         return string.Format("#{0}{1}{2}{3}",
