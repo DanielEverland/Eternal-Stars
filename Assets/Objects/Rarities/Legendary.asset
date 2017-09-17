@@ -11,6 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 450bd00a40849d64c814b213a4d7ed3b, type: 3}
   m_Name: Legendary
   m_EditorClassIdentifier: 
-  _displayName: Rare
+  _displayName: Legendary
   _color: {r: 0.9843137, g: 0.5882353, b: 0.12156863, a: 1}
-  _orderWeigth: 4
+  _orderWeigth: 5
