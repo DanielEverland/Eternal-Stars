@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65b9627a1718ece4eb54eea8941089d4, type: 3}
   m_Name: BasicHealthPack
   m_EditorClassIdentifier: 
-  _rarity: {fileID: 11400000, guid: e1c0fb97900947f4dbda4ce1e570639b, type: 2}
+  _rarity: {fileID: 11400000, guid: f470069f73018d94fbb618a8b6836370, type: 2}
   _name: Basic Health Pack
   _description: 
   _inventorySize:
