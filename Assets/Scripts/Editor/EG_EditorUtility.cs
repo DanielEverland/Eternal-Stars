@@ -59,6 +59,7 @@ public static class EG_EditorUtility {
     
     public static void DrawItemBaseUI(Rect rect, ItemBase item, SerializedObject obj)
     {
+        float oldLabelWidth = EditorGUIUtility.labelWidth;
         EditorGUIUtility.labelWidth = 70;
         obj.FindProperty("_icon").objectReferenceValue = DrawSprite(rect, item.Icon);
 
@@ -114,6 +115,7 @@ public static class EG_EditorUtility {
         
         obj.ApplyModifiedProperties();
         GUILayoutUtility.GetRect(rect.width, rect.y + SPACING);
+        EditorGUIUtility.labelWidth = oldLabelWidth;
     }
     public static Sprite DrawSprite(Rect rect, Sprite sprite, float size = SPRITE_FIELD_SIZE)
     {
