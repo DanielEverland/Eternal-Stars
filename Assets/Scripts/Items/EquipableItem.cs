@@ -11,7 +11,12 @@ public abstract class EquipableItem : ItemBase {
 
     public bool UniqueEquipped { get { return _uniqueEquipped; } }
     public abstract EquipmentTypes EquipmentType { get; }
-        
+
+    private bool IsEquipped = false;
+    
+    public virtual void OnEquipped() { }
+    public virtual void OnUnequipped() { }
+
     public override string GetTooltipFooter()
     {
         return base.GetTooltipFooter() + ((UniqueEquipped == false) ? "\nNon-Unique" : "");

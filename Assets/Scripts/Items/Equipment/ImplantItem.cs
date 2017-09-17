@@ -15,7 +15,7 @@ public class ImplantItem : EquipableItem, ScriptableObjectManager<ItemTrigger>, 
     private List<ItemTrigger> _procTriggers;
     [SerializeField]
     private List<ItemAction> _procActions;
-    
+
     public override void OnCreatedInInspector()
     {
         _procTriggers = new List<ItemTrigger>();
@@ -33,6 +33,35 @@ public class ImplantItem : EquipableItem, ScriptableObjectManager<ItemTrigger>, 
     public override string GetTooltipContent()
     {
         return base.GetTooltipContent() + "\n" + Description;
+    }
+
+    private void OnTrigger()
+    {
+        float randomNumber = UnityEngine.Random.Range(0, 1);
+
+        if (randomNumber > _procChance)
+            return;
+
+        for (int i = 0; i < _procActions.Count; i++)
+        {
+            _procActions[i].DoAction();
+        }
+    }
+    public override void OnEquipped()
+    {
+        for (int i = 0; i < _procTriggers.Count; i++)
+        {
+            _procTriggers[i].OnSubscribe();
+            _procTriggers[i].OnTrigger += OnTrigger;
+        }
+    }
+    public override void OnUnequipped()
+    {
+        for (int i = 0; i < _procTriggers.Count; i++)
+        {
+            _procTriggers[i].OnUnsubscribe();
+            _procTriggers[i].OnTrigger -= OnTrigger;
+        }
     }
 
 #if UNITY_EDITOR

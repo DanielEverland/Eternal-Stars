@@ -7,6 +7,8 @@ using UnityEngine;
 public class EquipmentContainer : IContainerBase {
 
     public event Action OnUpdate;
+    public event Action<EquipableItem> OnItemAdded;
+    public event Action<EquipableItem> OnItemRemoved;
 
     public IEnumerable<EquipmentSlotIdentifier> SlotKeys { get { return equippedItems.Keys; } }
     public IEnumerable<ItemStack> Stacks { get { return equippedItems.Values.Where(x => x != null); } }
@@ -62,10 +64,7 @@ public class EquipmentContainer : IContainerBase {
 
             equippedItems[key.Value] = new ItemStack(item, this);
 
-            if(OnUpdate != null)
-            {
-                OnUpdate.Invoke();
-            }
+            ItemAdded(item);
 
             return true;
         }
@@ -120,8 +119,7 @@ public class EquipmentContainer : IContainerBase {
 
         equippedItems[slotIdentifier] = stack;
 
-        if (OnUpdate != null)
-            OnUpdate.Invoke();
+        ItemAdded(stack.Item as EquipableItem);
     }
     public void Remove(ItemStack stack)
     {
@@ -143,10 +141,9 @@ public class EquipmentContainer : IContainerBase {
     }
     public void Remove(EquipmentSlotIdentifier slotIdentifier)
     {
-        equippedItems[slotIdentifier] = null;
+        ItemRemoved(equippedItems[slotIdentifier].Item as EquipableItem);
 
-        if (OnUpdate != null)
-            OnUpdate.Invoke();
+        equippedItems[slotIdentifier] = null;
     }
     public bool Contains(EquipmentSlotIdentifier slotIdentifier)
     {
@@ -175,6 +172,29 @@ public class EquipmentContainer : IContainerBase {
         }
 
         return false;
+    }
+    public void ItemAdded(EquipableItem item)
+    {
+        item.OnEquipped();
+
+        if (OnItemAdded != null)
+            OnItemAdded.Invoke(item);
+
+        Update();
+    }
+    public void ItemRemoved(EquipableItem item)
+    {
+        item.OnUnequipped();
+
+        if (OnItemRemoved != null)
+            OnItemRemoved.Invoke(item);
+
+        Update();
+    }
+    private void Update()
+    {
+        if (OnUpdate != null)
+            OnUpdate.Invoke();
     }
 }
 public struct EquipmentSlotIdentifier

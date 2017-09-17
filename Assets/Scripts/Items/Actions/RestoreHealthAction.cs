@@ -19,7 +19,7 @@ public class RestoreHealthAction : ItemAction {
         }
     }
 
-    public override void DoAction(ItemStack caller)
+    public override void DoAction()
     {
         ActionOverTimeManager.AddFloatEntry(AddHealthToPlayer, HealthPointsToRestore, TimeToRestore);
     }

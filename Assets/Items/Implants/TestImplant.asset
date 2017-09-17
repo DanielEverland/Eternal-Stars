@@ -20,7 +20,7 @@ MonoBehaviour:
   _icon: {fileID: 21300000, guid: dabaa5a0d61578941ac45b41f342fbd0, type: 3}
   _maxStackSize: 1
   _uniqueEquipped: 1
-  _procChance: 1
+  _procChance: 0.1
   _procTriggers:
   - {fileID: 114054120439763508}
   _procActions:
