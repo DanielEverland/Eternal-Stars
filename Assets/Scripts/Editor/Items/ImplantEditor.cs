@@ -10,6 +10,6 @@ public class ImplantEditor : Editor {
 
     public override void OnInspectorGUI()
     {
-        EG_EditorUtility.DrawEquipableItemUI(Target, serializedObject);
+        EG_EditorUtility.DrawImplantUI(Target, serializedObject);
     }
 }

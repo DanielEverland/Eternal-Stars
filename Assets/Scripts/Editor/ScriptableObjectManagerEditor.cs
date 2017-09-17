@@ -40,7 +40,7 @@ public static class ScriptableObjectManagerEditor {
     private const float FOOTER_WIDTH = 40;
     private const float FOOTER_HEIGHT = 50;
 
-    public static List<T> DrawScriptableObjectList<T>(string label, List<T> list, List<Type> availableTypes, ScriptableObjectManager objectOwner) where T : ScriptableObject
+    public static List<T> DrawScriptableObjectList<T>(string label, List<T> list, List<Type> availableTypes, ScriptableObjectManager<T> objectOwner) where T : ScriptableObject
     {
         if (availableTypes.Count <= 0)
         {
@@ -62,7 +62,7 @@ public static class ScriptableObjectManagerEditor {
 
         return list;
     }
-    private static void DrawFooter<T>(Rect rect, List<T> list, List<Type> availableTypes, ScriptableObjectManager objectOwner) where T : ScriptableObject
+    private static void DrawFooter<T>(Rect rect, List<T> list, List<Type> availableTypes, ScriptableObjectManager<T> objectOwner) where T : ScriptableObject
     {
         if(Event.current.type == EventType.Repaint)
         {
@@ -76,7 +76,7 @@ public static class ScriptableObjectManagerEditor {
             objectOwner.CreateObject(availableTypes[0]);
         }
     }
-    private static void DrawElements<T>(List<T> list, List<Type> availableTypes, ScriptableObjectManager objectOwner) where T : ScriptableObject
+    private static void DrawElements<T>(List<T> list, List<Type> availableTypes, ScriptableObjectManager<T> objectOwner) where T : ScriptableObject
     {
         for (int i = 0; i < list.Count; i++)
         {
@@ -106,7 +106,7 @@ public static class ScriptableObjectManagerEditor {
             EditorGUI.indentLevel--;
         }
     }
-    private static void DrawElementProperties<T>(T obj, List<Type> availableTypes, ScriptableObjectManager objectOwner) where T : ScriptableObject
+    private static void DrawElementProperties<T>(T obj, List<Type> availableTypes, ScriptableObjectManager<T> objectOwner) where T : ScriptableObject
     {
         SerializedObject serializedObject = new SerializedObject(obj);
         serializedObject.Update();
@@ -120,7 +120,7 @@ public static class ScriptableObjectManagerEditor {
 
         serializedObject.ApplyModifiedProperties();
     }
-    private static bool DrawElementHeader<T>(T obj, Rect rect, List<Type> availableTypes, ScriptableObjectManager objectOwner) where T : ScriptableObject
+    private static bool DrawElementHeader<T>(T obj, Rect rect, List<Type> availableTypes, ScriptableObjectManager<T> objectOwner) where T : ScriptableObject
     {
         bool deletedObject = false;
 
@@ -134,7 +134,8 @@ public static class ScriptableObjectManagerEditor {
 
         if (newIndex != elementIndex)
         {
-            objectOwner.ChangeObjectType(obj, availableTypes[newIndex]);
+            objectOwner.RemoveObject(obj);
+            objectOwner.CreateObject(availableTypes[newIndex]);
         }
 
         //Delete button

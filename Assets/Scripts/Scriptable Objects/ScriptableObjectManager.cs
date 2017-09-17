@@ -1,9 +1,8 @@
 using System;
 using UnityEngine;
 
-public interface ScriptableObjectManager {
+public interface ScriptableObjectManager<T> {
 
     void CreateObject(Type type);
     void RemoveObject(ScriptableObject source);
-    void ChangeObjectType(ScriptableObject source, Type target);
 }

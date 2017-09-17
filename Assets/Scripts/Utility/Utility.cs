@@ -7,8 +7,19 @@ using UnityEngine;
 public class Utility : MonoBehaviour {
 
     public const int CREATE_ASSET_ORDER_ID = 200;
-    
-    public static ItemBase CreateItemAndRaname<T>() where T : ItemBase
+
+    public static T CreateObject<T>(System.Type type, ScriptableObject target) where T : ScriptableObject
+    {
+        T newAction = ScriptableObject.CreateInstance(type) as T;
+        newAction.hideFlags = HideFlags.HideInHierarchy;
+        AssetDatabase.AddObjectToAsset(newAction, target);
+        AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(newAction));
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+
+        return newAction;
+    }
+    public static ItemBase CreateItemAndRename<T>() where T : ItemBase
     {
         ItemBase item = ScriptableObject.CreateInstance<T>();
 

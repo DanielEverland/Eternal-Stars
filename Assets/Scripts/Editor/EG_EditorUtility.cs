@@ -57,13 +57,13 @@ public static class EG_EditorUtility {
     private static Texture2D SpriteFieldBackground { get { return ObjectImporter.SpriteFieldBackground; } }
     private static Texture2D SelectButtonBackground { get { return ObjectImporter.SelectButtonBackground; } }
     
-    public static void DrawImplantUI(EquipableItem item, SerializedObject obj)
+    public static void DrawImplantUI(ImplantItem item, SerializedObject obj)
     {
         DrawEquipableItemUI(item, obj);
 
         Rect rect = EditorGUILayout.GetControlRect();
         float oldLabelWidth = EditorGUIUtility.labelWidth;
-        EditorGUIUtility.labelWidth = 70;
+        EditorGUIUtility.labelWidth = 80;
 
         SerializedProperty property = null;
 
@@ -72,8 +72,11 @@ public static class EG_EditorUtility {
         Rect procChanceRect = new Rect(rect.x, rect.y, rect.width, EditorGUIUtility.singleLineHeight);
         property.floatValue = EditorGUI.Slider(procChanceRect, "Proc Chance", property.floatValue, 0, 1);
 
+        //Proc triggers
+        List<ItemTrigger> triggers = (List<ItemTrigger>)item.GetType().GetField("_procTriggers").GetValue(item);
+        triggers = DrawScriptableObjectList("Proc Triggers", triggers, ItemActionManager.AvailableActions, item);
+
         obj.ApplyModifiedProperties();
-        GUILayoutUtility.GetRect(rect.width, rect.y);
         EditorGUIUtility.labelWidth = oldLabelWidth;
     }
     public static void DrawEquipableItemUI(EquipableItem item, SerializedObject obj)
@@ -97,7 +100,6 @@ public static class EG_EditorUtility {
         rect.y += uniqueEquippedRect.height + SPACING;
 
         obj.ApplyModifiedProperties();
-        GUILayoutUtility.GetRect(rect.width, rect.y);
         EditorGUIUtility.labelWidth = oldLabelWidth;
     }
     public static void DrawItemBaseUI(ItemBase item, SerializedObject obj)
@@ -226,7 +228,7 @@ public static class EG_EditorUtility {
 
         return sprite;
     }
-    public static List<T> DrawScriptableObjectList<T>(string label, List<T> list, List<Type> availableTypes, ScriptableObjectManager objectOwner) where T : ScriptableObject
+    public static List<T> DrawScriptableObjectList<T>(string label, List<T> list, List<Type> availableTypes, ScriptableObjectManager<T> objectOwner) where T : ScriptableObject
     {
         return ScriptableObjectManagerEditor.DrawScriptableObjectList<T>(label, list, availableTypes, objectOwner);
     }
