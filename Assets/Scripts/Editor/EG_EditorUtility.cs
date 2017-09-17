@@ -57,6 +57,25 @@ public static class EG_EditorUtility {
     private static Texture2D SpriteFieldBackground { get { return ObjectImporter.SpriteFieldBackground; } }
     private static Texture2D SelectButtonBackground { get { return ObjectImporter.SelectButtonBackground; } }
     
+    public static void DrawImplantUI(EquipableItem item, SerializedObject obj)
+    {
+        DrawEquipableItemUI(item, obj);
+
+        Rect rect = EditorGUILayout.GetControlRect();
+        float oldLabelWidth = EditorGUIUtility.labelWidth;
+        EditorGUIUtility.labelWidth = 70;
+
+        SerializedProperty property = null;
+
+        //Proc chance
+        property = obj.FindProperty("_procChance");
+        Rect procChanceRect = new Rect(rect.x, rect.y, rect.width, EditorGUIUtility.singleLineHeight);
+        property.floatValue = EditorGUI.Slider(procChanceRect, "Proc Chance", property.floatValue, 0, 1);
+
+        obj.ApplyModifiedProperties();
+        GUILayoutUtility.GetRect(rect.width, rect.y);
+        EditorGUIUtility.labelWidth = oldLabelWidth;
+    }
     public static void DrawEquipableItemUI(EquipableItem item, SerializedObject obj)
     {
         DrawItemBaseUI(item, obj);
@@ -65,13 +84,14 @@ public static class EG_EditorUtility {
         float oldLabelWidth = EditorGUIUtility.labelWidth;
         EditorGUIUtility.labelWidth = 70;
 
+        SerializedProperty property = null;
+
         //Unique equipped
         float preUniqueEquippedLabelWidth = EditorGUIUtility.labelWidth;
         EditorGUIUtility.labelWidth = 80;
         Rect uniqueEquippedRect = new Rect(rect.x, rect.y, rect.width / 2, EditorGUIUtility.singleLineHeight);
-        bool isUniqueEquipped = obj.FindProperty("_uniqueEquipped").boolValue;
-        isUniqueEquipped = EditorGUI.Toggle(uniqueEquippedRect, "Unique Equip", isUniqueEquipped);
-        obj.FindProperty("_uniqueEquipped").boolValue = isUniqueEquipped;
+        property = obj.FindProperty("_uniqueEquipped");
+        property.boolValue = EditorGUI.Toggle(uniqueEquippedRect, "Unique Equip", property.boolValue);
         EditorGUIUtility.labelWidth = preUniqueEquippedLabelWidth;
 
         rect.y += uniqueEquippedRect.height + SPACING;
@@ -86,19 +106,22 @@ public static class EG_EditorUtility {
 
         float oldLabelWidth = EditorGUIUtility.labelWidth;
         EditorGUIUtility.labelWidth = 70;
+        SerializedProperty property = null;
+
+        //Sprite
         obj.FindProperty("_icon").objectReferenceValue = DrawSprite(rect, item.Icon);
 
         //Name
+        property = obj.FindProperty("_name");
         Rect nameRect = new Rect(rect.x + SPRITE_FIELD_SIZE + SPACING, rect.y, rect.width - (SPRITE_FIELD_SIZE + SPACING), NAME_HEIGHT);
-        obj.FindProperty("_name").stringValue = EditorGUI.TextField(nameRect, item.Name, largeTextFieldStyle);
+        property.stringValue = EditorGUI.TextField(nameRect, property.stringValue, largeTextFieldStyle);
 
         rect.y += nameRect.height + SPACING;
 
         //Description
-        string description = obj.FindProperty("_description").stringValue;
+        property = obj.FindProperty("_description");
         Rect descriptionRect = new Rect(rect.x + SPRITE_FIELD_SIZE + SPACING, rect.y, rect.width - (SPRITE_FIELD_SIZE + SPACING), EditorGUIUtility.singleLineHeight);
-        description = EditorGUI.TextField(descriptionRect, new GUIContent("Description", item.Description), description);
-        obj.FindProperty("_description").stringValue = description;
+        property.stringValue = EditorGUI.TextField(descriptionRect, new GUIContent("Description", item.Description), property.stringValue);
 
         rect.y += descriptionRect.height + SPACING;
         
@@ -113,10 +136,9 @@ public static class EG_EditorUtility {
         rect.y += rarityRect.height + SPACING;
         
         //Max Stack Size
-        byte maxStackSize = (byte)obj.FindProperty("_maxStackSize").intValue;
+        property = obj.FindProperty("_maxStackSize");
         Rect maxStackSizeRect = new Rect(rect.x + SPRITE_FIELD_SIZE + SPACING, rect.y, rect.width - (SPRITE_FIELD_SIZE + SPACING), EditorGUIUtility.singleLineHeight);
-        maxStackSize = (byte)EditorGUI.IntSlider(maxStackSizeRect, new GUIContent("Max Stack", ""), maxStackSize, 1, 255);
-        obj.FindProperty("_maxStackSize").intValue = maxStackSize;
+        property.intValue = EditorGUI.IntSlider(maxStackSizeRect, new GUIContent("Max Stack", ""), property.intValue, 1, 255);
 
         rect.y += maxStackSizeRect.height + SPACING;
 
