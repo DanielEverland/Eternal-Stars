@@ -10,9 +10,8 @@ public class ConsumableItemEditor : Editor {
 
     public override void OnInspectorGUI()
     {
-        EG_EditorUtility.DrawItemBaseUI(EditorGUILayout.GetControlRect(), Target, serializedObject);
+        EG_EditorUtility.DrawItemBaseUI(Target, serializedObject);
         
-
         DrawConsumableItem();
     }
     private void DrawConsumableItem()

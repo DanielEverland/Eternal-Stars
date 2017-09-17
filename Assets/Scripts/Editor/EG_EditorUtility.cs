@@ -57,8 +57,33 @@ public static class EG_EditorUtility {
     private static Texture2D SpriteFieldBackground { get { return ObjectImporter.SpriteFieldBackground; } }
     private static Texture2D SelectButtonBackground { get { return ObjectImporter.SelectButtonBackground; } }
     
-    public static void DrawItemBaseUI(Rect rect, ItemBase item, SerializedObject obj)
+    public static void DrawEquipableItemUI(EquipableItem item, SerializedObject obj)
     {
+        DrawItemBaseUI(item, obj);
+
+        Rect rect = EditorGUILayout.GetControlRect();
+        float oldLabelWidth = EditorGUIUtility.labelWidth;
+        EditorGUIUtility.labelWidth = 70;
+
+        //Unique equipped
+        float preUniqueEquippedLabelWidth = EditorGUIUtility.labelWidth;
+        EditorGUIUtility.labelWidth = 80;
+        Rect uniqueEquippedRect = new Rect(rect.x, rect.y, rect.width / 2, EditorGUIUtility.singleLineHeight);
+        bool isUniqueEquipped = obj.FindProperty("_uniqueEquipped").boolValue;
+        isUniqueEquipped = EditorGUI.Toggle(uniqueEquippedRect, "Unique Equip", isUniqueEquipped);
+        obj.FindProperty("_uniqueEquipped").boolValue = isUniqueEquipped;
+        EditorGUIUtility.labelWidth = preUniqueEquippedLabelWidth;
+
+        rect.y += uniqueEquippedRect.height + SPACING;
+
+        obj.ApplyModifiedProperties();
+        GUILayoutUtility.GetRect(rect.width, rect.y);
+        EditorGUIUtility.labelWidth = oldLabelWidth;
+    }
+    public static void DrawItemBaseUI(ItemBase item, SerializedObject obj)
+    {
+        Rect rect = EditorGUILayout.GetControlRect();
+
         float oldLabelWidth = EditorGUIUtility.labelWidth;
         EditorGUIUtility.labelWidth = 70;
         obj.FindProperty("_icon").objectReferenceValue = DrawSprite(rect, item.Icon);
@@ -114,7 +139,7 @@ public static class EG_EditorUtility {
         item.GetType().GetField("_inventorySize", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(item, value);
         
         obj.ApplyModifiedProperties();
-        GUILayoutUtility.GetRect(rect.width, rect.y + SPACING);
+        GUILayoutUtility.GetRect(rect.width, rect.y);
         EditorGUIUtility.labelWidth = oldLabelWidth;
     }
     public static Sprite DrawSprite(Rect rect, Sprite sprite, float size = SPRITE_FIELD_SIZE)

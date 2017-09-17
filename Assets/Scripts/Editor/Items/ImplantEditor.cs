@@ -10,8 +10,6 @@ public class ImplantEditor : Editor {
 
     public override void OnInspectorGUI()
     {
-        Rect rect = EditorGUILayout.GetControlRect();
-
-        EG_EditorUtility.DrawItemBaseUI(rect, Target, serializedObject);
+        EG_EditorUtility.DrawEquipableItemUI(Target, serializedObject);
     }
 }
