@@ -15,6 +15,12 @@ public class ImplantItem : EquipableItem, ScriptableObjectManager<ItemTrigger>, 
     private List<ItemTrigger> _procTriggers;
     [SerializeField]
     private List<ItemAction> _procActions;
+    
+    public override void OnCreatedInInspector()
+    {
+        _procTriggers = new List<ItemTrigger>();
+        _procActions = new List<ItemAction>();
+    }
 
     public override string Description
     {

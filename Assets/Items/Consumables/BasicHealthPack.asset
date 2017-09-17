@@ -34,16 +34,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HealthPointsToRestore: 100
   TimeToRestore: 2
---- !u!114 &114976049626209370
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d35fe1b12809b09469f21145dd3e8adc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HealthPointsToRestore: 100
-  TimeToRestore: 2

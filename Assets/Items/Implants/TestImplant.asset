@@ -20,6 +20,32 @@ MonoBehaviour:
   _icon: {fileID: 21300000, guid: dabaa5a0d61578941ac45b41f342fbd0, type: 3}
   _maxStackSize: 1
   _uniqueEquipped: 1
-  _procChance: 0.645
-  _procTriggers: []
-  _procActions: []
+  _procChance: 1
+  _procTriggers:
+  - {fileID: 114054120439763508}
+  _procActions:
+  - {fileID: 114214449571985412}
+--- !u!114 &114054120439763508
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30cd100965488a74eb055facda7721df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114214449571985412
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d35fe1b12809b09469f21145dd3e8adc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HealthPointsToRestore: 5
+  TimeToRestore: 2

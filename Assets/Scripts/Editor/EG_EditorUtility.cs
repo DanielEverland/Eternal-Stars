@@ -72,9 +72,14 @@ public static class EG_EditorUtility {
         Rect procChanceRect = new Rect(rect.x, rect.y, rect.width, EditorGUIUtility.singleLineHeight);
         property.floatValue = EditorGUI.Slider(procChanceRect, "Proc Chance", property.floatValue, 0, 1);
 
+        EditorGUIUtility.labelWidth = oldLabelWidth;
         //Proc triggers
-        List<ItemTrigger> triggers = (List<ItemTrigger>)item.GetType().GetField("_procTriggers").GetValue(item);
-        triggers = DrawScriptableObjectList("Proc Triggers", triggers, ItemActionManager.AvailableActions, item);
+        List<ItemTrigger> triggers = (List<ItemTrigger>)item.GetType().GetField("_procTriggers", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(item);
+        triggers = DrawScriptableObjectList("Proc Triggers", triggers, ItemTriggerManager.AvailableActions, item);
+
+        //Proc triggers
+        List<ItemAction> actions = (List<ItemAction>)item.GetType().GetField("_procActions", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(item);
+        actions = DrawScriptableObjectList("Proc Actions", actions, ItemActionManager.AvailableActions, item);
 
         obj.ApplyModifiedProperties();
         EditorGUIUtility.labelWidth = oldLabelWidth;
