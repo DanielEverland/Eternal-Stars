@@ -7,7 +7,19 @@ using UnityEngine;
 
 public static class ItemActionManager {
 
-    public static List<Type> AvailableActions { get; set; }
+    public static List<Type> AvailableActions
+    {
+        get
+        {
+            if (_availableActions == null)
+            {
+                CreateActionReferences();
+            }
+
+            return _availableActions;
+        }
+    }
+    private static List<Type> _availableActions;
 
     [UnityEditor.Callbacks.DidReloadScripts]
     private static void OnScriptsReloaded()
@@ -16,13 +28,13 @@ public static class ItemActionManager {
     }
     private static void CreateActionReferences()
     {
-        AvailableActions = new List<Type>();
+        _availableActions = new List<Type>();
 
         foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
         {
             IEnumerable<Type> actions = assembly.GetTypes().Where(x => typeof(ItemAction).IsAssignableFrom(x) && !x.IsAbstract);
 
-            AvailableActions.AddRange(actions);
+            _availableActions.AddRange(actions);
         }
     }
 }

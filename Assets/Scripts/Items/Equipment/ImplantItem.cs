@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditorInternal;
 
 public class ImplantItem : EquipableItem, ScriptableObjectManager<ItemTrigger>, ScriptableObjectManager<ItemAction> {
 
@@ -65,6 +66,37 @@ public class ImplantItem : EquipableItem, ScriptableObjectManager<ItemTrigger>, 
     }
 
 #if UNITY_EDITOR
+    string ScriptableObjectManager<ItemAction>.ListHeader { get { return "Proc Actions"; } }
+    List<Type> ScriptableObjectManager<ItemAction>.AvailableTypes { get { return ItemActionManager.AvailableActions; } }
+    ReorderableList ScriptableObjectManager<ItemAction>.ReorderableList
+    {
+        get
+        {
+            if (itemActionReorderableList == null)
+            {
+                itemActionReorderableList = new ReorderableList(_procActions, typeof(ItemAction));
+            }
+
+            return itemActionReorderableList;
+        }
+    }
+    string ScriptableObjectManager<ItemTrigger>.ListHeader { get { return "Proc Triggers"; } }
+    List<Type> ScriptableObjectManager<ItemTrigger>.AvailableTypes { get { return ItemTriggerManager.AvailableTriggers; } }
+    ReorderableList ScriptableObjectManager<ItemTrigger>.ReorderableList
+    {
+        get
+        {
+            if (itemTriggerReorderableList == null)
+            {
+                itemTriggerReorderableList = new ReorderableList(_procTriggers, typeof(ItemAction));
+            }
+
+            return itemTriggerReorderableList;
+        }
+    }
+    private ReorderableList itemActionReorderableList;
+    private ReorderableList itemTriggerReorderableList;
+
     [MenuItem("Assets/Create/Items/Implant", priority = Utility.CREATE_ASSET_ORDER_ID)]
     private static void CreateAssetImplant()
     {

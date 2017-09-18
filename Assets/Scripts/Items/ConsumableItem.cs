@@ -1,3 +1,4 @@
+using UnityEditorInternal;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -35,6 +36,22 @@ public class ConsumableItem : ItemBase, ScriptableObjectManager<ItemAction> {
     }
 
 #if UNITY_EDITOR
+    string ScriptableObjectManager<ItemAction>.ListHeader { get { return "On Consumed Action"; } }
+    List<Type> ScriptableObjectManager<ItemAction>.AvailableTypes { get { return ItemActionManager.AvailableActions; } }
+    ReorderableList ScriptableObjectManager<ItemAction>.ReorderableList
+    {
+        get
+        {
+            if(reorderableList == null)
+            {
+                reorderableList = new ReorderableList(OnConsumeActions, typeof(ItemAction));
+            }
+
+            return reorderableList;
+        }
+    }
+    private ReorderableList reorderableList;
+
     [MenuItem("Assets/Create/Items/Implant", priority = Utility.CREATE_ASSET_ORDER_ID)]
     private static void CreateAssetImplant()
     {
@@ -48,9 +65,9 @@ public class ConsumableItem : ItemBase, ScriptableObjectManager<ItemAction> {
     {
         int index = OnConsumeActions.IndexOf((ItemAction)source);
 
-        DestroyImmediate(source, true);
-
         OnConsumeActions.RemoveAt(index);
+
+        DestroyImmediate(source, true);
     }
 #endif
 }

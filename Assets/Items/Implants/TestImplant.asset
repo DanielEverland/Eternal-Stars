@@ -22,10 +22,10 @@ MonoBehaviour:
   _uniqueEquipped: 1
   _procChance: 0.1
   _procTriggers:
-  - {fileID: 114054120439763508}
+  - {fileID: 114081036858004270}
   _procActions:
-  - {fileID: 114214449571985412}
---- !u!114 &114054120439763508
+  - {fileID: 114508119938818682}
+--- !u!114 &114081036858004270
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -36,7 +36,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30cd100965488a74eb055facda7721df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114214449571985412
+--- !u!114 &114508119938818682
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -47,5 +47,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d35fe1b12809b09469f21145dd3e8adc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HealthPointsToRestore: 5
+  HealthPointsToRestore: 100
   TimeToRestore: 2

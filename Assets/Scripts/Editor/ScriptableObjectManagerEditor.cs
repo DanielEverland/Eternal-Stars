@@ -1,3 +1,4 @@
+using UnityEditorInternal;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,165 +8,102 @@ using UnityEditor;
 using UnityEngine;
 
 public static class ScriptableObjectManagerEditor {
+        
+    private const float ELEMENT_SPACING = 3;
 
-    private static GUIContent iconToolbarPlus = EditorGUIUtility.IconContent("Toolbar Plus", "|Add to list");
+    private static string currentHeaderLabel;
+    private static List<Type> currentAvailableTypes;
 
-    private static readonly GUIStyle headerBackground = "RL Header";
-    private static readonly GUIStyle footerBackground = "RL Footer";
-    private static readonly GUIStyle footerButton = "RL FooterButton";
-    private static readonly GUIStyle elementBackground = "RL Background";
-
-    private static GUIStyle elementLabelStyle
+    private static Action<int> createItemDelegate;
+    private static Action<int> removeItemDelegate;
+    private static Func<int, ScriptableObject> getObjectDelegate;
+    
+    public static List<T> DrawScriptableObjectList<T>(ScriptableObjectManager<T> objectOwner) where T : ScriptableObject
     {
-        get
-        {
-            if(true)
-            {
-                _elementLabelStyle = new GUIStyle(EditorStyles.label);
+        currentAvailableTypes = objectOwner.AvailableTypes;
+        ReorderableList reorderableList = objectOwner.ReorderableList;
+        List<T> list = (List<T>)reorderableList.list;
 
-                _elementLabelStyle.active.textColor = Color.white;
-            }
-
-            return _elementLabelStyle;
-        }
-    }
-    private static GUIStyle _elementLabelStyle;
-
-    private const float HEADER_HEIGHT = 18;
-    private const float OBJECT_FOOTER_PADDING = 8;
-    private const float ELEMENT_PADDING = 5;
-    private const float DELETE_BUTTON_WIDTH = 50;
-    private const float DELETE_BUTTON_HEIGHT = 14;
-
-    private const float FOOTER_WIDTH = 40;
-    private const float FOOTER_HEIGHT = 50;
-
-    public static List<T> DrawScriptableObjectList<T>(string label, List<T> list, List<Type> availableTypes, ScriptableObjectManager<T> objectOwner) where T : ScriptableObject
-    {
-        if (availableTypes.Count <= 0)
+        if (currentAvailableTypes.Count <= 0)
         {
             Debug.LogWarning("No available types");
             return list;
         }
 
-        Rect headerRect = GUILayoutUtility.GetRect(0, HEADER_HEIGHT, new GUILayoutOption[] { GUILayout.ExpandWidth(true), });
+        currentHeaderLabel = objectOwner.ListHeader;
+
+        createItemDelegate = x => { objectOwner.CreateObject(currentAvailableTypes[x]); };
+        removeItemDelegate = x => { objectOwner.RemoveObject(list[x]); };
+        getObjectDelegate = x => { return list[x]; };
+        reorderableList.elementHeightCallback = x => { return GetHeight(x); };
         
-        DrawHeader(headerRect, label);
-        DrawElements<T>(list, availableTypes, objectOwner);
-
-        Rect footerRect = GUILayoutUtility.GetRect(0, FOOTER_HEIGHT, new GUILayoutOption[] { GUILayout.ExpandWidth(true), });
-        footerRect.y += 2;
-        footerRect.x = footerRect.width - 26;
-        footerRect.width = FOOTER_WIDTH;
-
-        DrawFooter(footerRect, list, availableTypes, objectOwner);
+        reorderableList.drawHeaderCallback = DrawHeader;
+        reorderableList.onAddCallback = CreateItem;
+        reorderableList.onRemoveCallback = RemoveItem;
+        reorderableList.drawElementCallback = DrawElement;
+        
+        reorderableList.DoLayoutList();
 
         return list;
     }
-    private static void DrawFooter<T>(Rect rect, List<T> list, List<Type> availableTypes, ScriptableObjectManager<T> objectOwner) where T : ScriptableObject
+    private static void DrawElement(Rect rect, int index, bool isActive, bool isFocused)
     {
-        if(Event.current.type == EventType.Repaint)
-        {
-            footerBackground.Draw(rect, false, false, false, false);
-        }
-
-        rect.y -= 5;
-
-        if(GUI.Button(rect, iconToolbarPlus, footerButton))
-        {
-            objectOwner.CreateObject(availableTypes[0]);
-        }
+        DrawHeader(ref rect, index);
+        DrawFields(ref rect, index);
     }
-    private static void DrawElements<T>(List<T> list, List<Type> availableTypes, ScriptableObjectManager<T> objectOwner) where T : ScriptableObject
+    private static void DrawHeader(ref Rect rect, int index)
     {
-        for (int i = 0; i < list.Count; i++)
+        ScriptableObject obj = getObjectDelegate(index);
+        int selectedObjectIndex = currentAvailableTypes.IndexOf(obj.GetType());
+        int oldIndex = selectedObjectIndex;
+
+        selectedObjectIndex = EditorGUI.Popup(
+            new Rect(rect.x, rect.y, rect.width, EditorGUIUtility.singleLineHeight),
+            selectedObjectIndex,
+            currentAvailableTypes.Select(x => x.Name).ToArray());
+
+        if(oldIndex != selectedObjectIndex)
         {
-            T element = list[i];
-            
-            float elementHeight = GetElementHeight(element);
-            Rect elementHeaderRect = GUILayoutUtility.GetRect(0, EditorGUIUtility.singleLineHeight + ELEMENT_PADDING, new GUILayoutOption[] { GUILayout.ExpandWidth(true), });
-
-            if (Event.current.type == EventType.Repaint)
-            {
-                int propertyCount = EG_EditorUtility.GetSerializableFields(element.GetType()).Count;
-
-                elementBackground.Draw(new Rect(elementHeaderRect.x, elementHeaderRect.y, elementHeaderRect.width, (propertyCount + 1) * (EditorGUIUtility.singleLineHeight + ELEMENT_PADDING) + OBJECT_FOOTER_PADDING), true, false, false, false);
-            }
-
-            bool deletedObject = DrawElementHeader(element, elementHeaderRect, availableTypes, objectOwner);
-
-            if (deletedObject)
-                continue;
-
-            EditorGUI.indentLevel++;
-
-            DrawElementProperties(element, availableTypes, objectOwner);
-
-            GUILayoutUtility.GetRect(0, OBJECT_FOOTER_PADDING, new GUILayoutOption[] { GUILayout.ExpandWidth(true), });
-
-            EditorGUI.indentLevel--;
+            removeItemDelegate.Invoke(index);
+            createItemDelegate.Invoke(selectedObjectIndex);
         }
+
+        rect.y += EditorGUIUtility.singleLineHeight;
     }
-    private static void DrawElementProperties<T>(T obj, List<Type> availableTypes, ScriptableObjectManager<T> objectOwner) where T : ScriptableObject
+    private static void DrawFields(ref Rect rect, int index)
     {
-        SerializedObject serializedObject = new SerializedObject(obj);
+        SerializedObject serializedObject = new SerializedObject(getObjectDelegate(index));
         serializedObject.Update();
 
-        foreach (FieldInfo field in EG_EditorUtility.GetSerializableFields(obj.GetType()))
+        foreach (FieldInfo field in EG_EditorUtility.GetSerializableFields(serializedObject.targetObject.GetType()))
         {
             SerializedProperty property = serializedObject.FindProperty(field.Name);
 
-            EditorGUILayout.PropertyField(property);
+            EditorGUI.PropertyField(new Rect(rect.x, rect.y, rect.width, EditorGUIUtility.singleLineHeight), property);
+
+            rect.y += EditorGUIUtility.singleLineHeight + ELEMENT_SPACING;
         }
 
         serializedObject.ApplyModifiedProperties();
     }
-    private static bool DrawElementHeader<T>(T obj, Rect rect, List<Type> availableTypes, ScriptableObjectManager<T> objectOwner) where T : ScriptableObject
+    private static float GetHeight(int index)
     {
-        bool deletedObject = false;
+        SerializedObject serializedObject = new SerializedObject(getObjectDelegate(index));
 
-        Rect buttonRect = new Rect(rect.width - DELETE_BUTTON_WIDTH + 10, rect.y + 3, DELETE_BUTTON_WIDTH, EditorGUIUtility.singleLineHeight);
-        Rect popupRect = new Rect(rect.x + 5, rect.y + 4, rect.width - DELETE_BUTTON_WIDTH - 10, rect.height);
-        
-        //Popup
-        int elementIndex = availableTypes.IndexOf(obj.GetType());
-
-        int newIndex = EditorGUI.Popup(popupRect, elementIndex, availableTypes.Select(x => x.Name).ToArray());
-
-        if (newIndex != elementIndex)
-        {
-            objectOwner.RemoveObject(obj);
-            objectOwner.CreateObject(availableTypes[newIndex]);
-        }
-
-        //Delete button
-        if(GUI.Button(buttonRect, "Delete"))
-        {
-            deletedObject = true;
-
-            objectOwner.RemoveObject(obj);
-        }
-
-        return deletedObject;
+        return EditorGUIUtility.singleLineHeight + ELEMENT_SPACING //Header
+            + EG_EditorUtility.GetSerializableFields(serializedObject.targetObject.GetType()).Count
+                * (EditorGUIUtility.singleLineHeight + ELEMENT_SPACING); //Fields
     }
-    private static float GetElementHeight<T>(T obj)
+    private static void CreateItem(ReorderableList list)
     {
-        float height = 0;
-
-        //Type selection
-        height += EditorGUIUtility.singleLineHeight;
-        height += ELEMENT_PADDING;
-
-        return height;
+        createItemDelegate.Invoke(0);
     }
-    private static void DrawHeader(Rect rect, string label)
+    private static void RemoveItem(ReorderableList list)
     {
-        if (Event.current.type == EventType.Repaint)
-        {
-            headerBackground.Draw(rect, false, false, false, false);
-
-            rect.x += 4;
-            EditorGUI.LabelField(rect, label);
-        }
+        removeItemDelegate.Invoke(list.index);
+    }
+    private static void DrawHeader(Rect rect)
+    {
+        EditorGUI.LabelField(rect, currentHeaderLabel);
     }
 }

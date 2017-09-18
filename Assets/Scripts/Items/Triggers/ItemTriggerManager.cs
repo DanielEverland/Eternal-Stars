@@ -7,8 +7,20 @@ using UnityEngine;
 
 public static class ItemTriggerManager {
 
-    public static List<Type> AvailableActions { get; set; }
+    public static List<Type> AvailableTriggers
+    {
+        get
+        {
+            if(_availableTriggers == null)
+            {
+                CreateActionReferences();
+            }
 
+            return _availableTriggers;
+        }
+    }
+    private static List<Type> _availableTriggers;
+    
     [UnityEditor.Callbacks.DidReloadScripts]
     private static void OnScriptsReloaded()
     {
@@ -16,13 +28,13 @@ public static class ItemTriggerManager {
     }
     private static void CreateActionReferences()
     {
-        AvailableActions = new List<Type>();
+        _availableTriggers = new List<Type>();
 
         foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
         {
             IEnumerable<Type> actions = assembly.GetTypes().Where(x => typeof(ItemTrigger).IsAssignableFrom(x) && !x.IsAbstract);
 
-            AvailableActions.AddRange(actions);
+            _availableTriggers.AddRange(actions);
         }
     }
 }

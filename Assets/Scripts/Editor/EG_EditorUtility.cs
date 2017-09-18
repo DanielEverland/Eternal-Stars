@@ -75,11 +75,11 @@ public static class EG_EditorUtility {
         EditorGUIUtility.labelWidth = oldLabelWidth;
         //Proc triggers
         List<ItemTrigger> triggers = (List<ItemTrigger>)item.GetType().GetField("_procTriggers", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(item);
-        triggers = DrawScriptableObjectList("Proc Triggers", triggers, ItemTriggerManager.AvailableActions, item);
+        triggers = DrawScriptableObjectList<ItemTrigger>(item);
 
         //Proc triggers
         List<ItemAction> actions = (List<ItemAction>)item.GetType().GetField("_procActions", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(item);
-        actions = DrawScriptableObjectList("Proc Actions", actions, ItemActionManager.AvailableActions, item);
+        actions = DrawScriptableObjectList<ItemAction>(item);
 
         obj.ApplyModifiedProperties();
         EditorGUIUtility.labelWidth = oldLabelWidth;
@@ -233,9 +233,9 @@ public static class EG_EditorUtility {
 
         return sprite;
     }
-    public static List<T> DrawScriptableObjectList<T>(string label, List<T> list, List<Type> availableTypes, ScriptableObjectManager<T> objectOwner) where T : ScriptableObject
+    public static List<T> DrawScriptableObjectList<T>(ScriptableObjectManager<T> objectOwner) where T : ScriptableObject
     {
-        return ScriptableObjectManagerEditor.DrawScriptableObjectList<T>(label, list, availableTypes, objectOwner);
+        return ScriptableObjectManagerEditor.DrawScriptableObjectList<T>(objectOwner);
     }
     public static List<FieldInfo> GetSerializableFields(Type type)
     {
