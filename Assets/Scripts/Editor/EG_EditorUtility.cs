@@ -53,6 +53,7 @@ public static class EG_EditorUtility {
     private const float SPRITE_FIELD_SIZE = 80;
     private const float SELECT_WIDTH = 36;
     private const float SELECT_HEIGHT = 12;
+    private const int RARITY_INDICATOR_HEIGHT = 3;
 
     private static Texture2D SpriteFieldBackground { get { return ObjectImporter.SpriteFieldBackground; } }
     private static Texture2D SelectButtonBackground { get { return ObjectImporter.SelectButtonBackground; } }
@@ -137,12 +138,26 @@ public static class EG_EditorUtility {
         property.stringValue = EditorGUI.TextField(descriptionRect, new GUIContent("Description", item.Description), property.stringValue);
 
         rect.y += descriptionRect.height + SPACING;
-        
-        //Rarity
+
+        //-----Rarity-----
         List<Rarity> rarities = Rarity.AllRarities;
         Rarity rarity = obj.FindProperty("_rarity").objectReferenceValue as Rarity;
-        int index = rarities.IndexOf(rarity);
         Rect rarityRect = new Rect(rect.x + SPRITE_FIELD_SIZE + SPACING, rect.y, rect.width - (SPRITE_FIELD_SIZE + SPACING), EditorGUIUtility.singleLineHeight);
+
+        //Rarity Indicator
+        Rect indicatorRect = new Rect(rarityRect.x + EditorGUIUtility.labelWidth, rarityRect.y, rarityRect.width - EditorGUIUtility.labelWidth, RARITY_INDICATOR_HEIGHT);
+
+        for (int i = 0; i < RARITY_INDICATOR_HEIGHT; i++)
+        {
+            EditorGUI.DrawRect(indicatorRect, rarity.Color);
+
+            indicatorRect.y -= 1;
+            indicatorRect.x += 1;
+            indicatorRect.width -= 2;
+        }        
+
+        //Rarity Dropdown
+        int index = rarities.IndexOf(rarity);
         index = EditorGUI.Popup(rarityRect, "Rarity", index, rarities.Select(x => x.Name).ToArray());
         obj.FindProperty("_rarity").objectReferenceValue = rarities[index];
 
