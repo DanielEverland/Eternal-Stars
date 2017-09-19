@@ -13,7 +13,21 @@ public class ConsumableItem : ItemBase, ScriptableObjectManager<ItemAction> {
     public List<ItemAction> OnConsumeActions;
 
     public override string ItemType { get { return "Consumable"; } }
-    
+    public override string Description
+    {
+        get
+        {
+            string description = base.Description;
+
+            for (int i = 0; i < OnConsumeActions.Count; i++)
+            {
+                description += "\nUse: " + OnConsumeActions[i].Description;
+            }
+
+            return description;
+        }
+    }
+
     public override void OnRightClick(ItemStack stack)
     {
         for (int i = 0; i < OnConsumeActions.Count; i++)
@@ -25,14 +39,7 @@ public class ConsumableItem : ItemBase, ScriptableObjectManager<ItemAction> {
     }
     public override string GetTooltipContent()
     {
-        string content = base.GetTooltipContent();
-
-        for (int i = 0; i < OnConsumeActions.Count; i++)
-        {
-            content += "\nUse: " + OnConsumeActions[i].Description;
-        }
-
-        return content;
+        return Description;
     }
 
 #if UNITY_EDITOR
