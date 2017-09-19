@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class ItemIconElement : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
+public class ItemIconElement : MonoBehaviour {
 
     [SerializeField]
     private Image Icon;
@@ -16,6 +16,8 @@ public class ItemIconElement : MonoBehaviour, IPointerEnterHandler, IPointerExit
     private Graphic FrameGraphic;
     [SerializeField]
     private ColorSwatch ColorSwatch;
+    [SerializeField]
+    private MouseInputHandler InputHandler;
 
     public ItemStack Stack { get { return stack; } }
 
@@ -25,7 +27,7 @@ public class ItemIconElement : MonoBehaviour, IPointerEnterHandler, IPointerExit
     private ItemStack stack;
     private Action updateCallback;
 
-    private bool containsMouse;
+    private bool ContainsMouse { get { return InputHandler.ContainsMouse; } }
     private bool dragging;
     
     public void Initialize(ItemStack stack, Action updateCallback)
@@ -34,7 +36,6 @@ public class ItemIconElement : MonoBehaviour, IPointerEnterHandler, IPointerExit
         this.updateCallback = updateCallback;
 
         dragging = false;
-        containsMouse = false;
 
         stack.OnUpdate += SetProperties;
 
@@ -49,7 +50,7 @@ public class ItemIconElement : MonoBehaviour, IPointerEnterHandler, IPointerExit
     }
     private void Update()
     {
-        if (containsMouse && !dragging)
+        if (rectTransform.GetWorldRect().Contains(Input.mousePosition) && !dragging)
         {
             InventoryItemTooltipManager.Tick(stack.Item);
 
@@ -64,7 +65,7 @@ public class ItemIconElement : MonoBehaviour, IPointerEnterHandler, IPointerExit
     }
     private void DoAnimation()
     {
-        if (containsMouse)
+        if (ContainsMouse)
         {
             if(Input.GetKey(KeyCode.Mouse0) || Input.GetKey(KeyCode.Mouse1))
             {
@@ -86,7 +87,7 @@ public class ItemIconElement : MonoBehaviour, IPointerEnterHandler, IPointerExit
     }
     private void DoDragging()
     {
-        if (containsMouse && !dragging)
+        if (ContainsMouse && !dragging)
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
@@ -145,16 +146,6 @@ public class ItemIconElement : MonoBehaviour, IPointerEnterHandler, IPointerExit
     private void SetAmountLabel()
     {
         AmountLabel.text = (stack.ItemAmount > 1) ? stack.ItemAmount.ToString() : "";
-    }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        containsMouse = true;
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        containsMouse = false;
     }
     private void OnDestroy()
     {

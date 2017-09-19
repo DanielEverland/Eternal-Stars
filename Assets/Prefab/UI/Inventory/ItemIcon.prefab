@@ -74,6 +74,7 @@ GameObject:
   - component: {fileID: 224316483866048698}
   - component: {fileID: 114904928336757942}
   - component: {fileID: 114862822062030248}
+  - component: {fileID: 114547288362287616}
   m_Layer: 5
   m_Name: ItemIcon
   m_TagString: Untagged
@@ -222,6 +223,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 0
+--- !u!114 &114547288362287616
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1345279272651408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfe0ffcc6f956c14fbe9b6c9f93539e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114724348586131954
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -408,6 +420,7 @@ MonoBehaviour:
   AmountLabel: {fileID: 114869251728473420}
   FrameGraphic: {fileID: 114059739196939060}
   ColorSwatch: {fileID: 114862822062030248}
+  InputHandler: {fileID: 114547288362287616}
 --- !u!222 &222000889324652786
 CanvasRenderer:
   m_ObjectHideFlags: 1
