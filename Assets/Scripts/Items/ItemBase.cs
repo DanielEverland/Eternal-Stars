@@ -27,7 +27,7 @@ public abstract class ItemBase : ScriptableObject {
     [SerializeField]
     protected string _name = "";
     [SerializeField]
-    protected string _description;
+    protected string _description = "";
     [SerializeField]
     protected IntVector2 _inventorySize = new IntVector2(1, 1);
     [SerializeField]
@@ -47,7 +47,7 @@ public abstract class ItemBase : ScriptableObject {
     }
     public virtual void OnCreatedInInspector()
     {
-
+        _rarity = Rarity.AllRarities[0];
     }
     
     #region Object handling shit
