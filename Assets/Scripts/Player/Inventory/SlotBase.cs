@@ -43,9 +43,6 @@ public class SlotBase : MonoBehaviour {
             iconRectTransform.anchorMax = new Vector2(0.5f, 0.5f);
         }
         
-        iconRectTransform.SetParent(transform);
-        iconRectTransform.localPosition = Vector3.zero;
-
         iconElement.Stack.ChangeContainer(Container);
     }
     private void Update()

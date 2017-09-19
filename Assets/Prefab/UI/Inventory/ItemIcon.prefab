@@ -72,9 +72,12 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224316483866048698}
+  - component: {fileID: 222976107120716680}
+  - component: {fileID: 114979498535198590}
   - component: {fileID: 114904928336757942}
   - component: {fileID: 114862822062030248}
   - component: {fileID: 114547288362287616}
+  - component: {fileID: 114485098619333238}
   m_Layer: 5
   m_Name: ItemIcon
   m_TagString: Untagged
@@ -223,6 +226,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 0
+--- !u!114 &114485098619333238
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1345279272651408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 199e22161762da44caccf206e62e8ed6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Target: {fileID: 114979498535198590}
+  Key: PanelBackground
 --- !u!114 &114547288362287616
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -421,6 +437,33 @@ MonoBehaviour:
   FrameGraphic: {fileID: 114059739196939060}
   ColorSwatch: {fileID: 114862822062030248}
   InputHandler: {fileID: 114547288362287616}
+--- !u!114 &114979498535198590
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1345279272651408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.0999135, g: 0.153, b: 0.20588234, a: 0.697}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
 --- !u!222 &222000889324652786
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -451,6 +494,12 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1175659142705428}
+--- !u!222 &222976107120716680
+CanvasRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1345279272651408}
 --- !u!224 &224055590371153616
 RectTransform:
   m_ObjectHideFlags: 1

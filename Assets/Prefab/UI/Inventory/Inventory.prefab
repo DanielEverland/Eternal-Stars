@@ -585,6 +585,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SlotParent: {fileID: 224047344911192678}
   gridLayout: {fileID: 114205045582700538}
+  itemIconContainer: {fileID: 224562306927606960}
 --- !u!114 &114727301272291412
 MonoBehaviour:
   m_ObjectHideFlags: 1

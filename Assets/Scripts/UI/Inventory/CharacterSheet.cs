@@ -55,6 +55,9 @@ public class CharacterSheet : MonoBehaviour {
                     newElement.Initialize(stack, CreateItemIcons);
 
                     entry.Slot.AssignIcon(newElement);
+
+                    newElement.transform.SetParent(entry.Slot.transform);
+                    newElement.transform.localPosition = Vector3.zero;
                 }
             }
         }        

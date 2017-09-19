@@ -9,6 +9,8 @@ public class InventoryBase : MonoBehaviour {
     private Transform SlotParent;
     [SerializeField]
     private GridLayoutGroup gridLayout;
+    [SerializeField]
+    private RectTransform itemIconContainer;
 
     private ContainerBase Container { get { return Player.Instance.ItemContainer; } }
     private Dictionary<Vector2, SlotBase> Slots = new Dictionary<Vector2, SlotBase>();
@@ -27,7 +29,7 @@ public class InventoryBase : MonoBehaviour {
     }
     private void Start()
     {
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)gridLayout.transform);
+        Canvas.ForceUpdateCanvases();
 
         Refresh();
     }
@@ -38,7 +40,7 @@ public class InventoryBase : MonoBehaviour {
     private void UpdateItemIcons()
     {
         ClearItemIcons();
-
+        
         foreach (KeyValuePair<Vector2, ItemStack> pair in Container.Items)
         {
             CreateItemIcon(pair.Key, pair.Value);
@@ -52,6 +54,9 @@ public class InventoryBase : MonoBehaviour {
         newElement.Initialize(stack, Refresh);
         
         Slots[position].AssignIcon(newElement);
+
+        newElement.transform.SetParent(itemIconContainer);
+        newElement.transform.localPosition = Slots[position].transform.localPosition;
     }
     private void ClearItemIcons()
     {
