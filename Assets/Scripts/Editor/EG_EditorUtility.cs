@@ -135,7 +135,7 @@ public static class EG_EditorUtility {
         //Description
         property = obj.FindProperty("_description");
         Rect descriptionRect = new Rect(rect.x + SPRITE_FIELD_SIZE + SPACING, rect.y, rect.width - (SPRITE_FIELD_SIZE + SPACING), EditorGUIUtility.singleLineHeight);
-        property.stringValue = EditorGUI.TextField(descriptionRect, new GUIContent("Description", item.Description), property.stringValue);
+        property.stringValue = EditorGUI.TextField(descriptionRect, new GUIContent("Description", item.Description.Trim()), property.stringValue);
 
         rect.y += descriptionRect.height + SPACING;
 
