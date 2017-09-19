@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97ad744ff2adc1c478dbabe71255f2a9, type: 3}
   m_Name: TestImplant
   m_EditorClassIdentifier: 
-  _rarity: {fileID: 11400000, guid: e1c0fb97900947f4dbda4ce1e570639b, type: 2}
+  _rarity: {fileID: 11400000, guid: f470069f73018d94fbb618a8b6836370, type: 2}
   _name: Test Implant
   _description: Has a % chance of healing when damaged
   _inventorySize:
