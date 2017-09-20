@@ -17,6 +17,8 @@ public abstract class EquipableItem : ItemBase {
     public virtual void OnEquipped() { }
     public virtual void OnUnequipped() { }
 
+    public override string ItemType { get { return EquipmentType.ToString(); } }
+
     public override string GetTooltipFooter()
     {
         return base.GetTooltipFooter() + ((UniqueEquipped == false) ? "\nNon-Unique" : "");

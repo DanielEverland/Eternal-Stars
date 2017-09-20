@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 615474272570acd498eba7f88b933461, type: 3}
+  m_Name: HandCannon
+  m_EditorClassIdentifier: 
+  _rarity: {fileID: 11400000, guid: bf1907cf35239c549bc21e992d755c5f, type: 2}
+  _name: Hand Cannon
+  _description: 
+  _inventorySize:
+    _x: 2
+    _y: 1
+  _icon: {fileID: 21300000, guid: 1c8cecbbbbed7a141b848230b9b11232, type: 3}
+  _maxStackSize: 1
+  _uniqueEquipped: 1
+  _weaponAppearance: {fileID: 21300000, guid: faaca6bec07f46f4b86d7650d33dff58, type: 3}
+  _doubleHanded: 0

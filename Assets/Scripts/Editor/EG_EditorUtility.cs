@@ -58,6 +58,31 @@ public static class EG_EditorUtility {
     private static Texture2D SpriteFieldBackground { get { return ObjectImporter.SpriteFieldBackground; } }
     private static Texture2D SelectButtonBackground { get { return ObjectImporter.SelectButtonBackground; } }
     
+    public static void DrawWeaponUI(WeaponBase weapon, SerializedObject obj)
+    {
+        DrawEquipableItemUI(weapon, obj);
+
+        Rect rect = EditorGUILayout.GetControlRect();
+        float oldLabelWidth = EditorGUIUtility.labelWidth;
+        EditorGUIUtility.labelWidth = 80;
+
+        SerializedProperty property = null;
+        
+        //Two handed
+        Rect twoHandedRect = new Rect(rect.x, rect.y, rect.width / 2, EditorGUIUtility.singleLineHeight);
+        property = obj.FindProperty("_doubleHanded");
+        property.boolValue = EditorGUI.Toggle(twoHandedRect, "Two-Handed", property.boolValue);
+
+        //Weapon appearance
+        Rect weaponAppearanceRect = new Rect(twoHandedRect.x + twoHandedRect.width, rect.y, rect.width - twoHandedRect.width, EditorGUIUtility.singleLineHeight);
+        property = obj.FindProperty("_weaponAppearance");
+        EditorGUI.ObjectField(weaponAppearanceRect, property, new GUIContent("Appearance", ""));
+
+        rect.y += EditorGUIUtility.singleLineHeight;
+
+        obj.ApplyModifiedProperties();
+        EditorGUIUtility.labelWidth = oldLabelWidth;
+    }
     public static void DrawImplantUI(ImplantItem item, SerializedObject obj)
     {
         DrawEquipableItemUI(item, obj);
@@ -143,7 +168,7 @@ public static class EG_EditorUtility {
         List<Rarity> rarities = Rarity.AllRarities;
         Rarity rarity = obj.FindProperty("_rarity").objectReferenceValue as Rarity;
         Rect rarityRect = new Rect(rect.x + SPRITE_FIELD_SIZE + SPACING, rect.y, rect.width - (SPRITE_FIELD_SIZE + SPACING), EditorGUIUtility.singleLineHeight);
-
+        
         //Rarity Indicator
         Rect indicatorRect = new Rect(rarityRect.x + EditorGUIUtility.labelWidth, rarityRect.y, rarityRect.width - EditorGUIUtility.labelWidth, RARITY_INDICATOR_HEIGHT);
 
