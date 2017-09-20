@@ -34,6 +34,8 @@ public abstract class ItemBase : ScriptableObject {
     protected Sprite _icon;
     [Range(1, 255)][SerializeField]
     protected byte _maxStackSize = 255;
+
+    private string _itemID;
     
     public virtual void OnRightClick(ItemStack stack) { }
         
@@ -48,6 +50,7 @@ public abstract class ItemBase : ScriptableObject {
     public virtual void OnCreatedInInspector()
     {
         _rarity = Rarity.AllRarities[0];
+        _itemID = GUID.Generate().ToString().ToUpper();
     }
     
     #region Object handling shit
@@ -58,7 +61,9 @@ public abstract class ItemBase : ScriptableObject {
 
         if (other is ItemBase)
         {
-            return other.GetHashCode() == GetHashCode();
+            ItemBase otherItem = (ItemBase)other;
+
+            return _itemID == otherItem._itemID;
         }
 
         return false;

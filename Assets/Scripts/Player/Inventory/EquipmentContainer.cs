@@ -27,7 +27,7 @@ public class EquipmentContainer : IContainerBase {
     {
         foreach (ItemStack stack in Stacks)
         {
-            if (stack.Item.GetType() == item.GetType())
+            if (stack.Item.Equals(item))
                 return true;
         }
 

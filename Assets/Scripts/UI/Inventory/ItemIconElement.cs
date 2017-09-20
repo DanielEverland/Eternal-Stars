@@ -50,7 +50,7 @@ public class ItemIconElement : MonoBehaviour {
     }
     private void Update()
     {
-        if (rectTransform.GetWorldRect().Contains(Input.mousePosition) && !dragging)
+        if (ContainsMouse && !dragging)
         {
             InventoryItemTooltipManager.Tick(stack.Item);
 

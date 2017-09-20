@@ -15,7 +15,7 @@ MonoBehaviour:
   _name: Skeet Shooter
   _description: 
   _inventorySize:
-    _x: 1
+    _x: 2
     _y: 1
   _icon: {fileID: 21300000, guid: 8c6a6d3d6ff3f364685c7b8797111fe4, type: 3}
   _maxStackSize: 1
