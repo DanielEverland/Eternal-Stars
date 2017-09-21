@@ -43,9 +43,9 @@ public class InventoryContainer : IContainerBase {
     }
     public void Add(Vector2 index, ItemStack stack)
     {
-        for (int y = (int)index.y; y >= 0; y--)
+        for (int y = (int)index.y; y > 0; y--)
         {
-            for (int x = (int)index.x; x >= 0; x--)
+            for (int x = (int)index.x; x > 0; x--)
             {
                 Vector2 currentPosition = new Vector2(x, y);
                 
@@ -159,6 +159,9 @@ public class InventoryContainer : IContainerBase {
             {
                 Vector2 pos = new Vector2(x, y);
 
+                if (OutOfBounds(pos, stack.Item))
+                    continue;
+
                 ContainerSearchQuery query = FindItem(pos);
 
                 if (query.successful)
@@ -220,6 +223,9 @@ public class InventoryContainer : IContainerBase {
     }
     public bool Fits(ItemBase item, Vector2 index, ContainerSearchType searchType = ContainerSearchType.AllowSameType)
     {
+        if (OutOfBounds(index, item))
+            return false;
+
         for (int y = (int)index.y; y >= 0; y--)
         {
             for (int x = (int)index.x; x >= 0; x--)
@@ -255,6 +261,10 @@ public class InventoryContainer : IContainerBase {
         }
 
         return true;
+    }
+    public bool OutOfBounds(Vector2 position, ItemBase item)
+    {
+        return position.x + item.InventorySize.x - 1 >= Columns || position.y + item.InventorySize.y - 1 >= Rows;
     }
     public bool OutOfBounds(Vector2 position)
     {
