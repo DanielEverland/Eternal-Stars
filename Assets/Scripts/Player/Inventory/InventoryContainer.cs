@@ -4,16 +4,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ContainerBase : IContainerBase {
+public class InventoryContainer : IContainerBase {
 
-	public ContainerBase(int size)
+	public InventoryContainer(int size)
     {
         Items = new Dictionary<Vector2, ItemStack>();
 
         _containerSize = size;
         _rows = Mathf.CeilToInt((float)size / (float)Columns);
     }
-    private ContainerBase() { }
+    private InventoryContainer() { }
 
     public const int INVENTORY_COLUMNS = 6;
 

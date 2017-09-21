@@ -12,7 +12,7 @@ public class InventoryBase : MonoBehaviour {
     [SerializeField]
     private RectTransform itemIconContainer;
 
-    private ContainerBase Container { get { return Player.Instance.ItemContainer; } }
+    private InventoryContainer Container { get { return Player.Instance.ItemContainer; } }
     private Dictionary<Vector2, SlotBase> Slots = new Dictionary<Vector2, SlotBase>();
     private List<ItemIconElement> Icons = new List<ItemIconElement>();
     private List<GameObject> PoolObjects = new List<GameObject>();
@@ -70,7 +70,7 @@ public class InventoryBase : MonoBehaviour {
     private void AssignProperties()
     {
         gridLayout.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-        gridLayout.constraintCount = ContainerBase.INVENTORY_COLUMNS;
+        gridLayout.constraintCount = InventoryContainer.INVENTORY_COLUMNS;
         gridLayout.cellSize = new Vector2(SLOT_SIZE, SLOT_SIZE);
         gridLayout.spacing = new Vector2(ELEMENT_SPACING, ELEMENT_SPACING);
     }
@@ -80,8 +80,8 @@ public class InventoryBase : MonoBehaviour {
         {
             Vector2 position = new Vector2()
             {
-                x = i % ContainerBase.INVENTORY_COLUMNS,
-                y = (Mathf.CeilToInt((i + 1f) / (float)ContainerBase.INVENTORY_COLUMNS) - 1),
+                x = i % InventoryContainer.INVENTORY_COLUMNS,
+                y = (Mathf.CeilToInt((i + 1f) / (float)InventoryContainer.INVENTORY_COLUMNS) - 1),
             };
 
             GameObject obj = PlayModeObjectPool.Pool.GetObject("InventorySlot");

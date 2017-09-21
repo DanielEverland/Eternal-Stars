@@ -22,7 +22,7 @@ public class ItemIconElement : MonoBehaviour {
     public ItemStack Stack { get { return stack; } }
 
     private RectTransform rectTransform { get { return (RectTransform)transform; } }
-    private ContainerBase playerContainer { get { return Player.Instance.ItemContainer; } }
+    private InventoryContainer playerContainer { get { return Player.Instance.ItemContainer; } }
 
     private ItemStack stack;
     private Action updateCallback;
