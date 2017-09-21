@@ -10,6 +10,11 @@ public static class Extensions {
 
     private const int MAX_OUTPUT_ARRAY_LENGTH = 100;
     
+    public static void SetSize(this RectTransform rectTransform, Vector2 size)
+    {
+        rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, size.x);
+        rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, size.y);
+    }
     public static bool HasMultiple(this Sprite sprite)
     {
         string assetPath = AssetDatabase.GetAssetPath(sprite);

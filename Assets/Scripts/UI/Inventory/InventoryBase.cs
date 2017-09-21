@@ -17,7 +17,7 @@ public class InventoryBase : MonoBehaviour {
     private List<ItemIconElement> Icons = new List<ItemIconElement>();
     private List<GameObject> PoolObjects = new List<GameObject>();
 
-    public const int ELEMENT_SIZE = 40;
+    public const int SLOT_SIZE = 40;
     public const int ELEMENT_SPACING = -1;
 
     private void Awake()
@@ -71,7 +71,7 @@ public class InventoryBase : MonoBehaviour {
     {
         gridLayout.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
         gridLayout.constraintCount = ContainerBase.INVENTORY_COLUMNS;
-        gridLayout.cellSize = new Vector2(ELEMENT_SIZE, ELEMENT_SIZE);
+        gridLayout.cellSize = new Vector2(SLOT_SIZE, SLOT_SIZE);
         gridLayout.spacing = new Vector2(ELEMENT_SPACING, ELEMENT_SPACING);
     }
     private void CreateSlots()

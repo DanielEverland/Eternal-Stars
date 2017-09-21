@@ -61,7 +61,7 @@ public class ItemIconElement : MonoBehaviour {
         }
 
         DoAnimation();
-        DoDragging();
+        PollDragging();
     }
     private void DoAnimation()
     {
@@ -85,43 +85,56 @@ public class ItemIconElement : MonoBehaviour {
     {
         Icon.CrossFadeColor(targetColor, ColorSwatch.fadeDuration, true, true);
     }
-    private void DoDragging()
+    private void PollDragging()
     {
         if (ContainsMouse && !dragging)
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                dragging = true;
-
-                transform.SetParent(Canvas2D.Static);
+                StartDragging();
             }
         }
         else if (dragging)
         {
             if (Input.GetKeyUp(KeyCode.Mouse0))
             {
-                dragging = false;
-
-                if (SlotBase.SelectedSlot != null)
-                {
-                    if (SlotBase.SelectedSlot.Container.Fits(SlotBase.SelectedSlot.Index, stack.Item))
-                    {
-                        stack.Container.Remove(stack);
-                        SlotBase.SelectedSlot.Container.Add(SlotBase.SelectedSlot.Index, stack);
-                    }
-                }
-
-                if(updateCallback != null)
-                    updateCallback.Invoke();
+                StopDragging();
             }
             else
             {
-                transform.position = Input.mousePosition;
-                transform.SetSiblingIndex(transform.parent.childCount - 1);
-
-                EG_Input.SuppressInput();
+                DoDragging();
             }
         }
+    }
+    private void StartDragging()
+    {
+        dragging = true;
+
+        transform.SetParent(Canvas2D.Static);
+        rectTransform.SetSize(Stack.Item.InventorySize * InventoryBase.SLOT_SIZE);
+    }
+    private void StopDragging()
+    {
+        dragging = false;
+
+        if (SlotBase.SelectedSlot != null)
+        {
+            if (SlotBase.SelectedSlot.Container.Fits(SlotBase.SelectedSlot.Index, stack.Item))
+            {
+                stack.Container.Remove(stack);
+                SlotBase.SelectedSlot.Container.Add(SlotBase.SelectedSlot.Index, stack);
+            }
+        }
+
+        if (updateCallback != null)
+            updateCallback.Invoke();
+    }
+    private void DoDragging()
+    {
+        transform.position = Input.mousePosition;
+        transform.SetSiblingIndex(transform.parent.childCount - 1);
+
+        EG_Input.SuppressInput();
     }
     public void DoRightClick()
     {
@@ -139,8 +152,8 @@ public class ItemIconElement : MonoBehaviour {
     {
         rectTransform.sizeDelta = new Vector2()
         {
-            x = stack.Item.InventorySize.x * InventoryBase.ELEMENT_SIZE + ((stack.Item.InventorySize.x - 1) * InventoryBase.ELEMENT_SPACING),
-            y = stack.Item.InventorySize.y * InventoryBase.ELEMENT_SIZE + ((stack.Item.InventorySize.y - 1) * InventoryBase.ELEMENT_SPACING),
+            x = stack.Item.InventorySize.x * InventoryBase.SLOT_SIZE + ((stack.Item.InventorySize.x - 1) * InventoryBase.ELEMENT_SPACING),
+            y = stack.Item.InventorySize.y * InventoryBase.SLOT_SIZE + ((stack.Item.InventorySize.y - 1) * InventoryBase.ELEMENT_SPACING),
         };
     }
     private void SetAmountLabel()
