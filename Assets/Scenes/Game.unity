@@ -1266,6 +1266,7 @@ GameObject:
   - component: {fileID: 993726949}
   - component: {fileID: 993726951}
   - component: {fileID: 993726950}
+  - component: {fileID: 993726952}
   m_Layer: 5
   m_Name: WeaponPreviewList
   m_TagString: Untagged
@@ -1326,6 +1327,17 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 1
   m_ChildControlHeight: 1
+--- !u!114 &993726952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 993726948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a26509ad5a116548a94dcc7e6923a9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1055116884
 GameObject:
   m_ObjectHideFlags: 0
