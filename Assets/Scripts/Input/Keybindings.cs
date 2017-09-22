@@ -9,7 +9,7 @@ public static class Keybindings
     public static IEnumerable<KeybindingElement> KeybindingElements { get; private set; }
 
     private static Dictionary<string, KeybindingElement> IndexedElements { get; set; }
-    
+
     private static readonly List<KeybindingElement> DefaultKeyCode = new List<KeybindingElement>()
     {
         //-------------MOVEMENT-------------
@@ -30,54 +30,18 @@ public static class Keybindings
             PrimaryKey = (int)KeyCode.D,
         },
 
-        //-------------TOOLBAR-------------
-        new KeybindingElement("Action Button 1", "Toolbar")
+        //------------INVENTORY------------
+        new KeybindingElement("Select Weapon 1", "Inventory")
         {
             PrimaryKey = (int)KeyCode.Alpha1,
         },
-        new KeybindingElement("Action Button 2", "Toolbar")
+        new KeybindingElement("Select Weapon 2", "Inventory")
         {
             PrimaryKey = (int)KeyCode.Alpha2,
         },
-        new KeybindingElement("Action Button 3", "Toolbar")
+        new KeybindingElement("Select Weapon 3", "Inventory")
         {
             PrimaryKey = (int)KeyCode.Alpha3,
-        },
-        new KeybindingElement("Action Button 4", "Toolbar")
-        {
-            PrimaryKey = (int)KeyCode.Alpha4,
-        },
-        new KeybindingElement("Action Button 5", "Toolbar")
-        {
-            PrimaryKey = (int)KeyCode.Alpha5,
-        },
-        new KeybindingElement("Action Button 6", "Toolbar")
-        {
-            PrimaryKey = (int)KeyCode.Alpha6,
-        },
-        new KeybindingElement("Action Button 7", "Toolbar")
-        {
-            PrimaryKey = (int)KeyCode.Alpha7,
-        },
-        new KeybindingElement("Action Button 8", "Toolbar")
-        {
-            PrimaryKey = (int)KeyCode.Alpha8,
-        },
-        new KeybindingElement("Action Button 9", "Toolbar")
-        {
-            PrimaryKey = (int)KeyCode.Alpha9,
-        },
-        new KeybindingElement("Action Button 10", "Toolbar")
-        {
-            PrimaryKey = (int)KeyCode.Alpha0,
-        },
-        new KeybindingElement("Action Button 11", "Toolbar")
-        {
-
-        },
-        new KeybindingElement("Action Button 12", "Toolbar")
-        {
-
         },
 
         //-------------COMBAT-------------
@@ -173,6 +137,35 @@ public class KeybindingElement
         _group = group;
     }
 
+    public string KeyAbbreviation
+    {
+        get
+        {
+            string toReturn = PrimaryKeyAbbreviation;
+
+            if(toReturn == "")
+            {
+                toReturn = SecondaryKeyAbbreviation;
+            }
+
+            return toReturn;
+        }
+    }
+    public string PrimaryKeyAbbreviation
+    {
+        get
+        {
+            return GetKeyAbbreviation(PrimaryKey, PrimaryModifier);
+        }
+    } 
+    public string SecondaryKeyAbbreviation
+    {
+        get
+        {
+            return GetKeyAbbreviation(SecondaryKey, SecondaryModifier);
+        }
+    }
+
     public string Name { get { return _name; } }
     [ProtoMember(1)]
     private readonly string _name;
@@ -187,6 +180,20 @@ public class KeybindingElement
     public int? SecondaryKey;
     public int? SecondaryModifier;
 
+    private string GetKeyAbbreviation(int? key, int? modifier)
+    {
+        if (!key.HasValue)
+            return "";
+
+        if(modifier.HasValue)
+        {
+            return string.Format("{0} + {1}", ((KeyCode)key.Value).ToString(), ((KeyCode)modifier.Value).ToString());
+        }
+        else
+        {
+            return ((KeyCode)key.Value).ToString();
+        }
+    }
     public bool IsPressed(Func<KeyCode, bool> function)
     {
         if (PollKeyModifierPair(PrimaryKey, PrimaryModifier, function))

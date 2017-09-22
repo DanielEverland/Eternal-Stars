@@ -9,6 +9,9 @@ public class EquipmentContainer : IContainerBase {
     public event Action OnUpdate;
     public event Action<EquipableItem> OnItemAdded;
     public event Action<EquipableItem> OnItemRemoved;
+    
+    public IEnumerable<WeaponBase> Weapons { get { return Stacks.Where(x => x.Item is WeaponBase).Select(x => x.Item as WeaponBase); } }
+    public IEnumerable<ImplantItem> Implants { get { return Stacks.Where(x => x.Item is ImplantItem).Select(x => x.Item as ImplantItem); } }
 
     public IEnumerable<EquipmentSlotIdentifier> SlotKeys { get { return equippedItems.Keys; } }
     public IEnumerable<ItemStack> Stacks { get { return equippedItems.Values.Where(x => x != null); } }
