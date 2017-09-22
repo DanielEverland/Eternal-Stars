@@ -10,6 +10,10 @@ public static class Extensions {
 
     private const int MAX_OUTPUT_ARRAY_LENGTH = 100;
     
+    public static string ToProperString(this KeyCode code)
+    {
+        return Utility.KeyCodeToProperString(code);
+    }
     public static void SetSize(this RectTransform rectTransform, Vector2 size)
     {
         rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, size.x);

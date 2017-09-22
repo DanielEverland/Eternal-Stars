@@ -8,6 +8,34 @@ public class Utility : MonoBehaviour {
 
     public const int CREATE_ASSET_ORDER_ID = 200;
 
+    public static string KeyCodeToProperString(KeyCode keycode)
+    {
+        switch (keycode)
+        {
+            case KeyCode.Alpha0:
+                return "0";
+            case KeyCode.Alpha1:
+                return "1";
+            case KeyCode.Alpha2:
+                return "2";
+            case KeyCode.Alpha3:
+                return "3";
+            case KeyCode.Alpha4:
+                return "4";
+            case KeyCode.Alpha5:
+                return "5";
+            case KeyCode.Alpha6:
+                return "6";
+            case KeyCode.Alpha7:
+                return "7";
+            case KeyCode.Alpha8:
+                return "8";
+            case KeyCode.Alpha9:
+                return "9";
+            default:
+                return keycode.ToString();
+        }
+    }
     public static T CreateObject<T>(System.Type type, ScriptableObject target) where T : ScriptableObject
     {
         T newAction = ScriptableObject.CreateInstance(type) as T;

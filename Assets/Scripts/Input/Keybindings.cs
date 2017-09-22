@@ -187,11 +187,11 @@ public class KeybindingElement
 
         if(modifier.HasValue)
         {
-            return string.Format("{0} + {1}", ((KeyCode)key.Value).ToString(), ((KeyCode)modifier.Value).ToString());
+            return string.Format("{0} + {1}", ((KeyCode)key.Value).ToProperString(), ((KeyCode)modifier.Value).ToProperString());
         }
         else
         {
-            return ((KeyCode)key.Value).ToString();
+            return ((KeyCode)key.Value).ToProperString();
         }
     }
     public bool IsPressed(Func<KeyCode, bool> function)
