@@ -32,9 +32,9 @@ public abstract class ItemBase : ScriptableObject {
     protected IntVector2 _inventorySize = new IntVector2(1, 1);
     [SerializeField]
     protected Sprite _icon;
-    [Range(1, 255)][SerializeField]
+    [Range(1, 255), SerializeField]
     protected byte _maxStackSize = 255;
-
+    [SerializeField]
     private string _itemID;
     
     public virtual void OnRightClick(ItemStack stack) { }
@@ -70,18 +70,11 @@ public abstract class ItemBase : ScriptableObject {
     }
     public override int GetHashCode()
     {
-        return GetInstanceID();
+        return _itemID.GetHashCode();
     }
     public override string ToString()
     {
         return string.Format("{0} - {1}\nSize: {2}", Name, Rarity, InventorySize);
-    }
-    public bool Equals(ItemBase other)
-    {
-        if (other == null)
-            return false;
-
-        return this.GetInstanceID() == other.GetInstanceID();
     }
     public static bool operator ==(ItemBase a, ItemBase b)
     {

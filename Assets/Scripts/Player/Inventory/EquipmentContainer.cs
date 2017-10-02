@@ -26,6 +26,16 @@ public class EquipmentContainer : IContainerBase {
         { new EquipmentSlotIdentifier(EquipmentTypes.Weapon, 2), null },
     };
     
+    public bool ContainsType(EquipmentTypes type)
+    {
+        foreach (ItemStack stack in equippedItems.Where(x => x.Key.EquipmentType == type).Select(x => x.Value))
+        {
+            if (stack != null)
+                return true;
+        }
+
+        return false;
+    }
     public bool ContainsType(EquipableItem item)
     {
         foreach (ItemStack stack in Stacks)
@@ -75,6 +85,16 @@ public class EquipmentContainer : IContainerBase {
         {
             return false;
         }
+    }
+    public EquipableItem GetItem(EquipmentTypes type)
+    {
+        foreach (ItemStack stack in equippedItems.Where(x => x.Key.EquipmentType == type).Select(x => x.Value))
+        {
+            if (stack != null)
+                return stack.Item as WeaponBase;
+        }
+
+        return null;
     }
     public EquipableItem GetItem(EquipmentTypes equipmentType, byte slotIndex)
     {

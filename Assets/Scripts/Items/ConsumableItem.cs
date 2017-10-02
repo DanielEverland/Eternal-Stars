@@ -28,6 +28,12 @@ public class ConsumableItem : ItemBase, ScriptableObjectManager<ItemAction> {
         }
     }
 
+    public override void OnCreatedInInspector()
+    {
+        base.OnCreatedInInspector();
+
+        OnConsumeActions = new List<ItemAction>();
+    }
     public override void OnRightClick(ItemStack stack)
     {
         for (int i = 0; i < OnConsumeActions.Count; i++)
