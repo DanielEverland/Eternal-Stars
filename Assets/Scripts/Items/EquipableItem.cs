@@ -14,13 +14,20 @@ public abstract class EquipableItem : ItemBase {
 
     private bool IsEquipped = false;
     
-    public virtual void OnEquipped(ItemStack stack)
+    protected virtual void OnEquipped(ItemStack stack) { }
+    protected virtual void OnUnequipped(ItemStack stack) { }
+
+    public void CallEquipped(ItemStack stack)
     {
         CurrentStack = stack;
+
+        OnEquipped(stack);
     }
-    public virtual void OnUnequipped(ItemStack stack)
+    public void CallUnequipped(ItemStack stack)
     {
         CurrentStack = stack;
+
+        OnUnequipped(stack);
     }
 
     public override string ItemType { get { return EquipmentType.ToString(); } }
@@ -29,10 +36,8 @@ public abstract class EquipableItem : ItemBase {
     {
         return base.GetTooltipFooter() + ((UniqueEquipped == false) ? "\nNon-Unique" : "");
     }
-    public override void OnRightClick(ItemStack stack)
+    protected override void OnRightClick(ItemStack stack)
     {
-        base.OnRightClick(stack);
-
         if (!Player.Instance.EquipmentContainer.Stacks.Contains(stack))
             Player.Instance.EquipmentContainer.TryAdd(stack);
     }

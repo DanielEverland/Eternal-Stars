@@ -39,13 +39,20 @@ public abstract class ItemBase : ScriptableObject {
 
     protected ItemStack CurrentStack { get; set; }
 
-    public virtual void OnUpdate(ItemStack stack)
+    protected virtual void OnUpdate(ItemStack stack) { }
+    protected virtual void OnRightClick(ItemStack stack) { }
+
+    public void CallUpdate(ItemStack stack)
     {
         CurrentStack = stack;
+
+        OnUpdate(stack);
     }
-    public virtual void OnRightClick(ItemStack stack)
+    public void CallRightClick(ItemStack stack)
     {
         CurrentStack = stack;
+
+        OnRightClick(stack);
     }
         
     public virtual string GetTooltipContent()

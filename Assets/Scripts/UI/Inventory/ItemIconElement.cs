@@ -138,7 +138,7 @@ public class ItemIconElement : MonoBehaviour {
     }
     public void DoRightClick()
     {
-        stack.Item.OnRightClick(stack);
+        stack.Item.CallRightClick(stack);
     }
     private void SetIcon()
     {

@@ -200,7 +200,7 @@ public class EquipmentContainer : IContainerBase {
     {
         EquipableItem equipment = (EquipableItem)stack.Item;
 
-        equipment.OnEquipped(stack);
+        equipment.CallEquipped(stack);
 
         if (OnItemAdded != null)
             OnItemAdded.Invoke(equipment);
@@ -211,7 +211,7 @@ public class EquipmentContainer : IContainerBase {
     {
         EquipableItem equipment = (EquipableItem)stack.Item;
 
-        equipment.OnUnequipped(stack);
+        equipment.CallUnequipped(stack);
 
         if (OnItemRemoved != null)
             OnItemRemoved.Invoke(equipment);

@@ -48,7 +48,7 @@ public class ImplantItem : EquipableItem, ScriptableObjectManager<ItemTrigger>, 
             _procActions[i].DoAction();
         }
     }
-    public override void OnEquipped(ItemStack stack)
+    protected override void OnEquipped(ItemStack stack)
     {
         for (int i = 0; i < _procTriggers.Count; i++)
         {
@@ -56,7 +56,7 @@ public class ImplantItem : EquipableItem, ScriptableObjectManager<ItemTrigger>, 
             _procTriggers[i].OnTrigger += OnTrigger;
         }
     }
-    public override void OnUnequipped(ItemStack stack)
+    protected override void OnUnequipped(ItemStack stack)
     {
         for (int i = 0; i < _procTriggers.Count; i++)
         {

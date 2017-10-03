@@ -8,7 +8,7 @@ public class PlayerWeaponHandler : MonoBehaviour {
     {
         if(WeaponManager.SelectedWeapon != null)
         {
-            WeaponManager.SelectedWeapon.OnUpdate(WeaponManager.SelectedStack);
+            WeaponManager.SelectedWeapon.CallUpdate(WeaponManager.SelectedStack);
         }
     }
 }

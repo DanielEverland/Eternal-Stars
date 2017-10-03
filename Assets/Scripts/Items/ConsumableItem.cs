@@ -34,7 +34,7 @@ public class ConsumableItem : ItemBase, ScriptableObjectManager<ItemAction> {
 
         OnConsumeActions = new List<ItemAction>();
     }
-    public override void OnRightClick(ItemStack stack)
+    protected override void OnRightClick(ItemStack stack)
     {
         for (int i = 0; i < OnConsumeActions.Count; i++)
         {

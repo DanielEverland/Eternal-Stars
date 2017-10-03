@@ -21,17 +21,13 @@ public abstract class WeaponBase : EquipableItem
     
     public Sprite WeaponAppearance { get { return _weaponAppearance; } }
 
-    public override void OnEquipped(ItemStack stack)
+    protected override void OnEquipped(ItemStack stack)
     {
-        base.OnEquipped(stack);
-
         if (WeaponManager.SelectedStack == null)
             WeaponManager.SetWeapon(stack);
     }
-    public override void OnUnequipped(ItemStack stack)
+    protected override void OnUnequipped(ItemStack stack)
     {
-        base.OnUnequipped(stack);
-
         if (WeaponManager.SelectedStack == stack)
             WeaponManager.SetWeapon(null);
     }

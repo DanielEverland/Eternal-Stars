@@ -16,16 +16,14 @@ public class ProjectileWeapon : WeaponBase
     private int CurrentAmmo { get { return CurrentStack.GetRuntimeData<int>("CurrentAmmo"); } set { CurrentStack.SetRuntimeData("CurrentAmmo", value); } }
     private float LastTimeFired { get { return CurrentStack.GetRuntimeData<float>("LastTimeFired"); } set { CurrentStack.SetRuntimeData("LastTimeFired", value); } }
 
-    public override void OnEquipped(ItemStack stack)
+    protected override void OnEquipped(ItemStack stack)
     {
         base.OnEquipped(stack);
 
         LastTimeFired = -FiringInterval;
     }
-    public override void OnUpdate(ItemStack stack)
+    protected override void OnUpdate(ItemStack stack)
     {
-        base.OnUpdate(stack);
-
         if (Keybindings.GetKey("Shoot") && !EG_Input.IsSuppressed)
         {
             TimeManager.Tick();
