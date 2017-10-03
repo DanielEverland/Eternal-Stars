@@ -19,6 +19,7 @@ MonoBehaviour:
     _y: 1
   _icon: {fileID: 21300018, guid: 5b32c2d36abe44540bed74c1f787033b, type: 3}
   _maxStackSize: 255
+  _itemID: 
   OnConsumeActions:
   - {fileID: 114897337508370572}
 --- !u!114 &114897337508370572

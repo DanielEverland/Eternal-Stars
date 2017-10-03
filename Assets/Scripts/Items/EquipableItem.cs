@@ -14,8 +14,14 @@ public abstract class EquipableItem : ItemBase {
 
     private bool IsEquipped = false;
     
-    public virtual void OnEquipped() {  }
-    public virtual void OnUnequipped() { }
+    public virtual void OnEquipped(ItemStack stack)
+    {
+        CurrentStack = stack;
+    }
+    public virtual void OnUnequipped(ItemStack stack)
+    {
+        CurrentStack = stack;
+    }
 
     public override string ItemType { get { return EquipmentType.ToString(); } }
     

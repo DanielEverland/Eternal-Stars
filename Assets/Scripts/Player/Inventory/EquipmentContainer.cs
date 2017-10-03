@@ -77,7 +77,7 @@ public class EquipmentContainer : IContainerBase {
 
             equippedItems[key.Value] = new ItemStack(item, this);
 
-            ItemAdded(item);
+            ItemAdded(stack);
 
             return true;
         }
@@ -142,7 +142,7 @@ public class EquipmentContainer : IContainerBase {
 
         equippedItems[slotIdentifier] = stack;
 
-        ItemAdded(stack.Item as EquipableItem);
+        ItemAdded(stack);
     }
     public void Remove(ItemStack stack)
     {
@@ -164,7 +164,7 @@ public class EquipmentContainer : IContainerBase {
     }
     public void Remove(EquipmentSlotIdentifier slotIdentifier)
     {
-        ItemRemoved(equippedItems[slotIdentifier].Item as EquipableItem);
+        ItemRemoved(equippedItems[slotIdentifier]);
 
         equippedItems[slotIdentifier] = null;
     }
@@ -196,21 +196,25 @@ public class EquipmentContainer : IContainerBase {
 
         return false;
     }
-    public void ItemAdded(EquipableItem item)
+    public void ItemAdded(ItemStack stack)
     {
-        item.OnEquipped();
+        EquipableItem equipment = (EquipableItem)stack.Item;
+
+        equipment.OnEquipped(stack);
 
         if (OnItemAdded != null)
-            OnItemAdded.Invoke(item);
+            OnItemAdded.Invoke(equipment);
 
         Update();
     }
-    public void ItemRemoved(EquipableItem item)
+    public void ItemRemoved(ItemStack stack)
     {
-        item.OnUnequipped();
+        EquipableItem equipment = (EquipableItem)stack.Item;
+
+        equipment.OnUnequipped(stack);
 
         if (OnItemRemoved != null)
-            OnItemRemoved.Invoke(item);
+            OnItemRemoved.Invoke(equipment);
 
         Update();
     }

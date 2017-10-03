@@ -36,8 +36,17 @@ public abstract class ItemBase : ScriptableObject {
     protected byte _maxStackSize = 255;
     [SerializeField]
     private string _itemID;
-    
-    public virtual void OnRightClick(ItemStack stack) { }
+
+    protected ItemStack CurrentStack { get; set; }
+
+    public virtual void OnUpdate(ItemStack stack)
+    {
+        CurrentStack = stack;
+    }
+    public virtual void OnRightClick(ItemStack stack)
+    {
+        CurrentStack = stack;
+    }
         
     public virtual string GetTooltipContent()
     {

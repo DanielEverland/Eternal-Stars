@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f520670bdf206594d9ef432e859e7040, type: 3}
   m_Name: Hand Cannon
   m_EditorClassIdentifier: 
-  _rarity: {fileID: 11400000, guid: e1c0fb97900947f4dbda4ce1e570639b, type: 2}
+  _rarity: {fileID: 11400000, guid: bf1907cf35239c549bc21e992d755c5f, type: 2}
   _name: Hand Cannon
   _description: dafasdf
   _inventorySize:
@@ -23,3 +23,5 @@ MonoBehaviour:
   _uniqueEquipped: 1
   _weaponAppearance: {fileID: 21300000, guid: faaca6bec07f46f4b86d7650d33dff58, type: 3}
   _doubleHanded: 0
+  FiringInterval: 0.1
+  MaxAmmo: 100

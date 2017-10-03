@@ -18,23 +18,23 @@ public abstract class WeaponBase : EquipableItem
     /// This will be displayed in the currently selected ammo text
     /// </summary>
     public abstract string AmmoCountText { get; }
-
-    public override void OnEquipped()
-    {
-        base.OnEquipped();
-
-        if (WeaponManager.SelectedWeapon == null)
-            WeaponManager.SelectedWeapon = this;
-    }
-    public override void OnUnequipped()
-    {
-        base.OnUnequipped();
-
-        if (WeaponManager.SelectedWeapon == this)
-            WeaponManager.SelectedWeapon = null;
-    }
-
+    
     public Sprite WeaponAppearance { get { return _weaponAppearance; } }
+
+    public override void OnEquipped(ItemStack stack)
+    {
+        base.OnEquipped(stack);
+
+        if (WeaponManager.SelectedStack == null)
+            WeaponManager.SetWeapon(stack);
+    }
+    public override void OnUnequipped(ItemStack stack)
+    {
+        base.OnUnequipped(stack);
+
+        if (WeaponManager.SelectedStack == stack)
+            WeaponManager.SetWeapon(null);
+    }
 
     [SerializeField]
     private Sprite _weaponAppearance;

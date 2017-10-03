@@ -40,6 +40,14 @@ public class CurrentSelectedWeaponManager : MonoBehaviour {
     private void Update()
     {
         LerpColor();
+        SetAmmo();
+    }
+    private void SetAmmo()
+    {
+        if(CurrentWeapon != null)
+        {
+            _ammoCount.text = CurrentWeapon.AmmoCountText;
+        }
     }
     private void LerpColor()
     {

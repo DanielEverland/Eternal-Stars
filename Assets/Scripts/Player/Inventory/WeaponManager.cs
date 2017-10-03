@@ -1,3 +1,4 @@
+using UnityEngine.AI;
 using System;
 using System.Linq;
 using System.Collections;
@@ -7,37 +8,59 @@ using UnityEngine;
 public static class WeaponManager {
 
     public static event Action<WeaponBase> OnSelectedWeaponChanged;
+    public static event Action<ItemStack> OnSelectedWeaponStackChanged;
 
-	public static WeaponBase SelectedWeapon
+    public static WeaponBase SelectedWeapon
     {
         get
         {
-            if(_selectedWeapon == null && Player.Instance.EquipmentContainer.ContainsType(EquipmentTypes.Weapon))
-            {
-                _selectedWeapon = (WeaponBase)Player.Instance.EquipmentContainer.GetItem(EquipmentTypes.Weapon);
+            if (_selectedStack == null)
+                return null;
 
-                WeaponChanged();
-            }
-
-            return _selectedWeapon;
-        }
-        set
-        {
-            WeaponBase oldWeapon = _selectedWeapon;
-
-            _selectedWeapon = value;
-
-            if(oldWeapon != _selectedWeapon)
-            {
-                WeaponChanged();
-            }
+            return _selectedStack.Item as WeaponBase;
         }
     }
+    public static ItemStack SelectedStack
+    {
+        get
+        {
+            return _selectedStack;
+        }
+    }
+
     private static void WeaponChanged()
     {
         if (OnSelectedWeaponChanged != null)
-            OnSelectedWeaponChanged.Invoke(_selectedWeapon);
+            OnSelectedWeaponChanged.Invoke(SelectedWeapon);
+
+        if (OnSelectedWeaponStackChanged != null)
+            OnSelectedWeaponStackChanged.Invoke(_selectedStack);
     }
 
-    private static WeaponBase _selectedWeapon;
+    private static ItemStack _selectedStack;
+
+    public static void SetWeapon(ItemStack stack)
+    {
+        if(stack == null)
+        {
+            _selectedStack = null;
+
+            WeaponChanged();
+        }
+        else if(stack.Item is WeaponBase)
+        {
+            ItemStack oldStack = _selectedStack;
+
+            _selectedStack = stack;
+
+            if(oldStack != _selectedStack)
+            {
+                WeaponChanged();
+            }
+        }
+        else
+        {
+            throw new System.ArgumentException("Tried to assign a non-weapon as currently equipped weapon");
+        }
+    }
 }
