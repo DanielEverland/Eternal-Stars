@@ -29,7 +29,19 @@ public class ItemStack {
 
     private readonly string _id;
 
-    private Dictionary<string, object> RuntimeData = new Dictionary<string, object>();
+    private Dictionary<string, object> RuntimeData
+    {
+        get
+        {
+            if(_runtimeData == null)
+            {
+                _runtimeData = new Dictionary<string, object>();
+            }
+
+            return _runtimeData;
+        }
+    }
+    private Dictionary<string, object> _runtimeData;
 
     public T GetRuntimeDataUnsafe<T>(string key)
     {
