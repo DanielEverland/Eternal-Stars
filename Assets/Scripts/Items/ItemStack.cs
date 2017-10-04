@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemStack {
-
+    
 	public ItemStack(ItemBase item, IContainerBase owner, int amount = 1)
     {
         Item = item;
@@ -43,6 +43,10 @@ public class ItemStack {
     }
     private Dictionary<string, object> _runtimeData;
 
+    public void ChangeOwner(IContainerBase newOwner)
+    {
+        Container = newOwner;
+    }
     public T GetRuntimeDataUnsafe<T>(string key)
     {
         return (T)RuntimeData[key];

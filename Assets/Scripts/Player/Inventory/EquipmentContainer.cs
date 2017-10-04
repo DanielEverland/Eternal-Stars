@@ -75,7 +75,7 @@ public class EquipmentContainer : IContainerBase {
         {
             stack.RemoveAmount(1);
 
-            equippedItems[key.Value] = new ItemStack(item, this);
+            equippedItems[key.Value] = stack;
 
             ItemAdded(stack);
 
@@ -198,6 +198,8 @@ public class EquipmentContainer : IContainerBase {
     }
     public void ItemAdded(ItemStack stack)
     {
+        stack.ChangeContainer(this);
+
         EquipableItem equipment = (EquipableItem)stack.Item;
 
         equipment.CallEquipped(stack);
