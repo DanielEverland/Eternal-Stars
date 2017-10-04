@@ -107,10 +107,7 @@ public class ItemStack {
         {
             ItemStack otherStack = (ItemStack)obj;
 
-            if (otherStack._id == this._id)
-            {
-                return true;
-            }
+            return otherStack._id == this._id;
         }
 
         return false;
