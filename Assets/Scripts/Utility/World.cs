@@ -9,6 +9,8 @@ public class World : MonoBehaviour {
     private void Awake()
     {
         WorldObject = gameObject;
+
+        Game.Initialize();
     }
     public static void AddToWorld(GameObject obj)
     {
