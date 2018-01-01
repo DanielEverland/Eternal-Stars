@@ -15,6 +15,8 @@ public class Map {
     public Map()
     {
         Initialize();
+
+        World.Initialize();
     }
 
     public static Map CurrentMap { get; private set; }

@@ -18,6 +18,8 @@ public class PlayModeManager : MonoBehaviour {
     private void Awake()
     {
         instance = this;
+
+        Game.Initialize();
     }
     public static void LoadPlayer()
     {
