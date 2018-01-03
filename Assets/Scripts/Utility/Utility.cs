@@ -8,6 +8,22 @@ public class Utility : MonoBehaviour {
 
     public const int CREATE_ASSET_ORDER_ID = 200;
 
+    public static IntVector2 WorldToChunkPosition(Vector2 worldPosition, int chunkSize)
+    {
+        return new IntVector2()
+        {
+            x = Mathf.FloorToInt(worldPosition.x / chunkSize),
+            y = Mathf.FloorToInt(worldPosition.y / chunkSize),
+        };
+    }
+    public static IntVector2 WorldToChunkLocalPosition(Vector2 worldPosition, int chunkSize)
+    {
+        return new IntVector2()
+        {
+            x = Mathf.RoundToInt(worldPosition.x % chunkSize),
+            y = Mathf.RoundToInt(worldPosition.y % chunkSize),
+        };
+    }
     public static string KeyCodeToProperString(KeyCode keycode)
     {
         switch (keycode)
