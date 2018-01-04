@@ -44,7 +44,7 @@ public class Chunk<T> {
     public void Add(IntVector2 localPosition, T obj)
     {
         if (IsOutOfBounds(localPosition))
-            throw new System.IndexOutOfRangeException();
+            throw new System.IndexOutOfRangeException(localPosition + " is out of range. Chunk Size: " + _size);
 
         this[(uint)localPosition.x, (uint)localPosition.y] = obj;
 
@@ -54,7 +54,7 @@ public class Chunk<T> {
     public void Remove(IntVector2 localPosition)
     {
         if (IsOutOfBounds(localPosition))
-            throw new System.IndexOutOfRangeException();
+            throw new System.IndexOutOfRangeException(localPosition + " is out of range. Chunk Size: " + _size);
 
         T obj = this[(uint)localPosition.x, (uint)localPosition.y];
 
