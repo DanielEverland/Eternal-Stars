@@ -5,6 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Tile.asset", menuName = "Tile", order = Utility.CREATE_ASSET_ORDER_ID)]
 public class TileType : ScriptableObject {
     
+    public static List<TileType> AllTypes { get { return TileTypeManager.Instance.AllTypes; } }
+
     [SerializeField]
     private Texture2D texture;
 

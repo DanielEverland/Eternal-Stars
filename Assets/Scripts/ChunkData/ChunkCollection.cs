@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ChunkCollection<T> {
+public class ChunkCollection<T> {
 
     public ChunkCollection()
     {

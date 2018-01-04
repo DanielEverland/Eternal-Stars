@@ -20,8 +20,9 @@ public class Map {
     }
 
     public static Map CurrentMap { get; private set; }
-
+    
     public int Level { get { return _level; } }
+    public IEnumerable<Vector2> TilePositions { get { return _tiles; } }
 
     private readonly int _level;
 
