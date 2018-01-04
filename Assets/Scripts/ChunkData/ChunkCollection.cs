@@ -7,10 +7,12 @@ public class ChunkCollection<T> {
     public ChunkCollection()
     {
         _chunkSize = (int)DEFAULT_CHUNK_SIZE;
+        Initialize();
     }
     public ChunkCollection(uint size)
     {
         _chunkSize = (int)size;
+        Initialize();
     }
 
     public event System.Func<IntVector2, Chunk<T>> CreateChunk;
