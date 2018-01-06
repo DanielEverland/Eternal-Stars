@@ -233,7 +233,7 @@ public static class EG_EditorUtility {
             sprite = (Sprite)EditorGUIUtility.GetObjectPickerObject();
         }
 
-        if(Event.current.type == EventType.repaint)
+        if(Event.current.type == EventType.Repaint)
         {
             if(sprite != null)
             {
