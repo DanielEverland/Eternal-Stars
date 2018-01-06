@@ -18,11 +18,16 @@ public class Utility : MonoBehaviour {
     }
     public static IntVector2 WorldToChunkLocalPosition(Vector2 worldPosition, int chunkSize)
     {
-        return new IntVector2()
-        {
-            x = Mathf.RoundToInt(worldPosition.x % chunkSize),
-            y = Mathf.RoundToInt(worldPosition.y % chunkSize),
-        };
+        int x = Mathf.RoundToInt(worldPosition.x % chunkSize);
+        int y = Mathf.RoundToInt(worldPosition.y % chunkSize);
+
+        if (worldPosition.x < 0)
+            x = chunkSize + x;
+
+        if (worldPosition.y < 0)
+            y = chunkSize + y;
+
+        return new IntVector2(x, y);
     }
     public static string KeyCodeToProperString(KeyCode keycode)
     {
