@@ -18,5 +18,5 @@ public class Game {
     private Game()
     {
         MapGenerator.GenerateMap();
-    }    
+    }
 }
