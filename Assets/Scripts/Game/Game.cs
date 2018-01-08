@@ -13,7 +13,7 @@ public class Game {
         }
     }
 
-    public static Map CurrentMap { get; private set; }
+    public static Map CurrentMap { get { return Map.CurrentMap; } }
 
     private Game()
     {

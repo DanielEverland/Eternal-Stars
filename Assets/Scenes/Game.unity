@@ -42,7 +42,7 @@ RenderSettings:
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 9
+  serializedVersion: 11
   m_GIWorkflowMode: 0
   m_GISettings:
     serializedVersion: 2
@@ -54,7 +54,7 @@ LightmapSettings:
     m_EnableBakedLightmaps: 1
     m_EnableRealtimeLightmaps: 1
   m_LightmapEditorSettings:
-    serializedVersion: 8
+    serializedVersion: 9
     m_Resolution: 2
     m_BakeResolution: 40
     m_TextureWidth: 1024
@@ -77,17 +77,20 @@ LightmapSettings:
     m_PVRDirectSampleCount: 32
     m_PVRSampleCount: 500
     m_PVRBounces: 2
-    m_PVRFiltering: 0
+    m_PVRFilterTypeDirect: 0
+    m_PVRFilterTypeIndirect: 0
+    m_PVRFilterTypeAO: 0
     m_PVRFilteringMode: 1
     m_PVRCulling: 1
     m_PVRFilteringGaussRadiusDirect: 1
     m_PVRFilteringGaussRadiusIndirect: 5
     m_PVRFilteringGaussRadiusAO: 2
-    m_PVRFilteringAtrousColorSigma: 1
-    m_PVRFilteringAtrousNormalSigma: 1
-    m_PVRFilteringAtrousPositionSigma: 1
+    m_PVRFilteringAtrousPositionSigmaDirect: 0.5
+    m_PVRFilteringAtrousPositionSigmaIndirect: 2
+    m_PVRFilteringAtrousPositionSigmaAO: 1
+    m_ShowResolutionOverlay: 1
   m_LightingDataAsset: {fileID: 0}
-  m_ShadowMaskMode: 2
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -107,6 +110,8 @@ NavMeshSettings:
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
+    debug:
+      m_Flags: 0
   m_NavMeshData: {fileID: 0}
 --- !u!1 &110883690
 GameObject:
@@ -417,9 +422,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c82b06fbe6215b4786a082b1934c1e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterController: {fileID: 302245225}
-  _creatureData: {fileID: 11400000, guid: 76ebb2ccbfbeae045a2aeb9d6bcc5bab, type: 2}
-  _brainTemplate: {fileID: 11400000, guid: 4805513985bbc5c48b7f81d08ed8ae6a, type: 2}
+  _characterController: {fileID: 0}
+  _creatureData: {fileID: 0}
+  _brainTemplate: {fileID: 0}
 --- !u!143 &302245225
 CharacterController:
   m_ObjectHideFlags: 0
@@ -623,6 +628,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -638,6 +644,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -693,11 +700,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0c8c6cb871112c4aad7cd96c2d86606, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Entries:
-  - keybinding: Open Inventory
-    prefab: {fileID: 1078846656937982, guid: 34446e60b6d62d14e9cd7abcf88ea54f, type: 2}
-  - keybinding: Open Character Sheet
-    prefab: {fileID: 1255555450741752, guid: c82197d725d9d5a4596c73be5ef74444, type: 2}
+  Entries: []
 --- !u!1 &597879541
 GameObject:
   m_ObjectHideFlags: 0
@@ -754,9 +757,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c82b06fbe6215b4786a082b1934c1e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterController: {fileID: 597879545}
-  _creatureData: {fileID: 11400000, guid: 76ebb2ccbfbeae045a2aeb9d6bcc5bab, type: 2}
-  _brainTemplate: {fileID: 11400000, guid: 4805513985bbc5c48b7f81d08ed8ae6a, type: 2}
+  _characterController: {fileID: 0}
+  _creatureData: {fileID: 0}
+  _brainTemplate: {fileID: 0}
 --- !u!143 &597879545
 CharacterController:
   m_ObjectHideFlags: 0
@@ -824,6 +827,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -839,6 +843,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -893,6 +898,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -908,6 +914,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -970,7 +977,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b1a1b82300d6e440a5e97732dd90f19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Anchor: 1
+  Anchor: 0
   Offset: 0
 --- !u!1 &778824474
 GameObject:
@@ -1057,7 +1064,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40cbc0db7a83a4a4aa7b76dbceaeb815, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _static: {fileID: 718926075}
+  _static: {fileID: 0}
 --- !u!114 &778824479
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1108,6 +1115,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1123,6 +1131,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -1294,6 +1303,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1309,6 +1319,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -1380,9 +1391,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c82b06fbe6215b4786a082b1934c1e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterController: {fileID: 1055116888}
-  _creatureData: {fileID: 11400000, guid: 76ebb2ccbfbeae045a2aeb9d6bcc5bab, type: 2}
-  _brainTemplate: {fileID: 11400000, guid: 4805513985bbc5c48b7f81d08ed8ae6a, type: 2}
+  _characterController: {fileID: 0}
+  _creatureData: {fileID: 0}
+  _brainTemplate: {fileID: 0}
 --- !u!143 &1055116888
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1607,9 +1618,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c82b06fbe6215b4786a082b1934c1e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterController: {fileID: 1246143094}
-  _creatureData: {fileID: 11400000, guid: 76ebb2ccbfbeae045a2aeb9d6bcc5bab, type: 2}
-  _brainTemplate: {fileID: 11400000, guid: 4805513985bbc5c48b7f81d08ed8ae6a, type: 2}
+  _characterController: {fileID: 0}
+  _creatureData: {fileID: 0}
+  _brainTemplate: {fileID: 0}
 --- !u!143 &1246143094
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1665,6 +1676,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1680,6 +1692,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -1697,9 +1710,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Convex: 0
-  m_InflateMesh: 0
+  m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!33 &1258586233
@@ -1846,9 +1859,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c82b06fbe6215b4786a082b1934c1e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterController: {fileID: 1347077020}
-  _creatureData: {fileID: 11400000, guid: 76ebb2ccbfbeae045a2aeb9d6bcc5bab, type: 2}
-  _brainTemplate: {fileID: 11400000, guid: 4805513985bbc5c48b7f81d08ed8ae6a, type: 2}
+  _characterController: {fileID: 0}
+  _creatureData: {fileID: 0}
+  _brainTemplate: {fileID: 0}
 --- !u!143 &1347077020
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1944,11 +1957,11 @@ Camera:
   m_TargetEye: 3
   m_HDR: 1
   m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
-  m_StereoMirrorMode: 0
 --- !u!114 &1406923914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1960,7 +1973,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45d5bc5579c3af94789cb291a4fb33aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 1406923913}
+  camera: {fileID: 0}
 --- !u!114 &1406923915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1972,7 +1985,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8e35ae8f014fbb42ae23bcdcf6c9a9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  profile: {fileID: 11400000, guid: fc5dd0493c08760448b17a9b6656d4af, type: 2}
+  profile: {fileID: 0}
 --- !u!1 &1471251775
 GameObject:
   m_ObjectHideFlags: 0
@@ -2234,6 +2247,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -2249,6 +2263,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -2320,9 +2335,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c82b06fbe6215b4786a082b1934c1e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterController: {fileID: 1562020460}
-  _creatureData: {fileID: 11400000, guid: 76ebb2ccbfbeae045a2aeb9d6bcc5bab, type: 2}
-  _brainTemplate: {fileID: 11400000, guid: 4805513985bbc5c48b7f81d08ed8ae6a, type: 2}
+  _characterController: {fileID: 0}
+  _creatureData: {fileID: 0}
+  _brainTemplate: {fileID: 0}
 --- !u!143 &1562020460
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2443,6 +2458,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -2458,6 +2474,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -2533,11 +2550,11 @@ Camera:
   m_TargetEye: 3
   m_HDR: 1
   m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
-  m_StereoMirrorMode: 0
 --- !u!1 &1724102374
 GameObject:
   m_ObjectHideFlags: 0
@@ -2631,7 +2648,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LerpSpeed: 5
-  _minTimeScale: 0.01
+  _minTimeScale: 0.05
   _maxTimeScale: 1
 --- !u!4 &1744578763
 Transform:
@@ -2655,7 +2672,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1760032694}
   - component: {fileID: 1760032693}
-  - component: {fileID: 1760032692}
   - component: {fileID: 1760032691}
   - component: {fileID: 1760032690}
   - component: {fileID: 1760032695}
@@ -2683,13 +2699,6 @@ Behaviour:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1760032689}
   m_Enabled: 1
---- !u!92 &1760032692
-Behaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1760032689}
-  m_Enabled: 1
 --- !u!20 &1760032693
 Camera:
   m_ObjectHideFlags: 0
@@ -2710,7 +2719,7 @@ Camera:
   far clip plane: 10000
   field of view: 60
   orthographic: 1
-  orthographic size: 513
+  orthographic size: 493
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -2721,11 +2730,11 @@ Camera:
   m_TargetEye: 3
   m_HDR: 1
   m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
-  m_StereoMirrorMode: 0
 --- !u!4 &1760032694
 Transform:
   m_ObjectHideFlags: 0
@@ -2751,9 +2760,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46269e802587b7f44a7b864a523be170, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distance: 800
-  angle: 60
-  lerpSpeed: 10
+  distance: 0
+  angle: 0
+  lerpSpeed: 0
 --- !u!114 &1760032696
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2777,8 +2786,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fbb15e25b180744cb6dd2c25c663501, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Power: 25
-  Frequency: 2
+  Power: 5
+  Frequency: 5
   DegredationSpeed: 10
 --- !u!114 &1760032698
 MonoBehaviour:
@@ -3223,9 +3232,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c82b06fbe6215b4786a082b1934c1e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterController: {fileID: 1991744330}
-  _creatureData: {fileID: 11400000, guid: 76ebb2ccbfbeae045a2aeb9d6bcc5bab, type: 2}
-  _brainTemplate: {fileID: 11400000, guid: 4805513985bbc5c48b7f81d08ed8ae6a, type: 2}
+  _characterController: {fileID: 0}
+  _creatureData: {fileID: 0}
+  _brainTemplate: {fileID: 0}
 --- !u!143 &1991744330
 CharacterController:
   m_ObjectHideFlags: 0
@@ -3281,7 +3290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be3074b3b26ece6428e48703e52bda2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toDrop: {fileID: 11400000, guid: 827220660fcf43245a815312712207db, type: 2}
+  toDrop: {fileID: 0}
 --- !u!4 &2124592619
 Transform:
   m_ObjectHideFlags: 0

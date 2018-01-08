@@ -15,8 +15,6 @@ public class Map {
     public Map()
     {
         Initialize();
-
-        World.Initialize();
     }
 
     public static Map CurrentMap { get; private set; }
@@ -41,12 +39,7 @@ public class Map {
 
         CurrentMap = this;
 
-        for (int i = 0; i < _tiles.Count; i++)
-        {
-            GameObject obj = GameObject.CreatePrimitive(PrimitiveType.Cube);
-
-            obj.transform.position = _tiles[i];
-        }
+        World.Initialize();
     }
     private void CreateRooms()
     {
